@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/home-style.css}">
+
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
+
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo"><i class="fas fa-untensils"></i>bistro. </a>
+
+    <nav class="navbar">
+        <a class="home active" href="#home" >home</a>
+        <a class="dishes" href="#dishes">dishes</a>
+        <a class="about" href="#about">about</a>
+        <a class="menu" href="#menu">menu</a>
+        <a class="review" href="#review">review</a>
+<!--        <a class="order" href="#order">order</a>-->
+    </nav>
+
+    <div class="icons">
+        <i class="fa fa-bars" id="menu-bars"></i>
+        <i class="fa fa-search" id="search-icon"></i>
+        <a href="/login" th:if="'f' == ${user}" class="fa-solid fa-user"></a>
+        <a href="/profile" th:if="'t' == ${user}" class="fa-solid fa-user"></a>
+        <a href="/login" th:if="'t' == ${user}"  class="fa fa-sign-out"></a>
+        <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!');" class="fas fa-shopping-cart"></a>
+        <a href="/check-out" th:if="'t' == ${user}" class="fas fa-shopping-cart"></a>
+        <span class='badge badge-warning' th:if="'t' == ${user}" id='lblCartCount' th:text="${Cart.getCartItems().size()}"> </span>
+
+    </div>
+
+</header>
+
+<section class="home" id="home">
+    <div class="swiper home-slider">
+        <div class="swiper-wrapper wrapper">
+            <div class="swiper-slide slide">
+                <div class="content">
+                    <span>our special dish</span>
+                    <h3>spicy noodles</h3>
+                    <p>Lorem ipsum dolor sit amet. Ut omnis harum non molestiae explicabo et dolorem illum.</p>
+                    <a href="#" class="btn">order now</a>
+                </div>
+                <div class="image">
+                    <img src="image/home-img-1-1.png" alt="">
+                </div>
+            </div>
+
+            <div class="swiper-slide slide">
+                <div class="content">
+                    <span>our special dish</span>
+                    <h3>hot pizza</h3>
+                    <p>Lorem ipsum dolor sit amet. Ut omnis harum non molestiae explicabo et dolorem illum.</p>
+                    <a href="#" class="btn">order now</a>
+                </div>
+                <div class="image">
+                    <img th:src="@{/image/home-img-2-2.png}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<section class="dishes" id="dishes">
+
+    <h3 class="sub-heading"> our dishes</h3>
+    <h1 class="heading">popular dishes</h1>
+
+    <div class="box-container">
+        <div class="box" th:each="food: ${topList}">
+            <img th:src="@{${food.photosImagePath}}" alt="">
+            <h3 th:text="${food.name}"></h3>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+            </div>
+            <span class="price" th:text="'$' + ${food.price}"></span>
+            <a href="#" class="btn myBtn_multi">add to cart</a>
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal modal_multi">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close close_multi">&times;</span>
+                    <div class="card">
+                        <img th:src="@{${food.photosImagePath}}" alt="" style="width:100%; height: auto">
+                        <div class="card-container">
+
+                            <form action="/addtocart" method="post">
+                                <input type="hidden" name="id" th:value="${food.id}">
+                                <input type="number" min="1" value="1" name="quantity" placeholder="quantity">
+                                <button type="button"  th:if="'f' == ${user}" onclick="alert('please log in!');" class="btn" >Submit</button>
+                                <button type="submit"  th:if="'t' == ${user}" class="btn" >Submit</button>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+<!--        <div class="box">-->
+<!--            <a href="#" class="fas fa-heart"></a>-->
+<!--            <a href="#" class="fas fa-eye"></a>-->
+<!--            <img src="image/dish-2.jpg" alt="">-->
+<!--            <h3>tasty food</h3>-->
+<!--            <div class="stars">-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star-half-alt"></i>-->
+<!--            </div>-->
+<!--            <span>$15.99</span>-->
+<!--            <a href="#" class="btn">add to cart</a>-->
+
+<!--        </div>-->
+
+<!--        <div class="box">-->
+<!--            <a href="#" class="fas fa-heart"></a>-->
+<!--            <a href="#" class="fas fa-eye"></a>-->
+<!--            <img src="image/dish-3.jpg" alt="">-->
+<!--            <h3>tasty food</h3>-->
+<!--            <div class="stars">-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star-half-alt"></i>-->
+<!--            </div>-->
+<!--            <span>$15.99</span>-->
+<!--            <a href="#" class="btn">add to cart</a>-->
+
+<!--        </div>-->
+
+<!--        <div class="box">-->
+<!--            <a href="#" class="fas fa-heart"></a>-->
+<!--            <a href="#" class="fas fa-eye"></a>-->
+<!--            <img src="image/dish-4.jpg" alt="">-->
+<!--            <h3>tasty food</h3>-->
+<!--            <div class="stars">-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star-half-alt"></i>-->
+<!--            </div>-->
+<!--            <span>$15.99</span>-->
+<!--            <a href="#" class="btn">add to cart</a>-->
+
+<!--        </div>-->
+
+<!--        <div class="box">-->
+<!--            <a href="#" class="fas fa-heart"></a>-->
+<!--            <a href="#" class="fas fa-eye"></a>-->
+<!--            <img src="image/dish-5.jpg" alt="">-->
+<!--            <h3>tasty food</h3>-->
+<!--            <div class="stars">-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star-half-alt"></i>-->
+<!--            </div>-->
+<!--            <span>$15.99</span>-->
+<!--            <a href="#" class="btn">add to cart</a>-->
+
+<!--        </div>-->
+
+<!--        <div class="box">-->
+<!--            <a href="#" class="fas fa-heart"></a>-->
+<!--            <a href="#" class="fas fa-eye"></a>-->
+<!--            <img src="image/dish-6.jpg" alt="">-->
+<!--            <h3>tasty food</h3>-->
+<!--            <div class="stars">-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star"></i>-->
+<!--                <i class="fas fa-star-half-alt"></i>-->
+<!--            </div>-->
+<!--            <span>$15.99</span>-->
+<!--            <a href="#" class="btn">add to cart</a>-->
+
+<!--        </div>-->
+
+    </div>
+</section>
+
+<section class="about" id="about">
+    <h3 class="sub-heading"> about us</h3>
+    <h1 class="heading">why chose us</h1>
+    <div class="row">
+        <div class="image">
+            <img src="image/about-1.jpg" alt="">
+        </div>
+        <div class="content">
+            <h3>best food in the country</h3>
+            <p>Lorem ipsum dolor sit amet. Et internos laboriosam ut enim optio sit voluptatem aspernatur est beatae consequatur ea quam fugit eos illum dolorem aut beatae animi. Et distinctio velit et perspiciatis expedita ut asperiores fuga in fugit enim! Et corporis eaque quo dolor ipsum in sapiente vitae et molestias explicabo est adipisci quam et magni minus est dolor quod.</p>
+            <p>Lorem ipsum dolor sit amet. Et internos laboriosam ut enim optio sit voluptatem aspernatur est beatae consequatur ea quam fugit eos illum dolorem aut beatae animi. </p>
+            <div class="icons-container">
+                <div class="icons">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>free delivery</span>
+                </div>
+                <div class="icons">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>easy paymenty</span>
+                </div>
+                <div class="icons">
+                    <i class="fas fa-headset"></i>
+                    <span>27/7 service</span>
+                </div>
+            </div>
+            <a href="#" class="btn">learn more</a>
+        </div>
+    </div>
+</section>
+
+<section class="menu" id="menu">
+    <h3 class="sub-heading">our menu</h3>
+    <h1 class="heading">today's special</h1>
+
+    <div class="box-container-category">
+        <form action="/update-category" class="box-category" th:each="foodcategory: ${listCategories}" method="post" >
+            <input type="text"  name="category" th:value="${foodcategory}" style="display:none;"  >
+            <button type="submit" class="btn" th:text="${foodcategory}"></button>
+        </form>
+    </div>
+
+    <div class="box-container">
+
+        <div class="box" th:each="food: ${listFoods}">
+            <div class="image">
+                <img th:src="@{${food.photosImagePath}}" alt="">
+            </div>
+            <div class="content">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <h3 th:text="${food.name}"></h3>
+                <p th:text="${food.description}"></p>
+                <button href="#" class="btn myBtn_multi">add to cart</button>
+                <!-- The Modal -->
+                <div id="myModal" class="modal modal_multi">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close close_multi">&times;</span>
+                        <div class="card">
+                            <img th:src="@{${food.photosImagePath}}" alt="" style="width:100%">
+                            <div class="card-container">
+
+                                <form action="/addtocart" method="post">
+                                    <input type="hidden" name="id" th:value="${food.id}">
+                                    <input type="number" min="1" value="1" name="quantity" placeholder="quantity">
+                                    <button type="button"  th:if="'f' == ${user}" onclick="alert('please log in!');" class="btn" >Submit</button>
+                                    <button type="submit"  th:if="'t' == ${user}" class="btn" >Submit</button>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <span class="price" th:text="'$' + ${food.price}"></span>
+            </div>
+        </div>
+<!--        <div class="box">-->
+<!--            <div class="image">-->
+<!--                <a href="#" class="fas fa-heart"></a>-->
+<!--                <img src="image/menu-2.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="content">-->
+<!--                <div class="stars">-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star-half-alt"></i>-->
+<!--                </div>-->
+<!--                <h3>delicious food</h3>-->
+<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+<!--                <a href="#" class="btn">add to cart</a>-->
+<!--                <span class="price">$15.99</span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="box">-->
+<!--            <div class="image">-->
+<!--                <a href="#" class="fas fa-heart"></a>-->
+<!--                <img src="image/menu-3.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="content">-->
+<!--                <div class="stars">-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star-half-alt"></i>-->
+<!--                </div>-->
+<!--                <h3>delicious food</h3>-->
+<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+<!--                <a href="#" class="btn">add to cart</a>-->
+<!--                <span class="price">$15.99</span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="box">-->
+<!--            <div class="image">-->
+<!--                <a href="#" class="fas fa-heart"></a>-->
+<!--                <img src="image/menu-4.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="content">-->
+<!--                <div class="stars">-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star-half-alt"></i>-->
+<!--                </div>-->
+<!--                <h3>delicious food</h3>-->
+<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+<!--                <a href="#" class="btn">add to cart</a>-->
+<!--                <span class="price">$15.99</span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="box">-->
+<!--            <div class="image">-->
+<!--                <a href="#" class="fas fa-heart"></a>-->
+<!--                <img src="image/menu-5.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="content">-->
+<!--                <div class="stars">-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star-half-alt"></i>-->
+<!--                </div>-->
+<!--                <h3>delicious food</h3>-->
+<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+<!--                <a href="#" class="btn">add to cart</a>-->
+<!--                <span class="price">$15.99</span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="box">-->
+<!--            <div class="image">-->
+<!--                <a href="#" class="fas fa-heart"></a>-->
+<!--                <img src="image/menu-6.jpg" alt="">-->
+<!--            </div>-->
+<!--            <div class="content">-->
+<!--                <div class="stars">-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star"></i>-->
+<!--                    <i class="fas fa-star-half-alt"></i>-->
+<!--                </div>-->
+<!--                <h3>delicious food</h3>-->
+<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+<!--                <a href="#" class="btn">add to cart</a>-->
+<!--                <span class="price">$15.99</span>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+    </div>
+</section>
+
+<section class="review" id="review">
+    <h3 class="sub-heading">customer's review</h3>
+    <h1 class="heading">what they say</h1>
+
+    <div class="swiper review-slider">
+        <div class="swiper-wrapper wrapper">
+            <div class="swiper-slide slide">
+                <i class="fas fa-quote-right"></i>
+                <div class="user">
+                    <img src="image/review-1.jpg" alt="">
+                    <div class="user-info">
+                        <h3>john deo</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <p>Lorem ipsum dolor sit amet. Ut sunt nisi eum exercitationem consectetur est corporis explicabo ea dolor dolor aut sunt dolor est eveniet galisum qui distinctio exercitationem. Non ipsam deleniti et voluptatum rerum eos perspiciatis repellat et aliquid nisi. Id omnis fuga qui autem quidem a officiis dolor sed voluptates fugit et ipsa officia et odio Quis. </p>
+            </div>
+            <div class="swiper-slide slide">
+                <i class="fas fa-quote-right"></i>
+                <div class="user">
+                    <img src="image/review-2.jpg" alt="">
+                    <div class="user-info">
+                        <h3>Jenifer</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <p>Lorem ipsum dolor sit amet. Ut sunt nisi eum exercitationem consectetur est corporis explicabo ea dolor dolor aut sunt dolor est eveniet galisum qui distinctio exercitationem. Non ipsam deleniti et voluptatum rerum eos perspiciatis repellat et aliquid nisi. Id omnis fuga qui autem quidem a officiis dolor sed voluptates fugit et ipsa officia et odio Quis. </p>
+            </div>
+            <div class="swiper-slide slide">
+                <i class="fas fa-quote-right"></i>
+                <div class="user">
+                    <img src="image/review-3.jpg" alt="">
+                    <div class="user-info">
+                        <h3>Rose</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <p>Lorem ipsum dolor sit amet. Ut sunt nisi eum exercitationem consectetur est corporis explicabo ea dolor dolor aut sunt dolor est eveniet galisum qui distinctio exercitationem. Non ipsam deleniti et voluptatum rerum eos perspiciatis repellat et aliquid nisi. Id omnis fuga qui autem quidem a officiis dolor sed voluptates fugit et ipsa officia et odio Quis. </p>
+            </div>
+
+            <div class="swiper-slide slide">
+                <i class="fas fa-quote-right"></i>
+                <div class="user">
+                    <img src="image/review-4.jpg" alt="">
+                    <div class="user-info">
+                        <h3>Leo</h3>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <p>Lorem ipsum dolor sit amet. Ut sunt nisi eum exercitationem consectetur est corporis explicabo ea dolor dolor aut sunt dolor est eveniet galisum qui distinctio exercitationem. Non ipsam deleniti et voluptatum rerum eos perspiciatis repellat et aliquid nisi. Id omnis fuga qui autem quidem a officiis dolor sed voluptates fugit et ipsa officia et odio Quis. </p>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!--<section class="order" id="order">-->
+<!--    <h3 class="sub-heading">oder now</h3>-->
+<!--    <h1 class="heading">free and fast</h1>-->
+<!--    <form action="">-->
+
+<!--        <div class="inputBox">-->
+<!--            <div class="input">-->
+<!--                <span>your name</span>-->
+<!--                <input type="text" placeholder="enter your name">-->
+<!--            </div>-->
+
+<!--            <div class="input">-->
+<!--                <span>your phone number</span>-->
+<!--                <input type="number" placeholder="enter your phone number">-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="inputBox">-->
+<!--            <div class="input">-->
+<!--                <span>your order</span>-->
+<!--                <input type="text" placeholder="enter food name">-->
+<!--            </div>-->
+
+<!--            <div class="input">-->
+<!--                <span>addition food</span>-->
+<!--                <input type="number" placeholder="extra with food">-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="inputBox">-->
+<!--            <div class="input">-->
+<!--                <span>how much</span>-->
+<!--                <input type="number" placeholder="how many order">-->
+<!--            </div>-->
+
+<!--            <div class="input">-->
+<!--                <span>date and time</span>-->
+<!--                <input type="datetime-local">-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="inputBox">-->
+<!--            <div class="input">-->
+<!--                <span>your address</span>-->
+<!--                <textarea name="" placeholder="enter your address" cols="30" rows="10"></textarea>-->
+<!--            </div>-->
+
+<!--            <div class="input">-->
+<!--                <span>your message</span>-->
+<!--                <textarea name="" placeholder="enter your message" cols="30" rows="10"></textarea>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <input type="submit" value="order now" class="btn">-->
+<!--    </form>-->
+
+<!--</section>-->
+
+<section class="footer">
+    <div class="box-container">
+        <div class="box">
+            <h3>locations</h3>
+            <div class="google-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7839.048457808625!2d106.6047377690367!3d10.77110304714521!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752c403f8e7b65%3A0x67c17ff2f1e6539d!2zSOG6u20gMjc2LCDEkMaw4budbmcgTcOjIEzDsiwgUGjGsOG7nW5nIELDrG5oIFRy4buLIMSQw7RuZyBBLCBRdeG6rW4gQsOsbmggVMOibg!5e0!3m2!1sen!2s!4v1677910382317!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>quick links</h3>
+            <a href="#">home</a>
+            <a href="#">dishes</a>
+            <a href="#">about</a>
+            <a href="#">menu</a>
+            <a href="#">reviews</a>
+            <a href="#">order</a>
+        </div>
+
+        <div class="box">
+            <h3>contact info</h3>
+            <a href="#">+123-456-789</a>
+            <a href="#">quyenduong161001@gmail.com</a>
+        </div>
+
+        <div class="box">
+            <h3>follow us</h3>
+            <a href="#">facebook</a>
+            <a href="#">twitter</a>
+            <a href="#">instagram</a>
+        </div>
+    </div>
+    <div class="credit">copyright @ 2021 by <span>Quyen Duong</span></div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script th:src="@{/js/home-script.js}"></script>
+</body>
+</html>

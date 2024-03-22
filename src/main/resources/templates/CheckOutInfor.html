@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Check Out</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/checkoutinfor-style.css}">
+
+
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo"><i class="fas fa-untensils"></i>bistro. </a>
+
+  <div class="icons">
+    <i class="fa fa-bars" id="menu-bars"></i>
+    <a href="/home" class="fa fa-home" id="home-icon"></a>
+    <a href="/profile" class="fa-solid fa-user"></a>
+    <a href="/login" class="fa fa-sign-out"></a>
+    <a href="#" class="fas fa-shopping-cart"></a>
+    <span class='badge badge-warning' id='lblCartCount' th:text="${Cart.getCartItems().size()}"> </span>
+  </div>
+
+</header>
+<section class="order" id="order">
+  <h1 class="heading">check out</h1>
+  <div class="card">
+
+    <div class="row">
+      <div class="col-50">
+        <div class="container">
+          <form action="/place-order" th:object="${user}" method="post" >
+
+            <div class="row">
+              <div class="col-50">
+                <h3>Billing Address</h3>
+                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                <input type="text" id="fname"  th:value="${user.name}" name="name" th:field="*{name}">
+                <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                <input type="text" id="email" th:value="${user.email}" name="email" th:field="*{email}" readonly >
+                <label for="adr"><i class="fa fa-address-card"></i> Address</label>
+                <input type="text" id="adr" th:value="${user.address}" name="address" th:field="*{address}"  required="" oninvalid="this.setCustomValidity('Please update address in profile')" oninput="setCustomValidity('')">
+                <input id="getAddress" type="button" class="btn getbtn" value="Get Address" />
+                <input type="text" id="lat" th:value="${user.lat}"  th:field="*{lat}" style="display: none" >
+                <input type="text" id="lon" th:value="${user.lon}"  th:field="*{lon}" style="display: none">
+                <label for="phonenumber"><i class="fa fa-phone" ></i> Phone</label>
+                <input type="text" id="phonenumber" th:value="${user.Phonenumber}" name="phonenumber"  th:field="*{phonenumber}" required oninput="setCustomValidity('Please update phone number in profile')">
+                <input type="hidden" th:value="${Cart.id}"
+                       name="cart_id" />
+
+              </div>
+
+            </div>
+            <input type="submit" value="Place Order" class="btn">
+          </form>
+        </div>
+      </div>
+      <div class="col-50" >
+        <div class="container" style="background: white;">
+          <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b th:text="${Cart.getCartItems().size()}"></b></span></h4>
+          <p th:each="cartItem: ${Cart.cartItems}"><span th:text="${cartItem.food.name}"></span> <span class="price" th:text="'$' + ${cartItem.totalPrice}"></span></p>
+          <p><span>Shipping</span> <span class="price">$2</span></p>
+<!--          <p><a href="#">Product 3</a> <span class="price">$8</span></p>-->
+<!--          <p><a href="#">Product 4</a> <span class="price">$2</span></p>-->
+          <hr>
+          <p>Total <span class="price" style="color:black" th:with="variable = 2, controllerVar = ${Cart.getTotalPrice()}, var = ${variable + controllerVar}" th:text="'$' + ${var}" ><b></b></span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</section>
+
+<script th:src="@{/js/check-out-infor.js}"></script>
+
+
+</body>
+</html>

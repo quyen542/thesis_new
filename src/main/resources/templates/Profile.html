@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/profile-style.css}">
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo"><i class="fas fa-untensils"></i>bistro. </a>
+
+  <div class="icons">
+    <i class="fa fa-bars" id="menu-bars"></i>
+    <a href="/home" class="fa fa-home" id="home-icon"></a>
+    <a href="/profile" class="fa-solid fa-user"></a>
+    <a href="/login" class="fa fa-sign-out"></a>
+    <a href="#" class="fas fa-shopping-cart"></a>
+    <span class='badge badge-warning' id='lblCartCount' th:text="${Cart.getCartItems().size()}"> </span>
+
+  </div>
+
+</header>
+<section class="order" id="order">
+  <h1 class="heading">User Profile</h1>
+  <form action="#" th:action="@{/updateprofile}" th:object="${user}" method="post">
+
+    <div class="inputBox">
+      <div class="input">
+        <span>Name</span>
+        <input type="text" th:value="${user.name}" th:field="*{name}">
+      </div>
+
+      <div class="input">
+        <span>phone number</span>
+        <input type="number"  th:value="${user.phonenumber}" th:field="*{Phonenumber}">
+      </div>
+    </div>
+
+    <div class="inputBox">
+      <div class="input">
+        <span>email</span>
+        <input type="text"  th:value="${user.email}" th:field="*{email}">
+      </div>
+
+      <div class="input">
+        <span>address</span>
+        <input type="text" id="address" th:value="${user.address}" th:field="*{address}">
+        <input type="text" id="lat" th:value="${user.lat}" th:field="*{lat}" style="display: none">
+        <input type="text" id="lon" th:value="${user.lon}" th:field="*{lon}" style="display: none">
+        <input id="getAddress" type="button" class="btn" value="Get Address" />
+
+      </div>
+    </div>
+
+
+    <input type="submit" value="Update Profile" class="btn">
+
+    <a href="/changepass" class="btn" >Change Password</a>
+
+    <a href="/order-list" class="btn" >View Order</a>
+  </form>
+
+</section>
+
+
+<script th:src="@{/js/profile.js}"></script>
+
+</body>
+</html>

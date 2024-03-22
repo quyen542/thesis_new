@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Admin Dashboard</title>
+
+  <!-- Montserrat Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+<div class="grid-container">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="menu-icon" onclick="openSidebar()">
+      <span class="material-icons-outlined">menu</span>
+    </div>
+    <div class="header-left">
+      <span class="material-icons-outlined">search</span>
+    </div>
+    <div class="header-right">
+      <span class="material-icons-outlined">notifications</span>
+      <span class="material-icons-outlined">email</span>
+      <span class="material-icons-outlined">account_circle</span>
+    </div>
+  </header>
+  <!-- End Header -->
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-title">
+      <div class="sidebar-brand">
+        <span class="material-icons-outlined">inventory</span>Admin Dashboard
+      </div>
+      <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+    </div>
+
+    <ul class="sidebar-list">
+      <li class="sidebar-list-item">
+        <a href="/admin-dashboard" >
+          <span class="material-icons-outlined">dashboard</span> Dashboard
+        </a>
+      </li>
+      <li class="sidebar-list-item">
+        <a href="/admin-dashboard-create-food">
+          <span class="material-icons-outlined">restaurant_menu</span> Foods
+        </a>
+      </li>
+      <li class="sidebar-list-item">
+        <a href="/admin-dashboard-customer" >
+          <span class="material-icons-outlined">people</span> Customer
+        </a>
+      </li>
+      <li class="sidebar-list-item">
+        <a href="admin-order-list" >
+          <span class="material-icons-outlined">shopping_cart</span> Orders
+        </a>
+      </li>
+
+      <li class="sidebar-list-item">
+        <a href="/admin-dashboard-delivery_person" >
+          <span class="material-icons-outlined">takeout_dining</span>Delivery Person
+        </a>
+      </li>
+
+      <li class="sidebar-list-item">
+        <a href="/login" >
+          <span class="material-icons-outlined">logout</span> Log Out
+        </a>
+      </li>
+    </ul>
+  </aside>
+  <!-- End Sidebar -->
+
+  <!-- Main -->
+  <main class="main-container">
+    <div class="admin-product-form-container">
+
+      <form  th:action="@{/create-food}" th:object="${food}" method="post"  enctype="multipart/form-data">
+        <h3>add a new food</h3>
+        <input type="text" placeholder="enter food name" name="product_name" class="box" th:field="*{name}" th:errorClass="is-invalid">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"> </div>
+        <input type="number" step="0.01" placeholder="enter food price" name="product_price" class="box" th:field="*{price}" th:errorClass="is-invalid">
+        <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="invalid-feedback"> </div>
+        <input type="text" placeholder="enter food category" name="product_category" class="box" th:field="*{category}" th:errorClass="is-invalid">
+        <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="invalid-feedback"> </div>
+        <input type="text" placeholder="enter food description" name="product_category" class="box" th:field="*{description}" th:errorClass="is-invalid">
+        <input type="file" accept="image/png, image/jpeg, image/jpg" name="image" class="box">
+        <input type="submit" class="btn" name="add_product" value="add product">
+      </form>
+
+    </div>
+    <div class="product-display">
+      <table class="product-display-table">
+        <thead>
+        <tr>
+          <th>Food image</th>
+          <th>Food name</th>
+          <th>Food price</th>
+          <th>Food category</th>
+          <th>Food description</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tr th:each="food: ${listFoods}">
+          <td><img th:src="@{${food.photosImagePath}}" height="100" alt=""></td>
+          <td th:text="${food.name}"></td>
+          <td th:text="${food.price}"></td>
+          <td th:text="${food.category}"></td>
+          <td th:text="${food.description}"></td>
+          <td>
+            <a th:href="@{'/edit-food/' + ${food.name}}" class="btn"> <i class="fas fa-edit"></i> edit </a>
+            <a th:href="@{'/delete/' + ${food.name}}" class="btn"> <i class="fas fa-trash"></i> delete </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </main>
+  <!-- End Main -->
+
+</div>
+
+<!-- Scripts -->
+<!-- ApexCharts -->
+<!-- Custom JS -->
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

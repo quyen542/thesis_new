@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Order List</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/orderlist-style.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo"><i class="fas fa-untensils"></i>bistro. </a>
+
+  <div class="icons">
+    <i class="fa fa-bars" id="menu-bars"></i>
+    <a href="/home" class="fa fa-home" id="home-icon"></a>
+    <a href="/profile" class="fa-solid fa-user"></a>
+    <a href="/login" class="fa fa-sign-out"></a>
+    <a href="#" class="fas fa-shopping-cart"></a>
+    <span class='badge badge-warning' id='lblCartCount'>0</span>
+
+  </div>
+
+</header>
+<section class="order" id="order">
+  <h1 class="heading">Order list</h1>
+
+  <div class="container py-5 h-100" th:each="order: ${user.orders}">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-10 col-lg-8 col-xl-6">
+        <div class="card card-stepper" style="border-radius: 16px;">
+          <div class="card-header p-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <p class="text-muted mb-2"> Order ID <span class="fw-bold text-body" th:text="${order.id}"></span></p>
+                <p class="text-muted mb-0"> Place On <span class="fw-bold text-body" th:text="${order.date}"></span> </p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex flex-row mb-4 pb-2" th:each="orderItem: ${order.orderItems}">
+              <div class="flex-fill">
+                <h5 class="bold" th:text="${orderItem.food.name}"></h5>
+                <p class="text-muted" th:text="'Qt '+ ${orderItem.quantity}"></p>
+              </div>
+              <div>
+                <img class="align-self-center img-fluid"
+                     th:src="${orderItem.food.photosImagePath}" width="150">
+              </div>
+            </div>
+            <div style="display: flex">
+            <h4 class="mb-3" th:text="'$' + ${order.totalPrice} + ' '"> </h4>
+            <h4><span class="small text-muted"> via (COD) </span></h4>
+            </div>
+
+            <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
+              <li th:class="${order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step0 active' : 'step0'" id="step1">
+                <span style="margin-left: 22px; margin-top: 12px;">COOKED</span>
+              </li>
+              <li th:class="${order.status == order.status.Shipped || order.status == order.status.Delivered} ? 'step0 active text-center' : 'step0 text-center' " id="step2">
+                <span>SHIPPED</span>
+              </li>
+              <li th:class="${order.status == order.status.Delivered} ? 'step0 active ext-muted text-end' : 'step0 ext-muted text-end'" id="step3">
+                <span style="margin-right: 22px;">DELIVERED</span>
+              </li>
+            </ul>
+
+<!--&lt;!&ndash;            <div th:switch="${order.status}">&ndash;&gt;-->
+<!--&lt;!&ndash;              <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" th:case="'Cooked'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="step0 active" id="step1"><span style="margin-left: 22px; margin-top: 12px;">COOKED</span></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="step0 text-center" id="step2"><span>SHIPPED</span></li>->-->
+<!--&lt;!&ndash;                <li class="step0 text-muted text-end" id="step3"><span style="margin-right: 22px;">DELIVERED</span></li>&ndash;&gt;-->
+<!--&lt;!&ndash;              </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;              <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" th:case="'Shipped'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="step0 active" id="step21"><span style="margin-left: 22px; margin-top: 12px;">COOKED</span></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="step0 text-center active" id="step22"><span>SHIPPED</span></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="step0 text-muted text-end" id="step23"><span style="margin-right: 22px;">DELIVERED</span></li>&ndash;&gt;-->
+<!--&lt;!&ndash;              </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;              <ul id="progressbar-3" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" th:case="'Delivered'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="step0 active" id="step31"><span style="margin-left: 22px; margin-top: 12px;">COOKED</span></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="step0 text-center active" id="step32"><span>SHIPPED</span></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="step0 text-muted text-end active" id="step33"><span style="margin-right: 22px;">DELIVERED</span></li>&ndash;&gt;-->
+<!--&lt;!&ndash;              </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+
+
+
+
+
+          </div>
+          <div class="card-footer p-4">
+            <div class="d-flex justify-content-between">
+              <h5 class="fw-normal mb-0"><a th:href="@{/trackOrder/{id}(id = ${order.id})}" class="btn-track">Track</a></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</section>
+
+
+
+</body>
+</html>

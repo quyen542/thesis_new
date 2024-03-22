@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeLeaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/login-style.css}">
+</head>
+<body>
+<div class="wrapper">
+  <h1>Sign Up</h1>
+  <form action="#" th:action="@{/signup}" th:object="${user}" method="post">
+
+    <input type="text" placeholder="Username" th:field="*{username}" th:errorClass="is-invalid">
+    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"> </div>
+
+    <input type="text" placeholder="Name" th:field="*{name}" th:errorClass="is-invalid">
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"> </div>
+
+    <input type="password" placeholder="Password" th:field="*{password}" th:errorClass="is-invalid" >
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"> </div>
+
+    <input type="password" placeholder="Re-enter Password" th:field="*{Repassword}" th:errorClass="is-invalid">
+    <div th:if="${#fields.hasErrors('Repassword')}" th:errors="*{Repassword}" class="invalid-feedback"> </div>
+    <button class="btn" type="submit">Sign Up</button>
+  </form>
+  <div class="member">
+    Already a member? <a href="/login" > Login Here</a>
+  </div>
+
+
+</div>
+
+</body>
+</html>
