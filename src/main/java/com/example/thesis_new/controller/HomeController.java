@@ -62,10 +62,49 @@ public class HomeController {
 
         homeService.homeSetup(model, Currentuser, CurrentCategory);
 
-
         model.addAttribute("user", userExsiit);
 
         return "index";
+    }
+
+    @PostMapping("/likefood")
+    public String likeFood(Model model, @RequestParam("id") Long id){
+
+
+        homeService.likeFood(model, id, Currentuser);
+
+
+        return "redirect:/home";
+    }
+
+    @PostMapping("/unlikefood")
+    public String unlikeFood(Model model, @RequestParam("id") Long id){
+
+
+        homeService.unlikeFood(model, id, Currentuser);
+
+
+        return "redirect:/home";
+    }
+
+    @PostMapping("/dislikefood")
+    public String dislikeFood(Model model, @RequestParam("id") Long id){
+
+
+        homeService.dislikeFood(model, id, Currentuser);
+
+
+        return "redirect:/home";
+    }
+
+    @PostMapping("/undislikefood")
+    public String undislikeFood(Model model, @RequestParam("id") Long id){
+
+
+        homeService.undislikeFood(model, id, Currentuser);
+
+
+        return "redirect:/home";
     }
 
     @GetMapping("/login")

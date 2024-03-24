@@ -116,8 +116,8 @@
           <td th:text="${food.category}"></td>
           <td th:text="${food.description}"></td>
           <td>
-            <a th:href="@{'/edit-food/' + ${food.name}}" class="btn"> <i class="fas fa-edit"></i> edit </a>
-            <a th:href="@{'/delete/' + ${food.name}}" class="btn"> <i class="fas fa-trash"></i> delete </a>
+            <a th:href="@{'/edit-food/' + ${food.id}}" class="btn"> <i class="fas fa-edit"></i> edit </a>
+            <a th:href="@{'/delete/' + ${food.id}}" class="btn"> <i class="fas fa-trash"></i> delete </a>
           </td>
         </tr>
       </table>

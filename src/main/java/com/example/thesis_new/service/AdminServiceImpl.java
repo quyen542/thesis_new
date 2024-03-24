@@ -94,10 +94,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteFood(String name) throws IOException {
-        System.out.println(name);
+    public void deleteFood(Long id) throws IOException {
 
-        Food deletefood = foodRespository.findByName(name);
+        Food deletefood = foodRespository.findfoodById(id);
 
         File f = new File("food-photos/" + deletefood.getId());
 
@@ -106,12 +105,12 @@ public class AdminServiceImpl implements AdminService {
         }
 
 
-        foodRespository.deleteByName(name);
+        foodRespository.delete(deletefood);
     }
 
     @Override
-    public void editFoodView(String name, Model model){
-        Food editFood = foodRespository.findByName(name);
+    public void editFoodView(Long id, Model model){
+        Food editFood = foodRespository.findfoodById(id);
 
         model.addAttribute("food", editFood);
     }
@@ -119,13 +118,13 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean editFood(Food food, BindingResult bindingResult){
 
-        if(food.getName() != null){
-            String name = food.getName();
-            Food check = foodRespository.findByName(name);
-            if(check != null){
-                bindingResult.addError(new FieldError("food", "name", "Food name is exist"));
-            }
-        }
+//        if(food.getName() != null){
+//            String name = food.getName();
+//            Food check = foodRespository.findByName(name);
+//            if(check != null){
+//                bindingResult.addError(new FieldError("food", "name", "Food name is exist"));
+//            }
+//        }
 
         if(bindingResult.hasErrors()){
             return false;

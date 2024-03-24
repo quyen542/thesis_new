@@ -78,7 +78,7 @@
     <div class="admin-product-form-container">
 
       <form  th:action="@{/editfood}" th:object="${food}" method="post"  enctype="multipart/form-data">
-        <h3>add a new food</h3>
+        <h3>Edit Food</h3>
         <input type="text" placeholder="Food id" name="product_name" class="box" th:field="*{id}" th:value="${food.id}" readonly>
         <input type="text" placeholder="enter food name" name="product_name" class="box" th:field="*{name}" th:value="${food.name}" th:errorClass="is-invalid">
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"> </div>

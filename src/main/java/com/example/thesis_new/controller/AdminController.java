@@ -75,22 +75,22 @@ public class AdminController {
         return "redirect:/admin-dashboard-create-food";
     }
 
-    @GetMapping( "/delete/{name}")
-    public String delete_food(@PathVariable("name") String name ) throws IOException {
+    @GetMapping( "/delete/{id}")
+    public String delete_food(@PathVariable("id") Long id ) throws IOException {
         if(!adminService.checkAdmin()){
             return "NoPermissionAdmin";
         }
-        adminService.deleteFood(name);
+        adminService.deleteFood(id);
 
         return  "redirect:/admin-dashboard-create-food";
     }
 
-    @GetMapping("/edit-food/{name}")
-    public String edit_food_view(@PathVariable("name") String name, Model model){
+    @GetMapping("/edit-food/{id}")
+    public String edit_food_view(@PathVariable("id") Long id, Model model){
         if(!adminService.checkAdmin()){
             return "NoPermissionAdmin";
         }
-        adminService.editFoodView(name, model);
+        adminService.editFoodView(id, model);
         return "EditFood";
     }
 

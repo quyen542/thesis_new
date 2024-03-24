@@ -53,6 +53,80 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
+    public void ratingFood(Food food){
+        if(food.getRating() < 5.0){
+            double countQuantity = orderItemRepository.countOrderItemByFoodId(food.getId());
+            double increase =  Math.floor(countQuantity/3);
+            double check = countQuantity/3 - increase;
+            if( check > 0.5){
+                increase += 0.5;
+            }
+
+            double countLike = food.getLikes().size();
+            check = countLike;
+            while (check < 1){
+                increase += 0.5;
+                check = check / 3;
+            }
+
+            food.setRating(food.getRating() + increase);
+
+            if(food.getRating() > 5){
+
+            }
+
+        }
+    }
+
+    @Override
+    public void likeFood(Model model, Long id, User currentuser){
+        Optional<User> user = userRepository.findById(currentuser.getId());
+        Food food = foodRespository.findfoodById(id);
+
+        user.get().getLikedFood().add(food);
+        food.getLikes().add(user.get());
+
+        userRepository.save(user.get());
+        foodRespository.save(food);
+    }
+
+    @Override
+    public void unlikeFood(Model model, Long id, User currentuser){
+        Optional<User> user = userRepository.findById(currentuser.getId());
+        Food food = foodRespository.findfoodById(id);
+
+        user.get().getLikedFood().remove(food);
+        food.getLikes().remove(user.get());
+
+        userRepository.save(user.get());
+        foodRespository.save(food);
+    }
+
+    public void dislikeFood(Model model, Long id, User currentuser){
+        Optional<User> user = userRepository.findById(currentuser.getId());
+        Food food = foodRespository.findfoodById(id);
+
+        user.get().getDislikedFood().add(food);
+        food.getDislikes().add(user.get());
+
+        userRepository.save(user.get());
+        foodRespository.save(food);
+    }
+
+    @Override
+    public void undislikeFood(Model model, Long id, User currentuser){
+        Optional<User> user = userRepository.findById(currentuser.getId());
+        Food food = foodRespository.findfoodById(id);
+
+        user.get().getDislikedFood().remove(food);
+        food.getDislikes().remove(user.get());
+
+        userRepository.save(user.get());
+        foodRespository.save(food);
+    }
+
+
+    @Override
     public User loginAccount(User user, BindingResult bindingResult) {
         User result = new User();
 
@@ -76,8 +150,10 @@ public class HomeServiceImp implements HomeService{
 
     @Override
     public void homeSetup(Model model, User Currentuser, String currentCategory){
-//        System.out.println(Currentuser);
         if(Currentuser != null){
+            Optional<User> newuser = userRepository.findById(Currentuser.getId());
+            model.addAttribute("currentuser", newuser.get());
+
             if(Currentuser.getRole().getName().equals("customer")) {
                 Cart check = cartrepo.findByUserID(Currentuser.getId());
                 if (check == null) {
@@ -109,6 +185,7 @@ public class HomeServiceImp implements HomeService{
         model.addAttribute("topList", topList);
         model.addAttribute("listFoods", listFoods);
         model.addAttribute("listCategories", categories);
+
     }
 
     @Override

@@ -12,4 +12,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     @Query("SELECT distinct oi.food.id FROM OrderItem oi group by oi.food.id order by count(oi.food.id) desc LIMIT 10")
     List<Long> getListFoodIdDesc();
+
+    @Query("SELECT sum(oi.quantity) FROM OrderItem oi where oi.food.id = ?1")
+    double countOrderItemByFoodId(Long id);
 }

@@ -46,7 +46,7 @@
                 <input type="text" id="lat" th:value="${user.lat}"  th:field="*{lat}" style="display: none" >
                 <input type="text" id="lon" th:value="${user.lon}"  th:field="*{lon}" style="display: none">
                 <label for="phonenumber"><i class="fa fa-phone" ></i> Phone</label>
-                <input type="text" id="phonenumber" th:value="${user.Phonenumber}" name="phonenumber"  th:field="*{phonenumber}" required oninput="setCustomValidity('Please update phone number in profile')">
+                <input type="text" id="phonenumber" th:value="${user.Phonenumber}" name="phonenumber"  th:field="*{phonenumber}" required="" oninvalid="this.setCustomValidity('Please update address in profile')" oninput="setCustomValidity('')">
                 <input type="hidden" th:value="${Cart.id}"
                        name="cart_id" />
 

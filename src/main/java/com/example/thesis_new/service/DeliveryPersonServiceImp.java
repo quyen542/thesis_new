@@ -23,7 +23,6 @@ public class DeliveryPersonServiceImp implements DeliveryPersonService {
     @Override
     public boolean checkDelivery(){
         if(currentuser!= null){
-            System.out.println(currentuser.getRole().getName());
             if(!currentuser.getRole().getName().equals("delivery")) {
                 return false;
             }

@@ -68,7 +68,19 @@ public class User {
     @OneToOne(mappedBy = "deliveryPerson", cascade = CascadeType.ALL)
     @JsonManagedReference
     private DeliveryInfo deliveryInfo;
+    @ManyToMany
+    @JoinTable(
+            name = "food_like",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "food_id"))
+    private Collection<Food> likedFood;
 
+    @ManyToMany
+    @JoinTable(
+            name = "food_dislike",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "food_id"))
+    private Collection<Food> dislikedFood;
 
     public Long getId() {
         return id;
@@ -190,6 +202,14 @@ public class User {
         this.lon = lon;
     }
 
+    public Collection<Food> getLikedFood() {
+        return likedFood;
+    }
+
+    public void setLikedFood(Collection<Food> likedFood) {
+        this.likedFood = likedFood;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -205,5 +225,13 @@ public class User {
                 ", cart=" + cart +
                 ", orders=" + orders +
                 '}';
+    }
+
+    public Collection<Food> getDislikedFood() {
+        return dislikedFood;
+    }
+
+    public void setDislikedFood(Collection<Food> dislikedFood) {
+        this.dislikedFood = dislikedFood;
     }
 }

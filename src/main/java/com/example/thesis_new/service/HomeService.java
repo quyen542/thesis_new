@@ -3,9 +3,11 @@ package com.example.thesis_new.service;
 
 import com.example.thesis_new.dto.CheckOutInfor;
 import com.example.thesis_new.dto.PassChange;
+import com.example.thesis_new.entity.Food;
 import org.springframework.ui.Model;
 import com.example.thesis_new.entity.User;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface HomeService {
 
@@ -37,5 +39,16 @@ public interface HomeService {
     void orderListView(Model model, User Currentuser);
 
     void trackOrder(Long id);
+
+    void ratingFood(Food food);
+
+    void likeFood(Model model, Long id, User currentuser);
+
+    void unlikeFood(Model model, Long id, User currentuser);
+
+    void dislikeFood(Model model, Long id, User currentuser);
+
+    void undislikeFood(Model model, Long id, User currentuser);
+
 
 }

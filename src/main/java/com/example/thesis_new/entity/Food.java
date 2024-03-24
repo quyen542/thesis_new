@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,7 @@ public class Food {
     private String description;
 
     @Column(nullable = true)
-    private float rating;
+    private double rating;
 
     @Column(nullable = true, length = 64)
     private String photos;
@@ -42,6 +43,12 @@ public class Food {
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<OrderItem> orderItems;
+
+    @ManyToMany(mappedBy = "likedFood")
+    private Collection<User> likes;
+
+    @ManyToMany(mappedBy = "dislikedFood")
+    private Collection<User> dislikes;
 
     public Long getId() {
         return id;
@@ -83,11 +90,11 @@ public class Food {
         this.description = description;
     }
 
-    public float getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -120,5 +127,21 @@ public class Food {
 
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public Collection<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Collection<User> likes) {
+        this.likes = likes;
+    }
+
+    public Collection<User> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Collection<User> dislikes) {
+        this.dislikes = dislikes;
     }
 }

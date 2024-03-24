@@ -185,8 +185,8 @@ header .icons #menu-bars{
     text-align: center;
 }
 
-.dishes .box-container .box .fa-heart,
-.dishes .box-container .box .fa-eye{
+.dishes .box-container .box .fa-thumbs-up,
+.dishes .box-container .box .fa-thumbs-down{
     position: absolute;
     top: 1.5rem;
     background: #eee;
@@ -197,25 +197,30 @@ header .icons #menu-bars{
     color: var(--black);
 }
 
-.dishes .box-container .box .fa-heart:hover,
-.dishes .box-container .box .fa-eye:hover{
+.dishes .box-container .box .fa-thumbs-up:hover,
+.dishes .box-container .box .fa-thumbs-down:hover{
     background: var(--green);
     color: #fff;
 }
 
-.dishes .box-container .box .fa-heart{
+.dishes .box-container .box .active{
+    background: var(--green);
+    color: #fff;
+}
+
+.dishes .box-container .box .fa-thumbs-up{
     right: -15rem;
 }
 
-.dishes .box-container .box .fa-eye{
-    left: -15rem;
-}
-
-.dishes .box-container .box:hover .fa-heart{
+.dishes .box-container .box:hover .fa-thumbs-up{
     right: 1.5rem;
 }
 
-.dishes .box-container .box:hover .fa-eye{
+.dishes .box-container .box .fa-thumbs-down{
+    left: -15rem;
+}
+
+.dishes .box-container .box:hover .fa-thumbs-down{
     left: 1.5rem;
 }
 
@@ -308,6 +313,46 @@ header .icons #menu-bars{
     color: var(--black);
 }
 
+.menu .box-container .box .fa-thumbs-up,
+.menu .box-container .box .fa-thumbs-down{
+    position: absolute;
+    top: 1.5rem;
+    background: #eee;
+    border-radius: 50%;
+    width: 5rem;
+    line-height: 5rem;
+    font-size: 2rem;
+    color: var(--black);
+    text-align: center;
+}
+
+.menu .box-container .box .active{
+    background: var(--green);
+    color: #fff;
+}
+.menu .box-container .box .fa-thumbs-down:hover,
+.menu .box-container .box .fa-thumbs-up:hover{
+    background: var(--green);
+    color: #fff;
+}
+
+.menu .box-container .box .fa-thumbs-up{
+    right: -15rem;
+}
+
+.menu .box-container .box:hover .fa-thumbs-up{
+    right: 0.5rem;
+}
+
+.menu .box-container .box .fa-thumbs-down{
+    left: -15rem;
+}
+
+.menu .box-container .box:hover .fa-thumbs-down{
+    left: 1.5rem;
+}
+
+
 .menu .box-container{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
@@ -330,15 +375,18 @@ header .icons #menu-bars{
     background: #fff;
     border: .1rem solid rgba(0,0,0,.2);
     border-radius: .5rem;
-    box-shadow:var(--box-shadow)
+    box-shadow:var(--box-shadow);
+    position: relative;
+    overflow: hidden;
+
 }
 
 .menu .box-container .box .image{
     height: 25rem;
     width: 100%;
     padding: 1.5rem;
-    overflow: hidden;
-    position: relative;
+    /*overflow: hidden;*/
+    /*position: relative;*/
 }
 .menu .box-container .box .image img{
     height: 100%;

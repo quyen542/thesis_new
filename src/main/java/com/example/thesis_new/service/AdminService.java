@@ -18,9 +18,9 @@ public interface AdminService {
 
     boolean addNewFood(Food food, BindingResult bindingResult, MultipartFile multipartFile ) throws IOException;
 
-    void deleteFood(String name) throws IOException;
+    void deleteFood(Long id) throws IOException;
 
-    void editFoodView(String name, Model model);
+    void editFoodView(Long id, Model model);
 
     boolean editFood(Food food, BindingResult bindingResult);
 

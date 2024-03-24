@@ -79,6 +79,43 @@
 
     <div class="box-container">
         <div class="box" th:each="food: ${topList}">
+
+            <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-up"></a>
+            <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-down"></a>
+
+
+            <form action="/likefood" method="post" th:id="'likefood' + ${food.id} " th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)}" >
+
+                <input type="hidden" name="id" th:value="${food.id}">
+
+                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-up"></a>
+
+            </form>
+
+            <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)}" >
+
+                <input type="hidden" name="id" th:value="${food.id}">
+
+                <a href="#" th:if="'t' == ${user} and ${#lists.contains(food.getLikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-up active"></a>
+
+            </form>
+
+            <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >
+
+                <input type="hidden" name="id" th:value="${food.id}">
+
+                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down"></a>
+
+            </form>
+
+            <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)}" >
+
+                <input type="hidden" name="id" th:value="${food.id}">
+
+                <a href="#" th:if="'t' == ${user} and ${#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down active"></a>
+
+            </form>
+
             <img th:src="@{${food.photosImagePath}}" alt="">
             <h3 th:text="${food.name}"></h3>
             <div class="stars">
@@ -249,6 +286,42 @@
     <div class="box-container">
 
         <div class="box" th:each="food: ${listFoods}">
+
+            <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-up"></a>
+            <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-down"></a>
+
+
+            <form action="/likefood" method="post" th:id="'likefood' + ${food.id} " th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)}" >
+
+                <input type="hidden" name="id" th:value="${food.id}">
+
+                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-up"></a>
+
+            </form>
+
+            <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)}" >
+
+                <input type="hidden" name="id" th:value="${food.id}">
+
+                <a href="#" th:if="'t' == ${user} and ${#lists.contains(food.getLikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-up active"></a>
+
+            </form>
+
+            <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >
+
+                <input type="hidden" name="id" th:value="${food.id}">
+
+                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down"></a>
+
+            </form>
+
+            <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)}" >
+
+                <input type="hidden" name="id" th:value="${food.id}">
+
+                <a href="#" th:if="'t' == ${user} and ${#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down active"></a>
+
+            </form>
             <div class="image">
                 <img th:src="@{${food.photosImagePath}}" alt="">
             </div>
