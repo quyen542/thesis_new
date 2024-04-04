@@ -13,6 +13,8 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
 <body>
 <div class="grid-container">
@@ -65,62 +67,66 @@
 
   <!-- Main -->
   <main class="main-container">
-    <div class="main-title">
-      <p class="font-weight-bold">CUSTOMER</p>
+    <div class="container" th:each="order: ${listOrder}">
+      <article class="card-order">
+        <div class="card-body">
+          <h6>Order ID: <span th:text="${order.id}"></span></h6>
+          <article class="card-order">
+            <div class="card-body row">
+              <div class="col"> <strong>Date:</strong> <br><span th:text="${order.date}"></span> </div>
+              <div class="col"> <strong>Customer Name:</strong> <br> <span th:text="${order.name}">customer name</span> </div>
+              <div class="col"> <strong>Phone Number: </strong> <br> <span th:text="${order.phonenumber}"></span> </div>
+              <div class="col"> <strong>Address</strong> <br> <span th:text="${order.deliveryAddress}"></span>	 </div>
+            </div>
+          </article>
+          <div class="track">
+            <div th:class="${order.status == order.status.Confirmed || order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step active' : 'step'" > <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+            <div th:class="${order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step active' : 'step'"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Cooked</span> </div>
+            <div th:class="${order.status == order.status.Shipped || order.status == order.status.Delivered} ? 'step active' : 'step' " > <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Shipped </span> </div>
+            <div th:class="${order.status == order.status.Delivered} ? 'step active' : 'step'"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Delivered</span> </div>
+          </div>
+          <hr>
+          <ul class="row">
+            <th:block th:each="orderItem: ${order.orderItems}">
+
+              <li class="col-md-4">
+                <figure class="itemside mb-3">
+                  <div class="aside"><img th:src="${orderItem.food.photosImagePath}" class="img-sm border"></div>
+                  <figcaption class="info align-self-center">
+                    <p class="title" th:text="${orderItem.food.name}"> </p> <span class="text-muted">Quality: <span th:text="${orderItem.quantity}"></span> </span>
+                  </figcaption>
+                </figure>
+              </li>
+
+            </th:block>
+          </ul>
+
+
+          <div class="row">
+            <p><strong>Total price: $</strong><span th:text="${order.totalPrice}"></span></p>
+          </div>
+
+          <hr>
+
+          <div class="row" >
+
+            <div  th:if="${order.status == order.status.Shipped}">
+              <input type="text" th:id="'lat' + ${order.id}" th:value="${order.lat}"   style="display: none" >
+              <input type="text" th:id="'lon' + ${order.id}" th:value="${order.lon}"   style="display: none">
+              <input onclick="getDirection(this.id)" th:id="${order.id}" class="btn btn-warning directBtn" type="button" value="Get Direction" />
+            </div>
+
+            <form action="/update-delivery-status" method="post" th:if="${order.status == order.status.Shipped}">
+              <input type="hidden" th:value="${order.id}"
+                     name="order_id" />
+              <input type="hidden" th:value="Delivered"
+                     name="status" />
+              <input type="submit" value="Delivered"  class="btn btn-warning" />
+            </form>
+          </div>
+        </div>
+      </article>
     </div>
-
-    <table>
-      <tr>
-        <th>Order ID</th>
-        <th>Date</th>
-        <th>Name</th>
-        <th>Phone Number</th>
-        <th>Adress</th>
-        <th>Food</th>
-        <th>Total Price</th>
-        <th>Status</th>
-      </tr>
-      <tr th:each="order: ${listOrder}">
-        <td th:text="${order.id}">User ID</td>
-        <td th:text="${order.date}">User ID</td>
-        <td th:text="${order.name}">First Name</td>
-        <td th:text="${order.phonenumber}">Phone Number</td>
-        <td>
-          <table>
-            <tr>
-              <td  th:text="${order.deliveryAddress}"></td>
-              <td>
-                <input type="text" th:id="'lat' + ${order.id}" th:value="${order.lat}"   style="display: none" >
-                <input type="text" th:id="'lon' + ${order.id}" th:value="${order.lon}"   style="display: none">
-                <input onclick="getDirection(this.id)" th:id="${order.id}" class="directBtn" type="button" value="Get Direction" />
-              </td>
-            </tr>
-          </table>
-
-        </td>
-        <td th:text="${order.phonenumber}">Phone Number</td>
-        <td>
-          <table>
-            <tr th:each="orderItem: ${order.orderItems}">
-              <td th:text="${orderItem.food.name}"></td>
-              <td th:text="'qty: '+ ${orderItem.quantity}"></td>
-            </tr>
-          </table>
-        </td>
-        <td th:text="${order.totalPrice}"></td>
-        <td>
-          <form action="/update-delivery-status" method="post">
-            <input type="hidden" th:value="${order.id}"
-                   name="order_id" />
-            <select name="status" id="lang">
-              <option th:value="${order.status}" th:text="${order.status}"></option>
-              <option value="Delivered">Delivered</option>
-            </select>
-            <input type="submit" value="Update" />
-          </form>
-        </td>
-      </tr>
-    </table>
   </main>
   <!-- End Main -->
 
@@ -142,7 +148,7 @@
 
     var url = "https://www.google.com/maps?saddr=My+Location&daddr=" + x + "," + z;
     console.log(url);
-    window.location.href = url;
+    window.open(url, '_blank');
   }
 
 

@@ -53,28 +53,60 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void ratingFood(Food food){
-        if(food.getRating() < 5.0){
-            double countQuantity = orderItemRepository.countOrderItemByFoodId(food.getId());
-            double increase =  Math.floor(countQuantity/3);
-            double check = countQuantity/3 - increase;
-            if( check > 0.5){
-                increase += 0.5;
+    public void ratingFood(){
+        List<Food> listFoods = new ArrayList<>();
+        listFoods = foodRespository.findAll();
+        for(Food food: listFoods){
+            food.setRating(3);
+        }
+
+        for(Food food: listFoods) {
+            if (food.getRating() <= 5.0 && food.getRating() >= 0.0) {
+                double increase = 0;
+                if (orderItemRepository.countOrderItemByFoodId(food.getId()) != null) {
+                    double countQuantity = orderItemRepository.countOrderItemByFoodId(food.getId());
+                    increase = Math.floor(countQuantity / 3);
+                    double checkOrder = countQuantity / 3 - increase;
+                    if (checkOrder > 0.5) {
+                        increase += 0.5;
+                    }
+                }
+
+                double countLike = food.getLikes().size();
+                double checkLike = countLike / 3;
+                while (checkLike >= 1) {
+                    increase += 0.5;
+                    checkLike--;
+                }
+
+                food.setRating(food.getRating() + increase);
+
+                if (food.getRating() > 5) {
+                    double backTo5 = food.getRating() - 5;
+                    food.setRating(food.getRating() - backTo5);
+                }
+
+                double decrease = 0;
+
+                double countDisLike = food.getDislikes().size();
+
+                double checkDisLike = countDisLike / 3;
+
+                while (checkDisLike >= 1) {
+                    decrease -= 0.5;
+                    checkDisLike--;
+                }
+
+                food.setRating(food.getRating() + decrease);
+
+                if (food.getRating() < 0) {
+                    double backTo0 = food.getRating() - 0;
+                    food.setRating(food.getRating() - backTo0);
+                }
+
+                foodRespository.save(food);
+
             }
-
-            double countLike = food.getLikes().size();
-            check = countLike;
-            while (check < 1){
-                increase += 0.5;
-                check = check / 3;
-            }
-
-            food.setRating(food.getRating() + increase);
-
-            if(food.getRating() > 5){
-
-            }
-
         }
     }
 
@@ -164,14 +196,6 @@ public class HomeServiceImp implements HomeService{
             }
         }
 
-        List<Long> topListID = orderItemRepository.getListFoodIdDesc();
-
-        List<Food> topList = new ArrayList<>();
-
-        for(Long id: topListID){
-            topList.add(foodRespository.findfoodById(id));
-        }
-
         List<Food> listFoods = new ArrayList<>();
 
         if(currentCategory != null){
@@ -179,6 +203,16 @@ public class HomeServiceImp implements HomeService{
         }else{
             listFoods = foodRespository.findAll();
         }
+
+
+        List<Long> topListID = orderItemRepository.getListFoodIdDesc();
+
+        List<Food> topList = new ArrayList<>();
+
+        for(Long id: topListID ){
+            topList.add(foodRespository.findfoodById(id));
+        }
+
 
         List<String> categories = foodRespository.getFoodCategory();
 

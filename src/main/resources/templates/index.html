@@ -119,11 +119,13 @@
             <img th:src="@{${food.photosImagePath}}" alt="">
             <h3 th:text="${food.name}"></h3>
             <div class="stars">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star-half-alt"></i>
+                <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+                    <i class="fas fa-star" th:if="${food.rating >= i}"></i>
+                    <i class="fas fa-star-half-alt" th:if="${i - food.rating} == 0.5"></i>
+                    <i class="fa-regular fa-star" th:if="${food.rating < i} and ${i - food.rating} != 0.5"></i>
+
+                </th:block>
+
             </div>
             <span class="price" th:text="'$' + ${food.price}"></span>
             <a href="#" class="btn myBtn_multi">add to cart</a>
@@ -327,11 +329,13 @@
             </div>
             <div class="content">
                 <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
+                    <th:block th:each="i: ${#numbers.sequence(1, 5)}">
+                        <i class="fas fa-star" th:if="${food.rating >= i}"></i>
+                        <i class="fas fa-star-half-alt" th:if="${i - food.rating} == 0.5"></i>
+                        <i class="fa-regular fa-star" th:if="${food.rating < i} and ${i - food.rating} != 0.5"></i>
+
+                    </th:block>
+
                 </div>
                 <h3 th:text="${food.name}"></h3>
                 <p th:text="${food.description}"></p>

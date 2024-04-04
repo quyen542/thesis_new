@@ -40,7 +40,7 @@ public interface HomeService {
 
     void trackOrder(Long id);
 
-    void ratingFood(Food food);
+    void ratingFood();
 
     void likeFood(Model model, Long id, User currentuser);
 

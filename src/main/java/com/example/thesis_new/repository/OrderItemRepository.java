@@ -14,5 +14,5 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     List<Long> getListFoodIdDesc();
 
     @Query("SELECT sum(oi.quantity) FROM OrderItem oi where oi.food.id = ?1")
-    double countOrderItemByFoodId(Long id);
+    Double countOrderItemByFoodId(Long id);
 }

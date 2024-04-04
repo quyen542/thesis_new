@@ -42,6 +42,7 @@
             </div>
           </div>
           <div class="card-body p-4">
+
             <div class="d-flex flex-row mb-4 pb-2" th:each="orderItem: ${order.orderItems}">
               <div class="flex-fill">
                 <h5 class="bold" th:text="${orderItem.food.name}"></h5>
@@ -52,57 +53,43 @@
                      th:src="${orderItem.food.photosImagePath}" width="150">
               </div>
             </div>
+
             <div style="display: flex">
-            <h4 class="mb-3" th:text="'$' + ${order.totalPrice} + ' '"> </h4>
-            <h4><span class="small text-muted"> via (COD) </span></h4>
+              <h4 class="mb-3" th:text="'$' + ${order.totalPrice} + ' '"> </h4>
+              <h4><span class="small text-muted"> via (COD) </span></h4>
             </div>
 
-            <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-              <li th:class="${order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step0 active' : 'step0'" id="step1">
-                <span style="margin-left: 22px; margin-top: 12px;">COOKED</span>
-              </li>
-              <li th:class="${order.status == order.status.Shipped || order.status == order.status.Delivered} ? 'step0 active text-center' : 'step0 text-center' " id="step2">
-                <span>SHIPPED</span>
-              </li>
-              <li th:class="${order.status == order.status.Delivered} ? 'step0 active ext-muted text-end' : 'step0 ext-muted text-end'" id="step3">
-                <span style="margin-right: 22px;">DELIVERED</span>
-              </li>
-            </ul>
-
-<!--&lt;!&ndash;            <div th:switch="${order.status}">&ndash;&gt;-->
-<!--&lt;!&ndash;              <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" th:case="'Cooked'">&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="step0 active" id="step1"><span style="margin-left: 22px; margin-top: 12px;">COOKED</span></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="step0 text-center" id="step2"><span>SHIPPED</span></li>->-->
-<!--&lt;!&ndash;                <li class="step0 text-muted text-end" id="step3"><span style="margin-right: 22px;">DELIVERED</span></li>&ndash;&gt;-->
-<!--&lt;!&ndash;              </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;              <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" th:case="'Shipped'">&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="step0 active" id="step21"><span style="margin-left: 22px; margin-top: 12px;">COOKED</span></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="step0 text-center active" id="step22"><span>SHIPPED</span></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="step0 text-muted text-end" id="step23"><span style="margin-right: 22px;">DELIVERED</span></li>&ndash;&gt;-->
-<!--&lt;!&ndash;              </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;              <ul id="progressbar-3" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" th:case="'Delivered'">&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="step0 active" id="step31"><span style="margin-left: 22px; margin-top: 12px;">COOKED</span></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="step0 text-center active" id="step32"><span>SHIPPED</span></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="step0 text-muted text-end active" id="step33"><span style="margin-right: 22px;">DELIVERED</span></li>&ndash;&gt;-->
-<!--&lt;!&ndash;              </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-
-
-
-
-
+            <div class="row d-flex justify-content-center">
+              <div class="col-12">
+                <ul id="progressbar" class="text-center">
+                  <li th:class="${order.status == order.status.Confirmed || order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step0 active' : 'step0'">
+                    <span>CONFIRMED</span>
+                  </li>
+                  <li th:class="${order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step0 active' : 'step0'" >
+                    <span>COOKED</span>
+                  </li>
+                  <li th:class="${order.status == order.status.Shipped || order.status == order.status.Delivered} ? 'step0 active' : 'step0' " >
+                    <span>SHIPPED</span>
+                  </li>
+                  <li th:class="${order.status == order.status.Delivered} ? 'step0 active' : 'step0'" >
+                    <span>DELIVERED</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
 
           </div>
+
           <div class="card-footer p-4">
             <div class="d-flex justify-content-between">
               <h5 class="fw-normal mb-0"><a th:href="@{/trackOrder/{id}(id = ${order.id})}" class="btn-track">Track</a></h5>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   </div>
-
 
 
 

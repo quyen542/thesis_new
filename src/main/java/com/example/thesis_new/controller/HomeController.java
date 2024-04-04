@@ -60,6 +60,10 @@ public class HomeController {
     public String home(Model model){
 
 
+        homeService.ratingFood();
+
+
+
         homeService.homeSetup(model, Currentuser, CurrentCategory);
 
         model.addAttribute("user", userExsiit);
@@ -70,6 +74,9 @@ public class HomeController {
     @PostMapping("/likefood")
     public String likeFood(Model model, @RequestParam("id") Long id){
 
+        if(!homeService.checkUser(Currentuser)){
+            return "NoPermissionUser";
+        }
 
         homeService.likeFood(model, id, Currentuser);
 
@@ -79,7 +86,9 @@ public class HomeController {
 
     @PostMapping("/unlikefood")
     public String unlikeFood(Model model, @RequestParam("id") Long id){
-
+        if(!homeService.checkUser(Currentuser)){
+            return "NoPermissionUser";
+        }
 
         homeService.unlikeFood(model, id, Currentuser);
 
@@ -90,7 +99,9 @@ public class HomeController {
     @PostMapping("/dislikefood")
     public String dislikeFood(Model model, @RequestParam("id") Long id){
 
-
+        if(!homeService.checkUser(Currentuser)){
+            return "NoPermissionUser";
+        }
         homeService.dislikeFood(model, id, Currentuser);
 
 
@@ -100,7 +111,9 @@ public class HomeController {
     @PostMapping("/undislikefood")
     public String undislikeFood(Model model, @RequestParam("id") Long id){
 
-
+        if(!homeService.checkUser(Currentuser)){
+            return "NoPermissionUser";
+        }
         homeService.undislikeFood(model, id, Currentuser);
 
 
@@ -109,6 +122,9 @@ public class HomeController {
 
     @GetMapping("/login")
     public String login_View(Model model){
+
+        homeService.ratingFood();
+
         userExsiit = "f";
         Currentuser = null;
         adminService.setCurrentuser(null);

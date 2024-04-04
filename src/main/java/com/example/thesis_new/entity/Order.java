@@ -12,6 +12,9 @@ import java.util.List;
 public class Order {
 
     public enum Status {
+
+        Placed,
+        Confirmed,
         Cooked,
         Shipped,
         Delivered
@@ -51,7 +54,7 @@ public class Order {
     @JsonBackReference
     private User user;
 
-    private Status status = Status.Cooked;
+    private Status status = Status.Placed;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_person_id")

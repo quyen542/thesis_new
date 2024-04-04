@@ -178,11 +178,17 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updateStatus(Long id, String status){
         Order order = orderRespository.findById(id).get();
-        if(status.equals("Cooked")){
+        if(status.equals("Confirmed")){
+            order.setStatus(Order.Status.Confirmed);
+        }else if(status.equals("Cooked")){
             order.setStatus(Order.Status.Cooked);
         } else if (status.equals("Shipped")) {
             order.setStatus(Order.Status.Shipped);
         } else if (status.equals("Delivered")) {
+            User user = userRepository.findById(order.getDeliveryPerson().getId()).get();
+            user.getDeliveryInfo().setAvailable(true);
+            user.getDeliveryInfo().setSalary(user.getDeliveryInfo().getSalary() + 2.0);
+            userRepository.save(user);
             order.setStatus(Order.Status.Delivered);
         }
 
@@ -200,8 +206,8 @@ public class AdminServiceImpl implements AdminService {
 
         user.getDeliveryInfo().setAvailable(false);
 
-        orderRespository.save(order);
-        userRepository.save(user);
+        orderRespository.saveAndFlush(order);
+        userRepository.saveAndFlush(user);
 
     }
 
