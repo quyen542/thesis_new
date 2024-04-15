@@ -15,8 +15,11 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Query("SELECT f from Food f where f.name = ?1  ")
     Food findByName(String name);
 
-    @Query("SELECT f from Food f where f.category = ?1  ")
+    @Query("SELECT f from Food f where f.category = ?1 order by f.avgRating desc ")
     List<Food> findByCategory(String category);
+
+    @Query("SELECT f from Food f order by f.avgRating desc ")
+    List<Food> findAllDesc();
 
 
     @Query("SELECT f from Food f where f.id = ?1  ")

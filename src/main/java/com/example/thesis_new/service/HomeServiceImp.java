@@ -37,6 +37,9 @@ public class HomeServiceImp implements HomeService{
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private  FoodRatingRepository foodRatingRepository;
+
     @Override
     public boolean checkUser(User Currentuser){
         boolean check = true;
@@ -53,22 +56,57 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void ratingFood(){
+    public void ratingFood(String time){
         List<Food> listFoods = new ArrayList<>();
         listFoods = foodRespository.findAll();
         for(Food food: listFoods){
-            food.setRating(3);
+            if(!food.getRatingList().isEmpty()) {
+                Double packagedRating = foodRatingRepository.getAvgOfPackagedRating(food.getId());
+                Double qualityRating = foodRatingRepository.getAvgOfQualityRating(food.getId());
+                Double priceRating = foodRatingRepository.getAvgOfPriceRating(food.getId());
+                Double rating = (packagedRating + qualityRating + priceRating) / 3;
+                food.setPackagedRating((double) Math.round(packagedRating * 10) / 10);
+                food.setQualityRating((double) Math.round(qualityRating * 10) / 10);
+                food.setPriceRating((double) Math.round(priceRating * 10) / 10);
+                food.setAvgRating(rating);
+            }else{
+                food.setAvgRating(3);
+            }
         }
 
         for(Food food: listFoods) {
-            if (food.getRating() <= 5.0 && food.getRating() >= 0.0) {
+            if (food.getAvgRating() <= 5.0 && food.getAvgRating() >= 0.0) {
+
                 double increase = 0;
-                if (orderItemRepository.countOrderItemByFoodId(food.getId()) != null) {
-                    double countQuantity = orderItemRepository.countOrderItemByFoodId(food.getId());
-                    increase = Math.floor(countQuantity / 3);
-                    double checkOrder = countQuantity / 3 - increase;
-                    if (checkOrder > 0.5) {
-                        increase += 0.5;
+
+                if(time.equals("day")) {
+                    if (orderItemRepository.countOrderItemByFoodIdInDay(food.getId()) != null) {
+                        double countQuantity = orderItemRepository.countOrderItemByFoodIdInDay(food.getId());
+                        increase = Math.floor(countQuantity / 3);
+                        double checkOrder = countQuantity / 3 - increase;
+                        if (checkOrder > 0.5) {
+                            increase += 0.5;
+                        }
+                    }
+                }else if(time.equals("week")){
+                    if (orderItemRepository.countOrderItemByFoodIdInWeek(food.getId()) != null) {
+                        double countQuantity = orderItemRepository.countOrderItemByFoodIdInWeek(food.getId());
+                        System.out.println(countQuantity);
+                        increase = Math.floor(countQuantity / 21);
+                        double checkOrder = countQuantity / 21 - increase;
+                        if (checkOrder > 0.5) {
+                            increase += 0.5;
+                        }
+                    }
+                }else if(time.equals("month")){
+                    if (orderItemRepository.countOrderItemByFoodIdInMonth(food.getId()) != null) {
+                        double countQuantity = orderItemRepository.countOrderItemByFoodIdInMonth(food.getId());
+                        System.out.println(countQuantity);
+                        increase = Math.floor(countQuantity / 90);
+                        double checkOrder = countQuantity / 90 - increase;
+                        if (checkOrder > 0.5) {
+                            increase += 0.5;
+                        }
                     }
                 }
 
@@ -79,11 +117,11 @@ public class HomeServiceImp implements HomeService{
                     checkLike--;
                 }
 
-                food.setRating(food.getRating() + increase);
+                food.setAvgRating(food.getAvgRating() + increase);
 
-                if (food.getRating() > 5) {
-                    double backTo5 = food.getRating() - 5;
-                    food.setRating(food.getRating() - backTo5);
+                if (food.getAvgRating() > 5) {
+                    double backTo5 = food.getAvgRating() - 5;
+                    food.setAvgRating(food.getAvgRating() - backTo5);
                 }
 
                 double decrease = 0;
@@ -97,27 +135,38 @@ public class HomeServiceImp implements HomeService{
                     checkDisLike--;
                 }
 
-                food.setRating(food.getRating() + decrease);
+                food.setAvgRating(food.getAvgRating() + decrease);
 
-                if (food.getRating() < 0) {
-                    double backTo0 = food.getRating() - 0;
-                    food.setRating(food.getRating() - backTo0);
+                if (food.getAvgRating() < 0) {
+                    double backTo0 = food.getAvgRating() - 0;
+                    food.setAvgRating(food.getAvgRating() - backTo0);
                 }
 
                 foodRespository.save(food);
-
             }
         }
     }
 
     @Override
-    public void likeFood(Model model, Long id, User currentuser){
+    public void likeFood(Model model, Long id, User currentuser, Double quality, Double price, Double packaged){
         Optional<User> user = userRepository.findById(currentuser.getId());
         Food food = foodRespository.findfoodById(id);
+        FoodRating foodRating = new FoodRating();
 
         user.get().getLikedFood().add(food);
         food.getLikes().add(user.get());
 
+        foodRating.setCustomer(user.get());
+        foodRating.setFoodRating(food);
+        foodRating.setQuality(quality);
+        foodRating.setPrice(price);
+        foodRating.setPackaged(packaged);
+
+        user.get().getRatingList().add(foodRating);
+        food.getRatingList().add(foodRating);
+
+
+        foodRatingRepository.save(foodRating);
         userRepository.save(user.get());
         foodRespository.save(food);
     }
@@ -126,20 +175,41 @@ public class HomeServiceImp implements HomeService{
     public void unlikeFood(Model model, Long id, User currentuser){
         Optional<User> user = userRepository.findById(currentuser.getId());
         Food food = foodRespository.findfoodById(id);
+        FoodRating foodRating = foodRatingRepository.findByCustomerIdAndFoodId(user.get().getId(), food.getId());
+
 
         user.get().getLikedFood().remove(food);
+        user.get().getRatingList().remove(foodRating);
         food.getLikes().remove(user.get());
+        food.getRatingList().remove(foodRating);
+
+
+        foodRatingRepository.delete(foodRating);
 
         userRepository.save(user.get());
         foodRespository.save(food);
     }
 
-    public void dislikeFood(Model model, Long id, User currentuser){
+    public void dislikeFood(Model model, Long id, User currentuser, Double quality, Double price, Double packaged){
         Optional<User> user = userRepository.findById(currentuser.getId());
         Food food = foodRespository.findfoodById(id);
+        FoodRating foodRating = new FoodRating();
+
 
         user.get().getDislikedFood().add(food);
         food.getDislikes().add(user.get());
+
+        foodRating.setCustomer(user.get());
+        foodRating.setFoodRating(food);
+        foodRating.setQuality(quality);
+        foodRating.setPrice(price);
+        foodRating.setPackaged(packaged);
+
+        user.get().getRatingList().add(foodRating);
+        food.getRatingList().add(foodRating);
+
+
+        foodRatingRepository.save(foodRating);
 
         userRepository.save(user.get());
         foodRespository.save(food);
@@ -149,10 +219,15 @@ public class HomeServiceImp implements HomeService{
     public void undislikeFood(Model model, Long id, User currentuser){
         Optional<User> user = userRepository.findById(currentuser.getId());
         Food food = foodRespository.findfoodById(id);
+        FoodRating foodRating = foodRatingRepository.findByCustomerIdAndFoodId(user.get().getId(), food.getId());
+
 
         user.get().getDislikedFood().remove(food);
+        user.get().getRatingList().remove(foodRating);
         food.getDislikes().remove(user.get());
+        food.getRatingList().remove(foodRating);
 
+        foodRatingRepository.delete(foodRating);
         userRepository.save(user.get());
         foodRespository.save(food);
     }
@@ -201,7 +276,7 @@ public class HomeServiceImp implements HomeService{
         if(currentCategory != null){
             listFoods = foodRespository.findByCategory(currentCategory);
         }else{
-            listFoods = foodRespository.findAll();
+            listFoods = foodRespository.findAllDesc();
         }
 
 
@@ -446,6 +521,31 @@ public class HomeServiceImp implements HomeService{
     public void trackOrder(Long id){
 //        Currentuser = repo.findByEmail(Currentuser.getEmail());
 
+    }
+
+    @Override
+    public void deliveryRating(Double rate, Long orderID){
+        Order order = orderRespository.getById(orderID);
+        order.setDeliveryRating(rate);
+
+        orderRespository.save(order);
+
+
+    }
+
+    @Override
+    public void ratingDeliveryPeron(){
+        List<User> deliverpersons = userRepository.getUserByRoleid(3);
+
+        for(User person: deliverpersons){
+
+            if(orderRespository.getAvgDeliveryRating(person.getId()) != null){
+                Double rate = (double) Math.round(orderRespository.getAvgDeliveryRating(person.getId()) * 10) / 10;
+                person.getDeliveryInfo().setRating(rate);
+                userRepository.save(person);
+            }
+
+        }
     }
 
 }

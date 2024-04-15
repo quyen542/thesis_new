@@ -370,7 +370,7 @@ td, th {
 }
 
 .admin-product-form-container form{
-    max-width: rem;
+    /*max-width: rem;*/
     margin:0 auto;
     padding:1rem;
     border-radius: .5rem;
@@ -558,4 +558,120 @@ select {
     font-size: 1rem;
     text-align: center;
     width: 25%;
+}
+
+.section-meals .container {
+    /* 1140px */
+    max-width: 120rem;
+    padding: 0 1rem;
+    margin: 0 auto;
+}
+
+.section-meals .grid {
+    display: grid;
+    column-gap: 2rem;
+    row-gap: 2rem;
+}
+
+.section-meals .grid--3-cols {
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+.section-meals .margin-right-md {
+    margin-bottom: 4.8rem !important;
+}
+
+.strong {
+    font-weight: 500;
+}
+
+/***************************/
+/* MEALS SECTION */
+/***************************/
+.section-meals {
+    padding: 1rem 0;
+}
+
+.section-meals .container .meal {
+    box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
+    border-radius: 11px;
+    overflow: hidden;
+    transition: all 0.4s;
+    background-color: white ;
+}
+
+.meal-tags {
+    margin-bottom: 1.2rem;
+    display: flex;
+    gap: 0.4rem;
+}
+
+.tag {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    background-color: #51cf66;
+    color: #333;
+    border-radius: 100px;
+    font-weight: 600;
+}
+
+
+
+.meal-content {
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+
+.meal-title {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.meal-descrption{
+    font-size: 1rem;
+    line-height: 1.2rem;
+    color: #333;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.meal-attributes {
+    padding-left: 0px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.meal-attribute {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.meal-icon {
+    /*height: 1.5rem;*/
+    /*width: 1.5rem;*/
+    color: #e67e22;
+}
+
+.meal-img {
+    width: 100%;
+    height: 224.15px;
+    object-fit: cover;
+}
+
+.meals-button{
+    display: flex;
+    gap: 1rem;
+}
+
+
+.meals-button-delete{
+    background: red;
 }

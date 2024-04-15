@@ -65,6 +65,9 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "deliveryPerson")
     private Collection<Order> shipmentOrders = new ArrayList<Order>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    private Collection<FoodRating> ratingList = new ArrayList<FoodRating>();
+
     @OneToOne(mappedBy = "deliveryPerson", cascade = CascadeType.ALL)
     @JsonManagedReference
     private DeliveryInfo deliveryInfo;
@@ -233,5 +236,13 @@ public class User {
 
     public void setDislikedFood(Collection<Food> dislikedFood) {
         this.dislikedFood = dislikedFood;
+    }
+
+    public Collection<FoodRating> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(Collection<FoodRating> ratingList) {
+        this.ratingList = ratingList;
     }
 }

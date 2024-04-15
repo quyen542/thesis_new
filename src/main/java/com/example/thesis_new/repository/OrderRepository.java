@@ -17,4 +17,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> getOrderByDeliveryPerson(User deliveryPerson);
 
+    @Query("SELECT avg(o.deliveryRating) FROM Order o where o.deliveryPerson.id = ?1")
+    Double getAvgDeliveryRating(Long deliveryPersonId);
+
 }

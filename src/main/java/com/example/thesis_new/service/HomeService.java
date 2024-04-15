@@ -40,15 +40,19 @@ public interface HomeService {
 
     void trackOrder(Long id);
 
-    void ratingFood();
+    void ratingFood(String time);
 
-    void likeFood(Model model, Long id, User currentuser);
+    void likeFood(Model model, Long id, User currentuser, Double quality, Double price, Double packaged);
 
     void unlikeFood(Model model, Long id, User currentuser);
 
-    void dislikeFood(Model model, Long id, User currentuser);
+    void dislikeFood(Model model, Long id, User currentuser, Double quality, Double price, Double packaged);
 
     void undislikeFood(Model model, Long id, User currentuser);
+
+    void deliveryRating(Double rate, Long orderID);
+
+    void ratingDeliveryPeron();
 
 
 }

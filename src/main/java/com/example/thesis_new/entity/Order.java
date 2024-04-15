@@ -45,6 +45,9 @@ public class Order {
     private String name;
 
 
+    private Double deliveryRating;
+
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<OrderItem> orderItems;
@@ -165,5 +168,13 @@ public class Order {
 
     public void setLon(String lon) {
         this.lon = lon;
+    }
+
+    public Double getDeliveryRating() {
+        return deliveryRating;
+    }
+
+    public void setDeliveryRating(Double deliveryRating) {
+        this.deliveryRating = deliveryRating;
     }
 }

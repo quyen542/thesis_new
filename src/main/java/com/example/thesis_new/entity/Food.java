@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,10 +32,22 @@ public class Food {
     private String description;
 
     @Column(nullable = true)
-    private double rating;
+    private Double avgRating;
+
+
+    private Double packagedRating;
+
+
+    private Double qualityRating;
+
+
+    private Double priceRating;
+
 
     @Column(nullable = true, length = 64)
     private String photos;
+
+
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -49,6 +62,9 @@ public class Food {
 
     @ManyToMany(mappedBy = "dislikedFood")
     private Collection<User> dislikes;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "foodRating")
+    private Collection<FoodRating> ratingList = new ArrayList<FoodRating>();
 
     public Long getId() {
         return id;
@@ -90,12 +106,12 @@ public class Food {
         this.description = description;
     }
 
-    public double getRating() {
-        return rating;
+    public double getAvgRating() {
+        return avgRating;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setAvgRating(double rating) {
+        this.avgRating = rating;
     }
 
     public String getPhotos() {
@@ -143,5 +159,37 @@ public class Food {
 
     public void setDislikes(Collection<User> dislikes) {
         this.dislikes = dislikes;
+    }
+
+    public Collection<FoodRating> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(Collection<FoodRating> ratingList) {
+        this.ratingList = ratingList;
+    }
+
+    public double getPackagedRating() {
+        return packagedRating;
+    }
+
+    public void setPackagedRating(double packagedRating) {
+        this.packagedRating = packagedRating;
+    }
+
+    public double getQualityRating() {
+        return qualityRating;
+    }
+
+    public void setQualityRating(double qualityRating) {
+        this.qualityRating = qualityRating;
+    }
+
+    public double getPriceRating() {
+        return priceRating;
+    }
+
+    public void setPriceRating(double priceRating) {
+        this.priceRating = priceRating;
     }
 }

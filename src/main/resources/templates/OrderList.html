@@ -82,7 +82,25 @@
 
           <div class="card-footer p-4">
             <div class="d-flex justify-content-between">
-              <h5 class="fw-normal mb-0"><a th:href="@{/trackOrder/{id}(id = ${order.id})}" class="btn-track">Track</a></h5>
+              <div th:if="${order.status == order.status.Delivered}">
+                <h3>Are you satisfied with the delivery quality of this order?</h3>
+                <form action="/delivery-rating" method="post">
+                  <input type="hidden" name="id" th:value="${order.id}">
+                  <div class="rate">
+                    <input type="radio" th:id="star5order + ${order.id}" name="rate" value="5" th:checked="${order.deliveryRating == 5}" />
+                    <label th:for="star5order + ${order.id}" ></label>
+                    <input type="radio" th:id="star4order + ${order.id}" name="rate" value="4" th:checked="${order.deliveryRating == 4}" />
+                    <label th:for="star4order + ${order.id}" ></label>
+                    <input type="radio" th:id="star3order + ${order.id}" name="rate" value="3" th:checked="${order.deliveryRating == 3}"  />
+                    <label th:for="star3order + ${order.id}" ></label>
+                    <input type="radio" th:id="star2order + ${order.id}" name="rate" value="2"  th:checked="${order.deliveryRating == 2}" />
+                    <label th:for="star2order + ${order.id}" ></label>
+                    <input type="radio" th:id="star1order + ${order.id}" name="rate" value="1" th:checked="${order.deliveryRating == 1}"  />
+                    <label th:for="star1order + ${order.id}"></label>
+                  </div>
+                  <input type="submit" class="btn-track" value="submit">
+                </form>
+              </div>
             </div>
           </div>
 

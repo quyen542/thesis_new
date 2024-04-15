@@ -46,6 +46,9 @@ public class HomeController {
 
     private String CurrentCategory = null;
 
+    private String CurrentRatingTime = "day";
+
+
 
 
 
@@ -60,7 +63,8 @@ public class HomeController {
     public String home(Model model){
 
 
-        homeService.ratingFood();
+
+        homeService.ratingFood(CurrentRatingTime);
 
 
 
@@ -72,13 +76,13 @@ public class HomeController {
     }
 
     @PostMapping("/likefood")
-    public String likeFood(Model model, @RequestParam("id") Long id){
+    public String likeFood(Model model, @RequestParam("id") Long id, @RequestParam("q1") Double quality, @RequestParam("q2") Double price, @RequestParam("q3") Double packaged ){
 
         if(!homeService.checkUser(Currentuser)){
             return "NoPermissionUser";
         }
 
-        homeService.likeFood(model, id, Currentuser);
+        homeService.likeFood(model, id, Currentuser, quality, price, packaged);
 
 
         return "redirect:/home";
@@ -97,12 +101,12 @@ public class HomeController {
     }
 
     @PostMapping("/dislikefood")
-    public String dislikeFood(Model model, @RequestParam("id") Long id){
+    public String dislikeFood(Model model, @RequestParam("id") Long id, @RequestParam("q1") Double quality, @RequestParam("q2") Double price, @RequestParam("q3") Double packaged ){
 
         if(!homeService.checkUser(Currentuser)){
             return "NoPermissionUser";
         }
-        homeService.dislikeFood(model, id, Currentuser);
+        homeService.dislikeFood(model, id, Currentuser, quality, price, packaged);
 
 
         return "redirect:/home";
@@ -123,7 +127,6 @@ public class HomeController {
     @GetMapping("/login")
     public String login_View(Model model){
 
-        homeService.ratingFood();
 
         userExsiit = "f";
         Currentuser = null;
@@ -356,11 +359,38 @@ public class HomeController {
     public String updateCategory(@RequestParam("category") String category, Model model){
 
 
-        CurrentCategory = category;
+        if(category.equals("null")){
+            CurrentCategory = null;
+        }else{
+            CurrentCategory = category;
 
-        System.out.println(CurrentCategory);
+        }
 
         return "redirect:/home#menu";
+    }
+
+    @PostMapping("/update-rating")
+    public String updateRatingTime(@RequestParam("time") String time, Model model){
+
+
+
+        CurrentRatingTime = time;
+
+
+
+        return "redirect:/home#menu";
+    }
+
+    @PostMapping("/delivery-rating")
+    public String updateDeliveryRating(@RequestParam("rate") Double rate, @RequestParam("id") Long orderId, Model model){
+
+        homeService.deliveryRating(rate, orderId);
+
+        homeService.ratingDeliveryPeron();
+
+
+
+        return "redirect:/order-list";
     }
 
 

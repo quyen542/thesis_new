@@ -15,4 +15,14 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     @Query("SELECT sum(oi.quantity) FROM OrderItem oi where oi.food.id = ?1")
     Double countOrderItemByFoodId(Long id);
+
+    @Query("SELECT sum(oi.quantity) FROM OrderItem oi, Order o where oi.food.id = ?1 and o.id = oi.order.id and o.date = CURDATE()")
+    Double countOrderItemByFoodIdInDay(Long id);
+
+    @Query(value = "SELECT sum(oi.quantity) FROM thesis_new.order_item oi, thesis_new.foodorder o where oi.food_id = ?1 and o.id = oi.order_id and o.date BETWEEN  (CURDATE() - INTERVAL 7 DAY) AND  CURDATE()  ;", nativeQuery = true)
+    Double countOrderItemByFoodIdInWeek(Long id);
+
+    @Query(value = "SELECT sum(oi.quantity) FROM thesis_new.order_item oi, thesis_new.foodorder o where oi.food_id = ?1 and o.id = oi.order_id and o.date BETWEEN  (CURDATE() - INTERVAL 30 DAY) AND  CURDATE()  ;", nativeQuery = true)
+    Double countOrderItemByFoodIdInMonth(Long id);
+
 }

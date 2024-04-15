@@ -93,6 +93,7 @@
         <th>Name</th>
         <th>Phone Number</th>
         <th>Salary</th>
+        <th>Rating</th>
         <th>Available</th>
       </tr>
       <tr th:each="user: ${listDelivery}">
@@ -100,6 +101,7 @@
         <td th:text="${user.name}">First Name</td>
         <td th:text="${user.Phonenumber}">Phone Number</td>
         <td th:text="${user.deliveryInfo.salary}">salary</td>
+        <td th:text="${user.deliveryInfo.rating}">salary</td>
         <td th:text="${user.deliveryInfo.available}">available</td>
       </tr>
     </table>

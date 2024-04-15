@@ -83,14 +83,130 @@
             <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-up"></a>
             <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-down"></a>
 
+            <div th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)}">
 
-            <form action="/likefood" method="post" th:id="'likefood' + ${food.id} " th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)}" >
+                <button class="fas fa-thumbs-up myBtn_multi" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"></button>
 
-                <input type="hidden" name="id" th:value="${food.id}">
+                <!--                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"  class="fas fa-thumbs-up myBtn_multi"></a>-->
+                <!-- The Modal -->
+                <div id="myModal" class="modal modal_multi">
 
-                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-up"></a>
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close close_multi">&times;</span>
+                        <div class="card-rating">
+                            <div class="card-container">
 
-            </form>
+                                <div class="form">
+
+                                    <form action="/likefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
+
+                                        <h2>We are happy to see your satisfaction with the dish.</h2>
+
+                                        <h3>Please fill out the form so we can improve the dish </h3>
+
+                                        <input type="hidden" name="id" th:value="${food.id}">
+
+                                        <div class="question">
+                                            <p>Question 1: How is the quality of the food?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+                                        <div class="question">
+                                            <p>Question 2: Is the price of the food reasonable?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+                                        <div class="question">
+                                            <p>Question 3: Is the food's packaging acceptable?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+
+                                        <button type="submit" class="btn" >Submit</button>
+
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
 
             <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)}" >
 
@@ -100,13 +216,139 @@
 
             </form>
 
-            <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >
+            <div th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}">
 
-                <input type="hidden" name="id" th:value="${food.id}">
+                <!--                <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >-->
 
-                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down"></a>
+                <!--                    <input type="hidden" name="id" th:value="${food.id}">-->
 
-            </form>
+                <!--                    <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down"></a>-->
+
+                <!--                </form>-->
+
+                <button class="fas fa-thumbs-down myBtn_multi" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}"></button>
+
+                <!--                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"  class="fas fa-thumbs-up myBtn_multi"></a>-->
+                <!-- The Modal -->
+                <div id="myModal" class="modal modal_multi">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close close_multi">&times;</span>
+                        <div class="card-rating">
+                            <div class="card-container">
+
+                                <div class="form">
+
+                                    <form action="/dislikefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
+
+                                        <h2>We are so sorry for your negative experience with our food</h2>
+
+                                        <h3>Please fill out the form so we can improve the dish </h3>
+
+                                        <input type="hidden" name="id" th:value="${food.id}">
+
+                                        <div class="question">
+                                            <p>Question 1: How is the quality of the food?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+                                        <div class="question">
+                                            <p>Question 2: Is the price of the food reasonable?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+                                        <div class="question">
+                                            <p>Question 3: Is the food's packaging acceptable?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+
+                                        <button type="submit" class="btn" >Submit</button>
+
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
 
             <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)}" >
 
@@ -120,9 +362,9 @@
             <h3 th:text="${food.name}"></h3>
             <div class="stars">
                 <th:block th:each="i: ${#numbers.sequence(1, 5)}">
-                    <i class="fas fa-star" th:if="${food.rating >= i}"></i>
-                    <i class="fas fa-star-half-alt" th:if="${i - food.rating} == 0.5"></i>
-                    <i class="fa-regular fa-star" th:if="${food.rating < i} and ${i - food.rating} != 0.5"></i>
+                    <i class="fas fa-star" th:if="${food.avgRating >= i}"></i>
+                    <i class="fas fa-star-half-alt" th:if="${i - food.avgRating} == 0.5"></i>
+                    <i class="fa-regular fa-star" th:if="${food.avgRating < i} and ${i - food.avgRating} != 0.5"></i>
 
                 </th:block>
 
@@ -276,9 +518,38 @@
 
 <section class="menu" id="menu">
     <h3 class="sub-heading">our menu</h3>
-    <h1 class="heading">today's special</h1>
+    <div class="siema-container">
+        <div class="siemaOne">
+
+            <form action="/update-rating" class="box-category"  method="post" >
+                <input type="text"  name="time" value="day" style="display:none;"  >
+                <button type="submit" class="rating-option">TODAY'S SPECIAL</button>
+            </form>
+
+            <form action="/update-rating" class="box-category"  method="post" >
+                <input type="text"  name="time" value="week" style="display:none;"  >
+                <button type="submit" class="rating-option">WEEK'S SPECIAL</button>
+            </form>
+
+            <form action="/update-rating" class="box-category"  method="post" >
+                <input type="text"  name="time" value="month" style="display:none;"  >
+                <button type="submit" class="rating-option">MONTH'S SPECIAL</button>
+            </form>
+
+
+
+        </div>
+
+        <button class="prev prevSiemaOne"><i class="fa-solid fa-arrow-left"></i></button>
+        <button class="next nextSiemaOne"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+<!--    <h1 class="heading">today's special</h1>-->
 
     <div class="box-container-category">
+        <form action="/update-category" class="box-category"  method="post" >
+            <input type="text"  name="category" value="null" style="display:none;"  >
+            <button type="submit" class="btn" >All Food</button>
+        </form>
         <form action="/update-category" class="box-category" th:each="foodcategory: ${listCategories}" method="post" >
             <input type="text"  name="category" th:value="${foodcategory}" style="display:none;"  >
             <button type="submit" class="btn" th:text="${foodcategory}"></button>
@@ -292,14 +563,130 @@
             <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-up"></a>
             <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-down"></a>
 
+            <div th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)}">
 
-            <form action="/likefood" method="post" th:id="'likefood' + ${food.id} " th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)}" >
+                <button class="fas fa-thumbs-up myBtn_multi" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"></button>
 
-                <input type="hidden" name="id" th:value="${food.id}">
+<!--                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"  class="fas fa-thumbs-up myBtn_multi"></a>-->
+                <!-- The Modal -->
+                <div id="myModal" class="modal modal_multi">
 
-                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-up"></a>
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close close_multi">&times;</span>
+                        <div class="card-rating">
+                            <div class="card-container">
 
-            </form>
+                                <div class="form">
+
+                                    <form action="/likefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
+
+                                        <h2>We are happy to see your satisfaction with the dish.</h2>
+
+                                        <h3>Please fill out the form so we can improve the dish </h3>
+
+                                        <input type="hidden" name="id" th:value="${food.id}">
+
+                                        <div class="question">
+                                            <p>Question 1: How is the quality of the food?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+                                        <div class="question">
+                                            <p>Question 2: Is the price of the food reasonable?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+                                        <div class="question">
+                                            <p>Question 3: Is the food's packaging acceptable?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+
+                                        <button type="submit" class="btn" >Submit</button>
+
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
 
             <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)}" >
 
@@ -309,13 +696,139 @@
 
             </form>
 
-            <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >
+            <div th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}">
 
-                <input type="hidden" name="id" th:value="${food.id}">
+<!--                <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >-->
 
-                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down"></a>
+<!--                    <input type="hidden" name="id" th:value="${food.id}">-->
 
-            </form>
+<!--                    <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down"></a>-->
+
+<!--                </form>-->
+
+                <button class="fas fa-thumbs-down myBtn_multi" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}"></button>
+
+                <!--                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"  class="fas fa-thumbs-up myBtn_multi"></a>-->
+                <!-- The Modal -->
+                <div id="myModal" class="modal modal_multi">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close close_multi">&times;</span>
+                        <div class="card-rating">
+                            <div class="card-container">
+
+                                <div class="form">
+
+                                    <form action="/dislikefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
+
+                                        <h2>We are so sorry for your negative experience with our food</h2>
+
+                                        <h3>Please fill out the form so we can improve the dish </h3>
+
+                                        <input type="hidden" name="id" th:value="${food.id}">
+
+                                        <div class="question">
+                                            <p>Question 1: How is the quality of the food?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q1" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+                                        <div class="question">
+                                            <p>Question 2: Is the price of the food reasonable?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q2" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+                                        <div class="question">
+                                            <p>Question 3: Is the food's packaging acceptable?</p>
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="1" required> Bad
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="2"> Not Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="3"> Normal
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="4"> Good
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="container">
+                                                <input type="radio" name="q3" value="5"> Exellent
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <!-- Add more options for Question 1 -->
+                                        </div>
+
+
+                                        <button type="submit" class="btn" >Submit</button>
+
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
 
             <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)}" >
 
@@ -324,15 +837,16 @@
                 <a href="#" th:if="'t' == ${user} and ${#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down active"></a>
 
             </form>
+
             <div class="image">
                 <img th:src="@{${food.photosImagePath}}" alt="">
             </div>
             <div class="content">
                 <div class="stars">
                     <th:block th:each="i: ${#numbers.sequence(1, 5)}">
-                        <i class="fas fa-star" th:if="${food.rating >= i}"></i>
-                        <i class="fas fa-star-half-alt" th:if="${i - food.rating} == 0.5"></i>
-                        <i class="fa-regular fa-star" th:if="${food.rating < i} and ${i - food.rating} != 0.5"></i>
+                        <i class="fas fa-star" th:if="${food.avgRating >= i}"></i>
+                        <i class="fas fa-star-half-alt" th:if="${i - food.avgRating} == 0.5"></i>
+                        <i class="fa-regular fa-star" th:if="${food.avgRating < i} and ${i - food.avgRating} != 0.5"></i>
 
                     </th:block>
 
@@ -671,8 +1185,45 @@
 
 
 
-
+<script src="https://my.nikah.io/wp-includes/js/slider/siema.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<script >
+    class CustomSiema extends Siema {
+        hideArrows(prevArrowSelector, nextArrowSelector) {
+            if(this.currentSlide === 0){
+                document.querySelector(prevArrowSelector).style.visibility = 'hidden';
+            }else{
+                document.querySelector(prevArrowSelector).style.visibility = 'visible';
+            }
+
+            const index = this.currentSlide;
+            if(index === this.innerElements.length + 1 ||
+                index + this.perPage >= this.innerElements.length){
+                document.querySelector(nextArrowSelector).style.visibility = 'hidden';
+            }else{
+                document.querySelector(nextArrowSelector).style.visibility = 'visible';
+            }
+        }
+    }
+
+    //instantiate new extended Siema
+    /******* siemaOne *******/
+    let siemaOne = new CustomSiema({
+        selector: '.siemaOne',
+        onChange: function(){
+            this.hideArrows('.prevSiemaOne', '.nextSiemaOne');
+        },
+        onInit: function(){
+            this.hideArrows('.prevSiemaOne', '.nextSiemaOne');
+        },
+        perPage: 1,
+    });
+
+    document.querySelector('.prevSiemaOne').addEventListener('click', () => siemaOne.prev());
+    document.querySelector('.nextSiemaOne').addEventListener('click', () => siemaOne.next());
+</script>
+
 <script th:src="@{/js/home-script.js}"></script>
 </body>
 </html>

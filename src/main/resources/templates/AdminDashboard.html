@@ -116,17 +116,36 @@ restaurant_menu</span>
         <span class="text-primary font-weight-bold" th:text="${ocount}"></span>
       </div>
 
-
     </div>
 
-    <div class="charts">
+        <section class="section-meals" style="">
+          <p class="chart-title">Top 5 Foods</p>
+          <div class="container grid grid--3-cols margin-right-md">
+            <div class="meal" th:each="food: ${topList}">
+              <img
+                      th:src="@{${food.photosImagePath}}"
+                      class="meal-img"
+                      th:alt="${food.name}"
+              />
+              <div class="meal-content">
+                <div class="meal-tags">
+                  <span class="tag"  th:text="${food.category}" >Vegetarian</span>
+                </div>
+                <p class="meal-title"  th:text="${food.name}">Japanese Gyozas</p>
+                <p class="meal-descrption"  th:text="${food.description}">Lorem Ipsum Dolor Sit Amet. Et Internos Laboriosam Ut Enim Optio Sit Voluptatem Aspernatur Est Beatae Consequatur Ea Quam Fugit Eos Illum Dolorem Aut Beatae Animi.</p>
+                <ul class="meal-attributes">
+                  <li class="meal-attribute">
+                    <span  class="material-icons-outlined meal-icon">payments</span><span><strong th:text="${food.price}"></strong> $</span>
+                  </li>
+                  <li class="meal-attribute" th:if="${!food.getRatingList().isEmpty()}">
+                    <span class="material-icons-outlined meal-icon">star</span><span><strong th:text="${food.getQualityRating()}">4.9</strong> Quality </span><span><strong th:text="${food.getPackagedRating()}">4.9</strong> Packaged </span><span><strong th:text="${food.getPriceRating()}">4.9</strong> Price </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <div class="charts-card">
-        <p class="chart-title">Top 5 Foods</p>
-        <div id="bar-chart"></div>
-      </div>
-
-    </div>
   </main>
   <!-- End Main -->
 

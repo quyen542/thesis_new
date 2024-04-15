@@ -15,6 +15,8 @@ public class DeliveryInfo {
 
     private boolean available = true;
 
+    private Double rating;
+
     @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     @JsonBackReference
@@ -50,5 +52,13 @@ public class DeliveryInfo {
 
     public void setDeliveryPerson(User deliveryPerson) {
         this.deliveryPerson = deliveryPerson;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

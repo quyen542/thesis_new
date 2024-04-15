@@ -97,31 +97,66 @@
       </form>
 
     </div>
-    <div class="product-display">
-      <table class="product-display-table">
-        <thead>
-        <tr>
-          <th>Food image</th>
-          <th>Food name</th>
-          <th>Food price</th>
-          <th>Food category</th>
-          <th>Food description</th>
-          <th>Action</th>
-        </tr>
-        </thead>
-        <tr th:each="food: ${listFoods}">
-          <td><img th:src="@{${food.photosImagePath}}" height="100" alt=""></td>
-          <td th:text="${food.name}"></td>
-          <td th:text="${food.price}"></td>
-          <td th:text="${food.category}"></td>
-          <td th:text="${food.description}"></td>
-          <td>
-            <a th:href="@{'/edit-food/' + ${food.id}}" class="btn"> <i class="fas fa-edit"></i> edit </a>
-            <a th:href="@{'/delete/' + ${food.id}}" class="btn"> <i class="fas fa-trash"></i> delete </a>
-          </td>
-        </tr>
-      </table>
-    </div>
+<!--    <div class="product-display">-->
+<!--      <table class="product-display-table">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--          <th>Food image</th>-->
+<!--          <th>Food name</th>-->
+<!--          <th>Food price</th>-->
+<!--          <th>Food category</th>-->
+<!--          <th>Food description</th>-->
+<!--          <th>Action</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tr th:each="food: ${listFoods}">-->
+<!--          <td><img th:src="@{${food.photosImagePath}}" height="100" alt=""></td>-->
+<!--          <td th:text="${food.name}"></td>-->
+<!--          <td th:text="${food.price}"></td>-->
+<!--          <td th:text="${food.category}"></td>-->
+<!--          <td th:text="${food.description}"></td>-->
+<!--          <td>-->
+<!--            <a th:href="@{'/edit-food/' + ${food.id}}" class="btn"> <i class="fas fa-edit"></i> edit </a>-->
+<!--            <a th:href="@{'/delete/' + ${food.id}}" class="btn"> <i class="fas fa-trash"></i> delete </a>-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--      </table>-->
+<!--    </div>-->
+
+    <section class="section-meals" style="">
+      <div class="container grid grid--3-cols margin-right-md">
+        <div class="meal" th:each="food: ${listFoods}">
+          <img
+                  th:src="@{${food.photosImagePath}}"
+                  class="meal-img"
+                  th:alt="${food.name}"
+          />
+          <div class="meal-content">
+            <div class="meal-tags">
+              <span class="tag"  th:text="${food.category}" >Vegetarian</span>
+            </div>
+            <p class="meal-title"  th:text="${food.name}">Japanese Gyozas</p>
+            <p class="meal-descrption"  th:text="${food.description}">Lorem Ipsum Dolor Sit Amet. Et Internos Laboriosam Ut Enim Optio Sit Voluptatem Aspernatur Est Beatae Consequatur Ea Quam Fugit Eos Illum Dolorem Aut Beatae Animi.</p>
+            <ul class="meal-attributes">
+              <li class="meal-attribute">
+                <span  class="material-icons-outlined meal-icon">payments</span><span><strong th:text="${food.price}"></strong> $</span>
+              </li>
+              <li class="meal-attribute" th:if="${!food.getRatingList().isEmpty()}">
+                <span class="material-icons-outlined meal-icon">star</span><span><strong th:text="${food.getQualityRating()}">4.9</strong> Quality </span><span><strong th:text="${food.getPackagedRating()}">4.9</strong> Packaged </span><span><strong th:text="${food.getPriceRating()}">4.9</strong> Price </span>
+              </li>
+            </ul>
+            <div class="meals-button" style="display: flex">
+              <a th:href="@{'/edit-food/' + ${food.id}}" class="btn"> <i class="fas fa-edit"></i> Edit </a>
+              <a th:href="@{'/delete/' + ${food.id}}" class="btn meals-button-delete"> <i class="fas fa-trash"></i> Delete </a>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+
+
   </main>
   <!-- End Main -->
 

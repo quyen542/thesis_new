@@ -735,6 +735,11 @@ header .icons #menu-bars{
     margin-right: auto;
 }
 
+.card-rating {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 
 .card-container {
@@ -782,4 +787,125 @@ header .icons #menu-bars{
     padding: 0 5px;
     vertical-align: top;
     margin-left: -10px;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*min-height: 100vh; !* vh stands for viewport height *!*/
+}
+
+.rating-form h2{
+    text-align: center;
+    font-size: 2rem;
+}
+
+.rating-form h3{
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+.rating-form .question {
+    text-align: left !important;
+
+    padding-top: 10px;
+}
+
+.rating-form .question p{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Customize the label (the container) */
+
+.rating-form .question .container {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block; /* Display options in a line */
+    margin-right: 20px; /* Add spacing between options */
+}
+
+/* Hide the browser's default radio button */
+.rating-form .question .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.rating-form .question .container .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* When the radio button is checked, add a blue background */
+.rating-form .question .container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.rating-form .question .container .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator when the radio button is checked */
+.rating-form .question .container input:checked ~ .checkmark:after {
+    display: block;
+    top: 7px;
+    left: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.siema {
+    margin: 1rem 0;
+
+
+}
+
+.siema-container {
+    position: relative;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+}
+.prev {
+    left: 10px;
+    font-size: 2rem;
+}
+.next {
+    right: 10px;
+    font-size: 2rem;
+
+}
+
+.siemaOne{
+    text-align: center;
+}
+
+.rating-option{
+    color: var(--black);
+    background-color: #eee;
+    border: none;
+    margin-top: 20px;
+    cursor:pointer;
+    font-size: 3rem;
+    font-weight: bold;
 }

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +40,24 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+
 
     @Override
     public void adminDashboardSetup(Model model){
+
+        List<Long> topListID = orderItemRepository.getListFoodIdDesc();
+
+        List<Food> topList = new ArrayList<>();
+
+        for(int i=0; i<5; i++){
+            topList.add(foodRespository.findfoodById(topListID.get(i)));
+        }
+
+
+        model.addAttribute("topList", topList);
 
         model.addAttribute("count", userRepository.countByRoleid(2));
         model.addAttribute("fcount", foodRespository.count());
@@ -77,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
             return false;
         }
 
-        food.setRating(5);
+        food.setAvgRating(5);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         food.setPhotos(fileName);

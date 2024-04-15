@@ -39,6 +39,8 @@ public class DeliveryPersonServiceImp implements DeliveryPersonService {
 
         model.addAttribute("scount", currentuser.getDeliveryInfo().getSalary());
         model.addAttribute("ocount", orderRespository.numberOfOrderOfDeliver(currentuser.getId()));
+        model.addAttribute("rcount", currentuser.getDeliveryInfo().getRating());
+
 
     }
 
