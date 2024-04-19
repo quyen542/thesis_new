@@ -83,7 +83,7 @@
             <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-up"></a>
             <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-down"></a>
 
-            <div th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)}">
+            <div th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)} and 't' == ${user}">
 
                 <button class="fas fa-thumbs-up myBtn_multi" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"></button>
 
@@ -208,7 +208,7 @@
             </div>
 
 
-            <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)}" >
+            <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}" >
 
                 <input type="hidden" name="id" th:value="${food.id}">
 
@@ -216,7 +216,7 @@
 
             </form>
 
-            <div th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}">
+            <div th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}">
 
                 <!--                <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >-->
 
@@ -350,7 +350,7 @@
 
 
 
-            <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)}" >
+            <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)} and 't' == ${user}" >
 
                 <input type="hidden" name="id" th:value="${food.id}">
 
@@ -563,7 +563,7 @@
             <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-up"></a>
             <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!')" class="fas fa-thumbs-down"></a>
 
-            <div th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)}">
+            <div th:if="${!#lists.contains(food.getLikes(), currentuser)} and ${!#lists.contains(food.getDislikes(), currentuser)} and 't' == ${user}">
 
                 <button class="fas fa-thumbs-up myBtn_multi" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"></button>
 
@@ -688,7 +688,7 @@
             </div>
 
 
-            <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)}" >
+            <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}" >
 
                 <input type="hidden" name="id" th:value="${food.id}">
 
@@ -696,7 +696,7 @@
 
             </form>
 
-            <div th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}">
+            <div th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}">
 
 <!--                <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >-->
 
@@ -830,7 +830,7 @@
 
 
 
-            <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)}" >
+            <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)} and 't' == ${user}" >
 
                 <input type="hidden" name="id" th:value="${food.id}">
 
