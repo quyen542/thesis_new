@@ -185,7 +185,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void adminOrderListView(Model model){
-        List<Order> listOrder = orderRespository.findAll();
+        List<Order> listOrder = orderRespository.getOrderListDesc();
         model.addAttribute("listOrder", listOrder);
         List<User> listUser = userRepository.getAvailableDelivery();
         model.addAttribute("listName", listUser );

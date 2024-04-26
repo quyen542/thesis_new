@@ -131,6 +131,7 @@ public class HomeController {
         userExsiit = "f";
         Currentuser = null;
         adminService.setCurrentuser(null);
+        deliveryPersonService.setCurrentuser(null);
         User user = new User();
         model.addAttribute("user", user);
         return "LogIn";

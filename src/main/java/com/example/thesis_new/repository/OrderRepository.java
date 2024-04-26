@@ -14,10 +14,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT count(o) FROM Order o where o.deliveryPerson.id = ?1")
     int numberOfOrderOfDeliver(Long id);
-
-    List<Order> getOrderByDeliveryPerson(User deliveryPerson);
+    @Query("SELECT o FROM Order o where o.deliveryPerson.id = ?1 order by o.id desc")
+    List<Order> getOrderByDeliveryPersonID(Long deliveryPersonId);
 
     @Query("SELECT avg(o.deliveryRating) FROM Order o where o.deliveryPerson.id = ?1")
     Double getAvgDeliveryRating(Long deliveryPersonId);
+
+    @Query("SELECT o FROM Order o order by o.id desc")
+    List<Order> getOrderListDesc();
+
 
 }

@@ -46,7 +46,7 @@ public class DeliveryPersonServiceImp implements DeliveryPersonService {
 
     @Override
     public void deliveryOrderListSetup(Model model){
-        List<Order> orderList = orderRespository.getOrderByDeliveryPerson(currentuser);
+        List<Order> orderList = orderRespository.getOrderByDeliveryPersonID(currentuser.getId());
         model.addAttribute("listOrder", orderList);
     }
 
