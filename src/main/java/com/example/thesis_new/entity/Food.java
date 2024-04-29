@@ -17,7 +17,7 @@ public class Food {
     private Long id;
 
     @NotBlank(message = "Enter food name")
-    @Column(nullable = false, unique = true, length = 45)
+    @Column(nullable = false, length = 45)
     private String name;
 
     @NotBlank(message = "Enter food price")
@@ -47,6 +47,7 @@ public class Food {
     @Column(nullable = true, length = 64)
     private String photos;
 
+    private boolean is_delete = false;
 
 
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -191,5 +192,13 @@ public class Food {
 
     public void setPriceRating(double priceRating) {
         this.priceRating = priceRating;
+    }
+
+    public boolean isIs_delete() {
+        return is_delete;
+    }
+
+    public void setIs_delete(boolean is_delete) {
+        this.is_delete = is_delete;
     }
 }

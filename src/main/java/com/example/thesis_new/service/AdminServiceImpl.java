@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
         model.addAttribute("topList", topList);
 
         model.addAttribute("count", userRepository.countByRoleid(2));
-        model.addAttribute("fcount", foodRespository.count());
+        model.addAttribute("fcount", foodRespository.countByNotDelete());
         model.addAttribute("ocount", orderRespository.count());
     }
 
@@ -72,7 +72,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void getFoodList(Model model){
-        List<Food> listFoods = foodRespository.findAll();
+        List<Food> listFoods = foodRespository.findAllDesc();
         Food food = new Food();
         model.addAttribute("food", food);
         model.addAttribute("listFoods", listFoods);
@@ -116,12 +116,18 @@ public class AdminServiceImpl implements AdminService {
 
         File f = new File("food-photos/" + deletefood.getId());
 
-        if (f.exists() && f.isDirectory()) {
-            FileUtils.deleteDirectory(new File("food-photos/" + deletefood.getId()));
+        List<OrderItem> orderItemList = orderItemRepository.getOrderItemByFoodId(id);
+
+        if(orderItemList.isEmpty()){
+            if (f.exists() && f.isDirectory()) {
+                FileUtils.deleteDirectory(new File("food-photos/" + deletefood.getId()));
+            }
+            foodRespository.delete(deletefood);
+        }else{
+            deletefood.setIs_delete(true);
+            foodRespository.save(deletefood);
         }
 
-
-        foodRespository.delete(deletefood);
     }
 
     @Override
@@ -134,13 +140,13 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean editFood(Food food, BindingResult bindingResult){
 
-//        if(food.getName() != null){
-//            String name = food.getName();
-//            Food check = foodRespository.findByName(name);
-//            if(check != null){
-//                bindingResult.addError(new FieldError("food", "name", "Food name is exist"));
-//            }
-//        }
+        if(food.getName() != null){
+            String name = food.getName();
+            Food check = foodRespository.findByNameAndNotId(name, food.getId());
+            if(check != null){
+                bindingResult.addError(new FieldError("food", "name", "Food name is exist"));
+            }
+        }
 
         if(bindingResult.hasErrors()){
             return false;

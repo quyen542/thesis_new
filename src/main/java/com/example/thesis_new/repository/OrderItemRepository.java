@@ -10,11 +10,13 @@ import java.util.List;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
-    @Query("SELECT distinct oi.food.id FROM OrderItem oi group by oi.food.id order by count(oi.food.id) desc LIMIT 10")
+    @Query("SELECT distinct oi.food.id FROM OrderItem oi where oi.food.is_delete = false group by oi.food.id order by count(oi.food.id) desc LIMIT 10")
     List<Long> getListFoodIdDesc();
 
     @Query("SELECT sum(oi.quantity) FROM OrderItem oi where oi.food.id = ?1")
     Double countOrderItemByFoodId(Long id);
+    @Query("SELECT oi FROM OrderItem oi where oi.food.id = ?1")
+    List<OrderItem> getOrderItemByFoodId(Long id);
 
     @Query("SELECT sum(oi.quantity) FROM OrderItem oi, Order o where oi.food.id = ?1 and o.id = oi.order.id and o.date = CURDATE()")
     Double countOrderItemByFoodIdInDay(Long id);

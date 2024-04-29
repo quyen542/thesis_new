@@ -12,13 +12,16 @@ import java.util.List;
 
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Long> {
-    @Query("SELECT f from Food f where f.name = ?1  ")
+    @Query("SELECT f from Food f where f.name = ?1 and f.is_delete = false ")
     Food findByName(String name);
 
-    @Query("SELECT f from Food f where f.category = ?1 order by f.avgRating desc ")
+    @Query("SELECT f from Food f where f.name = ?1 and f.is_delete = false and f.id != ?2 ")
+    Food findByNameAndNotId(String name, Long id);
+
+    @Query("SELECT f from Food f where f.category = ?1 and f.is_delete = false order by f.avgRating desc ")
     List<Food> findByCategory(String category);
 
-    @Query("SELECT f from Food f order by f.avgRating desc ")
+    @Query("SELECT f from Food f where f.is_delete = false order by f.avgRating desc ")
     List<Food> findAllDesc();
 
 
@@ -35,5 +38,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 
     @Query("SELECT distinct f.category from Food f  ")
     List<String> getFoodCategory();
+    @Query("SELECT count(f) from Food f where f.is_delete = false  ")
+    Long countByNotDelete();
 
 }
