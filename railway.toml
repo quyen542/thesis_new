@@ -1,3 +1,3 @@
 [[statics]]
-  guest_path = "/app/public/food-photos"
+  guest_path = "/app/food-photos"
   url_prefix = "/food-photos"
