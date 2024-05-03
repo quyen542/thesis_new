@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Configuration
-@EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
 
 
@@ -27,7 +26,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
         if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
 
-        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/" + uploadPath + "/");
+        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("classpath:/" + uploadPath + "/");
 
     }
 }
