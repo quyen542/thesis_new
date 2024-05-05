@@ -52,8 +52,10 @@ public class AdminServiceImpl implements AdminService {
 
         List<Food> topList = new ArrayList<>();
 
-        for(int i=0; i<5; i++){
-            topList.add(foodRespository.findfoodById(topListID.get(i)));
+        if(!topListID.isEmpty()) {
+            for (Long id: topListID) {
+                topList.add(foodRespository.findfoodById(id));
+            }
         }
 
 
@@ -203,7 +205,7 @@ public class AdminServiceImpl implements AdminService {
         if(status.equals("Confirmed")){
             order.setStatus(Order.Status.Confirmed);
         }else if(status.equals("Cooked")){
-            order.setStatus(Order.Status.Cooked);
+            order.setStatus(Order.Status.Prepared);
         } else if (status.equals("Shipped")) {
             order.setStatus(Order.Status.Shipped);
         } else if (status.equals("Delivered")) {

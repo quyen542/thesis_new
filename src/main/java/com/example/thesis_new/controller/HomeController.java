@@ -4,10 +4,8 @@ package com.example.thesis_new.controller;
 import com.example.thesis_new.dto.CheckOutInfor;
 import com.example.thesis_new.dto.PassChange;
 import com.example.thesis_new.entity.User;
-import com.example.thesis_new.service.AdminService;
-import com.example.thesis_new.service.DeliveryPersonService;
-import com.example.thesis_new.service.HomeService;
-import com.example.thesis_new.service.RegistrationService;
+import com.example.thesis_new.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -38,15 +36,23 @@ public class HomeController {
     @Autowired
     DeliveryPersonService deliveryPersonService;
 
+    @Autowired
+    private VNPayService vnPayService;
+
 
     private String userExsiit = "f";
 
     private User Currentuser = null;
 
-
     private String CurrentCategory = null;
 
     private String CurrentRatingTime = "day";
+
+    private CheckOutInfor checkOutInforTemp = null;
+
+    private Long cartIdTemp = null;
+
+    private String phonenumberTemp = null;
 
 
 
@@ -323,15 +329,24 @@ public class HomeController {
     }
 
     @PostMapping("/place-order")
-    public String placeOrder(@RequestParam("cart_id") Long id, @ModelAttribute("user") CheckOutInfor checkOutInfor, @RequestParam("phonenumber") String phonenumber){
+    public String placeOrder(@RequestParam("cart_id") Long id, @ModelAttribute("user") CheckOutInfor checkOutInfor, @RequestParam("phonenumber") String phonenumber, @RequestParam("payment_method") String pMethod, @RequestParam("amount") Double orderTotal,
+                             @RequestParam("orderInfo") String orderInfo,  HttpServletRequest request ){
 
         if(!homeService.checkUser(Currentuser)){
             return "NoPermissionUser";
         }
 
-        homeService.placeOrder(id, checkOutInfor, phonenumber, Currentuser);
-
-
+        if(pMethod.equals("COD")){
+            homeService.placeOrder(id, checkOutInfor, phonenumber, Currentuser, false);
+        }else if (pMethod.equals("Online")){
+            cartIdTemp = id;
+            checkOutInforTemp = checkOutInfor;
+            phonenumberTemp = phonenumber;
+            Double total = orderTotal * 24000;
+            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            String vnpayUrl = vnPayService.createOrder(total.intValue(), orderInfo, baseUrl);
+            return "redirect:" + vnpayUrl;
+        }
 
         return "redirect:/order-list";
     }
@@ -392,6 +407,40 @@ public class HomeController {
 
 
         return "redirect:/order-list";
+    }
+
+    @PostMapping("/submitOrder")
+    public String submidOrder(@RequestParam("amount") int orderTotal,
+                              @RequestParam("orderInfo") String orderInfo,
+                              HttpServletRequest request){
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String vnpayUrl = vnPayService.createOrder(orderTotal, orderInfo, baseUrl);
+        return "redirect:" + vnpayUrl;
+    }
+
+    @GetMapping("/vnpay-payment")
+    public String GetMapping(HttpServletRequest request, Model model){
+        int paymentStatus =vnPayService.orderReturn(request);
+
+        String orderInfo = request.getParameter("vnp_OrderInfo");
+        String paymentTime = request.getParameter("vnp_PayDate");
+        String transactionId = request.getParameter("vnp_TransactionNo");
+        String totalPrice = request.getParameter("vnp_Amount");
+
+        model.addAttribute("orderId", orderInfo);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("paymentTime", paymentTime);
+        model.addAttribute("transactionId", transactionId);
+
+        if(paymentStatus == 1){
+            homeService.placeOrder(cartIdTemp, checkOutInforTemp, phonenumberTemp, Currentuser, true);
+            cartIdTemp = null;
+            checkOutInforTemp = null;
+            phonenumberTemp = null;
+            return "ordersuccess";
+        }
+
+        return "orderfail";
     }
 
 

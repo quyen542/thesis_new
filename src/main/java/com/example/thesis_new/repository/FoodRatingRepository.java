@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FoodRatingRepository extends JpaRepository<FoodRating, Long> {
 
-    @Query("SELECT AVG(fr.packaged) FROM FoodRating fr WHERE fr.foodRating.id = ?1")
+    @Query("SELECT AVG(fr.service) FROM FoodRating fr WHERE fr.foodRating.id = ?1")
     Double getAvgOfPackagedRating(Long foodId);
 
     @Query("SELECT AVG(fr.quality) FROM FoodRating fr WHERE fr.foodRating.id = ?1")

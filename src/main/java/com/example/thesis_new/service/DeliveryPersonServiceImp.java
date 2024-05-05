@@ -61,7 +61,7 @@ public class DeliveryPersonServiceImp implements DeliveryPersonService {
         Order order = orderRespository.findById(id).get();
 
         if(status.equals("Cooked")){
-            order.setStatus(Order.Status.Cooked);
+            order.setStatus(Order.Status.Prepared);
         } else if (status.equals("Shipped")) {
             order.setStatus(Order.Status.Shipped);
         } else if (status.equals("Delivered")) {

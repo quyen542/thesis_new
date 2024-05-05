@@ -138,7 +138,7 @@ restaurant_menu</span>
                     <span  class="material-icons-outlined meal-icon">payments</span><span><strong th:text="${food.price}"></strong> $</span>
                   </li>
                   <li class="meal-attribute" th:if="${!food.getRatingList().isEmpty()}">
-                    <span class="material-icons-outlined meal-icon">star</span><span><strong th:text="${food.getQualityRating()}">4.9</strong> Quality </span><span><strong th:text="${food.getPackagedRating()}">4.9</strong> Packaged </span><span><strong th:text="${food.getPriceRating()}">4.9</strong> Price </span>
+                    <span class="material-icons-outlined meal-icon">star</span><span><strong th:text="${food.getQualityRating()}">4.9</strong> Quality </span><span><strong th:text="${food.getServiceRating()}">4.9</strong> Packaged </span><span><strong th:text="${food.getPriceRating()}">4.9</strong> Price </span>
                   </li>
                 </ul>
               </div>

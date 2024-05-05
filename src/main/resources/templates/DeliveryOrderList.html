@@ -80,8 +80,8 @@
             </div>
           </article>
           <div class="track">
-            <div th:class="${order.status == order.status.Confirmed || order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step active' : 'step'" > <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
-            <div th:class="${order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step active' : 'step'"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Cooked</span> </div>
+            <div th:class="${order.status == order.status.Confirmed || order.status == order.status.Prepared || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step active' : 'step'" > <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> </div>
+            <div th:class="${order.status == order.status.Prepared || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step active' : 'step'"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Prepared</span> </div>
             <div th:class="${order.status == order.status.Shipped || order.status == order.status.Delivered} ? 'step active' : 'step' " > <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Shipped </span> </div>
             <div th:class="${order.status == order.status.Delivered} ? 'step active' : 'step'"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Delivered</span> </div>
           </div>
@@ -103,7 +103,7 @@
 
 
           <div class="row">
-            <p><strong>Total price: $</strong><span th:text="${order.totalPrice}"></span></p>
+            <p><strong>Total price: $</strong><span th:text="${order.totalPrice}"></span><span th:if="${order.is_payment == true}" style="margin-left: 5px "><strong style="color: green; font-size: 20px; border-style: solid;">Paid</strong></span></p>
           </div>
 
           <hr>

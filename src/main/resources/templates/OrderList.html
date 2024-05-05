@@ -62,11 +62,11 @@
             <div class="row d-flex justify-content-center">
               <div class="col-12">
                 <ul id="progressbar" class="text-center">
-                  <li th:class="${order.status == order.status.Confirmed || order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step0 active' : 'step0'">
+                  <li th:class="${order.status == order.status.Confirmed || order.status == order.status.Prepared || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step0 active' : 'step0'">
                     <span>CONFIRMED</span>
                   </li>
-                  <li th:class="${order.status == order.status.Cooked || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step0 active' : 'step0'" >
-                    <span>COOKED</span>
+                  <li th:class="${order.status == order.status.Prepared || order.status == order.status.Shipped|| order.status == order.status.Delivered} ? 'step0 active' : 'step0'" >
+                    <span>PREPARED</span>
                   </li>
                   <li th:class="${order.status == order.status.Shipped || order.status == order.status.Delivered} ? 'step0 active' : 'step0' " >
                     <span>SHIPPED</span>

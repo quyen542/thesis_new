@@ -35,7 +35,7 @@ public interface HomeService {
 
     boolean checkOutInforView(Model model, User Currentuser);
 
-    public void placeOrder(Long id, CheckOutInfor checkOutInfor,String phonenumber, User Currentuser);
+    public void placeOrder(Long id, CheckOutInfor checkOutInfor,String phonenumber, User Currentuser,  boolean is_payment);
     void orderListView(Model model, User Currentuser);
 
     void trackOrder(Long id);

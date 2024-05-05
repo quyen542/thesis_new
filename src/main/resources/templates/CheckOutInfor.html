@@ -36,19 +36,31 @@
             <div class="row">
               <div class="col-50">
                 <h3>Billing Address</h3>
-                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                <label class="main-label" for="fname"><i class="fa fa-user"></i> Full Name</label>
                 <input type="text" id="fname"  th:value="${user.name}" name="name" th:field="*{name}">
-                <label for="email"><i class="fa fa-envelope"></i> Email</label>
-                <input type="text" id="email" th:value="${user.email}" name="email" th:field="*{email}" readonly >
-                <label for="adr"><i class="fa fa-address-card"></i> Address</label>
+                <label class="main-label" for="adr"><i class="fa fa-address-card"></i> Address</label>
                 <input type="text" id="adr" th:value="${user.address}" name="address" th:field="*{address}"  required="" oninvalid="this.setCustomValidity('Please update address in profile')" oninput="setCustomValidity('')">
                 <input id="getAddress" type="button" class="btn getbtn" value="Get Address" />
                 <input type="text" id="lat" th:value="${user.lat}"  th:field="*{lat}" style="display: none" >
                 <input type="text" id="lon" th:value="${user.lon}"  th:field="*{lon}" style="display: none">
-                <label for="phonenumber"><i class="fa fa-phone" ></i> Phone</label>
+                <label class="main-label" for="phonenumber"><i class="fa fa-phone" ></i> Phone</label>
                 <input type="text" id="phonenumber" th:value="${user.Phonenumber}" name="phonenumber"  th:field="*{phonenumber}" required="" oninvalid="this.setCustomValidity('Please update address in profile')" oninput="setCustomValidity('')">
                 <input type="hidden" th:value="${Cart.id}"
                        name="cart_id" />
+                <label class="main-label" ><i class="fa fa-envelope"></i> Payment Method</label>
+                <div class="payment-method">
+                  <input type="radio" id="cod" name="payment_method" value="COD">
+                   <label class="payment-method-label" for="cod">COD</label>
+                   <input type="radio" id="online" name="payment_method" value="Online" style="margin-left: 10px">
+                   <label class="payment-method-label" for="online">Online</label>
+                </div>
+                <input type="hidden" th:value="${Cart.getTotalPrice()}"
+                       name="amount" />
+
+                <input type="hidden" th:value="'payment for order in ' + ${Cart.getDate()}"
+                       name="orderInfo" />
+
+
 
               </div>
 
@@ -62,11 +74,13 @@
           <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b th:text="${Cart.getCartItems().size()}"></b></span></h4>
           <p th:each="cartItem: ${Cart.cartItems}"><span th:text="${cartItem.food.name}"></span> <span class="price" th:text="'$' + ${cartItem.totalPrice}"></span></p>
           <p><span>Shipping</span> <span class="price">$2</span></p>
-<!--          <p><a href="#">Product 3</a> <span class="price">$8</span></p>-->
-<!--          <p><a href="#">Product 4</a> <span class="price">$2</span></p>-->
+          <!--          <p><a href="#">Product 3</a> <span class="price">$8</span></p>-->
+          <!--          <p><a href="#">Product 4</a> <span class="price">$2</span></p>-->
           <hr>
           <p>Total <span class="price" style="color:black" th:with="variable = 2, controllerVar = ${Cart.getTotalPrice()}, var = ${variable + controllerVar}" th:text="'$' + ${var}" ><b></b></span></p>
         </div>
+
+
       </div>
     </div>
 

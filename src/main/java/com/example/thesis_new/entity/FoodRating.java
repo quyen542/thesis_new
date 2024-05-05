@@ -15,7 +15,7 @@ public class FoodRating {
 
     private double price;
 
-    private double packaged;
+    private double service;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
@@ -52,12 +52,12 @@ public class FoodRating {
         this.price = price;
     }
 
-    public double getPackaged() {
-        return packaged;
+    public double getService() {
+        return service;
     }
 
-    public void setPackaged(double packaged) {
-        this.packaged = packaged;
+    public void setService(double service) {
+        this.service = service;
     }
 
     public User getCustomer() {

@@ -35,7 +35,7 @@ public class Food {
     private Double avgRating;
 
 
-    private Double packagedRating;
+    private Double serviceRating;
 
 
     private Double qualityRating;
@@ -170,12 +170,12 @@ public class Food {
         this.ratingList = ratingList;
     }
 
-    public double getPackagedRating() {
-        return packagedRating;
+    public double getServiceRating() {
+        return serviceRating;
     }
 
-    public void setPackagedRating(double packagedRating) {
-        this.packagedRating = packagedRating;
+    public void setServiceRating(double packagedRating) {
+        this.serviceRating = packagedRating;
     }
 
     public double getQualityRating() {

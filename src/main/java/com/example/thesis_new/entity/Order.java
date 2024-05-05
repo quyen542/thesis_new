@@ -15,7 +15,7 @@ public class Order {
 
         Placed,
         Confirmed,
-        Cooked,
+        Prepared,
         Shipped,
         Delivered
     }
@@ -63,6 +63,8 @@ public class Order {
     @JoinColumn(name = "delivery_person_id")
     @JsonBackReference
     private User deliveryPerson;
+
+    private boolean is_payment;
 
 
     public Long getId() {
@@ -176,5 +178,13 @@ public class Order {
 
     public void setDeliveryRating(Double deliveryRating) {
         this.deliveryRating = deliveryRating;
+    }
+
+    public boolean isIs_payment() {
+        return is_payment;
+    }
+
+    public void setIs_payment(boolean is_payment) {
+        this.is_payment = is_payment;
     }
 }

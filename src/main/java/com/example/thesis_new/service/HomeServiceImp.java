@@ -61,11 +61,11 @@ public class HomeServiceImp implements HomeService{
         listFoods = foodRespository.findAll();
         for(Food food: listFoods){
             if(!food.getRatingList().isEmpty()) {
-                Double packagedRating = foodRatingRepository.getAvgOfPackagedRating(food.getId());
+                Double serviceRating = foodRatingRepository.getAvgOfPackagedRating(food.getId());
                 Double qualityRating = foodRatingRepository.getAvgOfQualityRating(food.getId());
                 Double priceRating = foodRatingRepository.getAvgOfPriceRating(food.getId());
-                Double rating = (packagedRating + qualityRating + priceRating) / 3;
-                food.setPackagedRating((double) Math.round(packagedRating * 10) / 10);
+                Double rating = (serviceRating + qualityRating + priceRating) / 3;
+                food.setServiceRating((double) Math.round(serviceRating * 10) / 10);
                 food.setQualityRating((double) Math.round(qualityRating * 10) / 10);
                 food.setPriceRating((double) Math.round(priceRating * 10) / 10);
                 food.setAvgRating(rating);
@@ -160,7 +160,7 @@ public class HomeServiceImp implements HomeService{
         foodRating.setFoodRating(food);
         foodRating.setQuality(quality);
         foodRating.setPrice(price);
-        foodRating.setPackaged(packaged);
+        foodRating.setService(packaged);
 
         user.get().getRatingList().add(foodRating);
         food.getRatingList().add(foodRating);
@@ -203,7 +203,7 @@ public class HomeServiceImp implements HomeService{
         foodRating.setFoodRating(food);
         foodRating.setQuality(quality);
         foodRating.setPrice(price);
-        foodRating.setPackaged(packaged);
+        foodRating.setService(packaged);
 
         user.get().getRatingList().add(foodRating);
         food.getRatingList().add(foodRating);
@@ -284,8 +284,10 @@ public class HomeServiceImp implements HomeService{
 
         List<Food> topList = new ArrayList<>();
 
-        for(Long id: topListID ){
-            topList.add(foodRespository.findfoodById(id));
+        if(!topListID.isEmpty()) {
+            for (Long id : topListID) {
+                topList.add(foodRespository.findfoodById(id));
+            }
         }
 
 
@@ -475,7 +477,7 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void placeOrder(Long id, CheckOutInfor checkOutInfor,String phonenumber, User Currentuser){
+    public void placeOrder(Long id, CheckOutInfor checkOutInfor,String phonenumber, User Currentuser, boolean is_payment){
 
 
         Cart cart = cartrepo.findcartById(id);
@@ -490,6 +492,7 @@ public class HomeServiceImp implements HomeService{
         order.setPhonenumber(phonenumber);
         order.setName(checkOutInfor.getName());
         order.setTotalPrice(cart.getTotalPrice() + 2);
+        order.setIs_payment(is_payment);
         order.setOrderItems(new ArrayList<>());
 
         for(CartItem item: items){
