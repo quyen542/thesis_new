@@ -29,7 +29,7 @@ section{
 }
 
 .no-permission{
-    padding: 5rem 9% !important;
+    padding: 9rem 9% !important;
 }
 
 section:nth-child(odd){
@@ -86,6 +86,7 @@ header .logo{
     color: var(--black);
     font-size: 2.5rem;
     font-weight: bolder;
+    width: 15%;
 }
 
 header .logo i{

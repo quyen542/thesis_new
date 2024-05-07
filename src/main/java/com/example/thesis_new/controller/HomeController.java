@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -45,6 +46,8 @@ public class HomeController {
     private User Currentuser = null;
 
     private String CurrentCategory = null;
+
+    private String Currentkeyword = null;
 
     private String CurrentRatingTime = "day";
 
@@ -74,7 +77,7 @@ public class HomeController {
 
 
 
-        homeService.homeSetup(model, Currentuser, CurrentCategory);
+        homeService.homeSetup(model, Currentuser, CurrentCategory, Currentkeyword);
 
         model.addAttribute("user", userExsiit);
 
@@ -377,9 +380,10 @@ public class HomeController {
 
         if(category.equals("null")){
             CurrentCategory = null;
+            Currentkeyword = null;
         }else{
             CurrentCategory = category;
-
+            Currentkeyword = null;
         }
 
         return "redirect:/home#menu";
@@ -441,6 +445,14 @@ public class HomeController {
         }
 
         return "orderfail";
+    }
+    @PostMapping("/search")
+    public String searchProduct(@RequestParam("keyword") String keyword){
+
+        Currentkeyword = keyword;
+        CurrentCategory = null;
+
+        return "redirect:/home#menu";
     }
 
 

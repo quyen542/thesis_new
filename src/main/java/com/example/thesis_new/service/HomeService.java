@@ -9,11 +9,13 @@ import com.example.thesis_new.entity.User;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 public interface HomeService {
 
     User loginAccount(User user, BindingResult bindingResult);
 
-    void homeSetup(Model model, User Currentuser, String currentCategory);
+    void homeSetup(Model model, User Currentuser, String currentCategory, String currentKeyword);
 
     void profileView(Model model, User Currentuser );
 
@@ -54,5 +56,6 @@ public interface HomeService {
 
     void ratingDeliveryPeron();
 
+    List<Food> searchFood(String keyword);
 
 }

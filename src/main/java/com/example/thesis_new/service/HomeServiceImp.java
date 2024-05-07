@@ -256,7 +256,7 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void homeSetup(Model model, User Currentuser, String currentCategory){
+    public void homeSetup(Model model, User Currentuser, String currentCategory, String currentKeyword){
         if(Currentuser != null){
             Optional<User> newuser = userRepository.findById(Currentuser.getId());
             model.addAttribute("currentuser", newuser.get());
@@ -275,7 +275,9 @@ public class HomeServiceImp implements HomeService{
 
         if(currentCategory != null){
             listFoods = foodRespository.findByCategory(currentCategory);
-        }else{
+        } else if (currentKeyword != null) {
+            listFoods = foodRespository.search(currentKeyword);
+        } else{
             listFoods = foodRespository.findAllDesc();
         }
 
@@ -293,6 +295,12 @@ public class HomeServiceImp implements HomeService{
 
         List<String> categories = foodRespository.getFoodCategory();
 
+
+        if(currentCategory != null){
+            model.addAttribute("keyword", currentKeyword);
+        }else{
+            model.addAttribute("keyword", " ");
+        }
         model.addAttribute("topList", topList);
         model.addAttribute("listFoods", listFoods);
         model.addAttribute("listCategories", categories);
@@ -550,5 +558,16 @@ public class HomeServiceImp implements HomeService{
 
         }
     }
+
+    @Override
+    public List<Food> searchFood(String keyword){
+        if (keyword != null) {
+            return foodRespository.search(keyword);
+        }
+        return foodRespository.findAll();
+    }
+
+
+
 
 }

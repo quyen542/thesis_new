@@ -11,12 +11,13 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
     />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
 </head>
 <body>
 
 <header>
-    <a href="#" class="logo"><i class="fas fa-untensils"></i>bistro. </a>
+    <a href="/home" class="logo"> <img src="image/logo-2.png" alt="" width="100%" > </a>
 
     <nav class="navbar">
         <a class="home active" href="#home" >home</a>
@@ -24,12 +25,15 @@
         <a class="about" href="#about">about</a>
         <a class="menu" href="#menu">menu</a>
         <a class="review" href="#review">review</a>
-<!--        <a class="order" href="#order">order</a>-->
+        <!--        <a class="order" href="#order">order</a>-->
     </nav>
 
     <div class="icons">
+        <form action="/search" method="post" class="search" style="border: 1px solid;">
+            <input type="text" name="keyword" id="keyword" th:value="${keyword}" size="15" style="; height: 4.2rem;" required>
+            <a class="fa fa-search" style="" id="search-icon" onclick="this.parentNode.submit()"></a>
+        </form>
         <i class="fa fa-bars" id="menu-bars"></i>
-        <i class="fa fa-search" id="search-icon"></i>
         <a href="/login" th:if="'f' == ${user}" class="fa-solid fa-user"></a>
         <a href="/profile" th:if="'t' == ${user}" class="fa-solid fa-user"></a>
         <a href="/login" th:if="'t' == ${user}"  class="fa fa-sign-out"></a>
@@ -40,6 +44,40 @@
     </div>
 
 </header>
+<section class="category" id="home">
+    <div class="box-container-category">
+        <form action="/update-category" class="box-category"  method="post" >
+            <input type="text"  name="category" value="appetizer" style="display:none;"  >
+            <button type="submit" class="btn" ><span class="material-symbols-outlined">
+egg_alt
+</span><br>Appetizer</button>
+        </form>
+        <form action="/update-category" class="box-category"  method="post" >
+            <input type="text"  name="category" value="pizza" style="display:none;"  >
+            <button type="submit" class="btn" ><span class="material-symbols-outlined">
+local_pizza
+</span><br> Pizza</button>
+        </form>
+        <form action="/update-category" class="box-category"  method="post" >
+            <input type="text"  name="category" value="pasta" style="display:none;"  >
+            <button type="submit" class="btn" ><span class="material-symbols-outlined">
+ramen_dining
+</span><br> Pasta</button>
+        </form>
+        <form action="/update-category" class="box-category"  method="post" >
+            <input type="text"  name="category" value="salad" style="display:none;"  >
+            <button type="submit" class="btn" ><span class="material-symbols-outlined">
+psychiatry
+</span><br>Salad</button>
+        </form>
+        <form action="/update-category" class="box-category"  method="post" >
+            <input type="text"  name="category" value="drink" style="display:none;"  >
+            <button type="submit" class="btn" ><span class="material-symbols-outlined">
+liquor
+</span><br>Drink</button>
+        </form>
+    </div>
+</section>
 
 <section class="home" id="home">
     <div class="swiper home-slider">
@@ -398,90 +436,90 @@
 
         </div>
 
-<!--        <div class="box">-->
-<!--            <a href="#" class="fas fa-heart"></a>-->
-<!--            <a href="#" class="fas fa-eye"></a>-->
-<!--            <img src="image/dish-2.jpg" alt="">-->
-<!--            <h3>tasty food</h3>-->
-<!--            <div class="stars">-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star-half-alt"></i>-->
-<!--            </div>-->
-<!--            <span>$15.99</span>-->
-<!--            <a href="#" class="btn">add to cart</a>-->
+        <!--        <div class="box">-->
+        <!--            <a href="#" class="fas fa-heart"></a>-->
+        <!--            <a href="#" class="fas fa-eye"></a>-->
+        <!--            <img src="image/dish-2.jpg" alt="">-->
+        <!--            <h3>tasty food</h3>-->
+        <!--            <div class="stars">-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star-half-alt"></i>-->
+        <!--            </div>-->
+        <!--            <span>$15.99</span>-->
+        <!--            <a href="#" class="btn">add to cart</a>-->
 
-<!--        </div>-->
+        <!--        </div>-->
 
-<!--        <div class="box">-->
-<!--            <a href="#" class="fas fa-heart"></a>-->
-<!--            <a href="#" class="fas fa-eye"></a>-->
-<!--            <img src="image/dish-3.jpg" alt="">-->
-<!--            <h3>tasty food</h3>-->
-<!--            <div class="stars">-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star-half-alt"></i>-->
-<!--            </div>-->
-<!--            <span>$15.99</span>-->
-<!--            <a href="#" class="btn">add to cart</a>-->
+        <!--        <div class="box">-->
+        <!--            <a href="#" class="fas fa-heart"></a>-->
+        <!--            <a href="#" class="fas fa-eye"></a>-->
+        <!--            <img src="image/dish-3.jpg" alt="">-->
+        <!--            <h3>tasty food</h3>-->
+        <!--            <div class="stars">-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star-half-alt"></i>-->
+        <!--            </div>-->
+        <!--            <span>$15.99</span>-->
+        <!--            <a href="#" class="btn">add to cart</a>-->
 
-<!--        </div>-->
+        <!--        </div>-->
 
-<!--        <div class="box">-->
-<!--            <a href="#" class="fas fa-heart"></a>-->
-<!--            <a href="#" class="fas fa-eye"></a>-->
-<!--            <img src="image/dish-4.jpg" alt="">-->
-<!--            <h3>tasty food</h3>-->
-<!--            <div class="stars">-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star-half-alt"></i>-->
-<!--            </div>-->
-<!--            <span>$15.99</span>-->
-<!--            <a href="#" class="btn">add to cart</a>-->
+        <!--        <div class="box">-->
+        <!--            <a href="#" class="fas fa-heart"></a>-->
+        <!--            <a href="#" class="fas fa-eye"></a>-->
+        <!--            <img src="image/dish-4.jpg" alt="">-->
+        <!--            <h3>tasty food</h3>-->
+        <!--            <div class="stars">-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star-half-alt"></i>-->
+        <!--            </div>-->
+        <!--            <span>$15.99</span>-->
+        <!--            <a href="#" class="btn">add to cart</a>-->
 
-<!--        </div>-->
+        <!--        </div>-->
 
-<!--        <div class="box">-->
-<!--            <a href="#" class="fas fa-heart"></a>-->
-<!--            <a href="#" class="fas fa-eye"></a>-->
-<!--            <img src="image/dish-5.jpg" alt="">-->
-<!--            <h3>tasty food</h3>-->
-<!--            <div class="stars">-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star-half-alt"></i>-->
-<!--            </div>-->
-<!--            <span>$15.99</span>-->
-<!--            <a href="#" class="btn">add to cart</a>-->
+        <!--        <div class="box">-->
+        <!--            <a href="#" class="fas fa-heart"></a>-->
+        <!--            <a href="#" class="fas fa-eye"></a>-->
+        <!--            <img src="image/dish-5.jpg" alt="">-->
+        <!--            <h3>tasty food</h3>-->
+        <!--            <div class="stars">-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star-half-alt"></i>-->
+        <!--            </div>-->
+        <!--            <span>$15.99</span>-->
+        <!--            <a href="#" class="btn">add to cart</a>-->
 
-<!--        </div>-->
+        <!--        </div>-->
 
-<!--        <div class="box">-->
-<!--            <a href="#" class="fas fa-heart"></a>-->
-<!--            <a href="#" class="fas fa-eye"></a>-->
-<!--            <img src="image/dish-6.jpg" alt="">-->
-<!--            <h3>tasty food</h3>-->
-<!--            <div class="stars">-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star"></i>-->
-<!--                <i class="fas fa-star-half-alt"></i>-->
-<!--            </div>-->
-<!--            <span>$15.99</span>-->
-<!--            <a href="#" class="btn">add to cart</a>-->
+        <!--        <div class="box">-->
+        <!--            <a href="#" class="fas fa-heart"></a>-->
+        <!--            <a href="#" class="fas fa-eye"></a>-->
+        <!--            <img src="image/dish-6.jpg" alt="">-->
+        <!--            <h3>tasty food</h3>-->
+        <!--            <div class="stars">-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star"></i>-->
+        <!--                <i class="fas fa-star-half-alt"></i>-->
+        <!--            </div>-->
+        <!--            <span>$15.99</span>-->
+        <!--            <a href="#" class="btn">add to cart</a>-->
 
-<!--        </div>-->
+        <!--        </div>-->
 
     </div>
 </section>
@@ -543,7 +581,7 @@
         <button class="prev prevSiemaOne"><i class="fa-solid fa-arrow-left"></i></button>
         <button class="next nextSiemaOne"><i class="fa-solid fa-arrow-right"></i></button>
     </div>
-<!--    <h1 class="heading">today's special</h1>-->
+    <!--    <h1 class="heading">today's special</h1>-->
 
     <div class="box-container-category">
         <form action="/update-category" class="box-category"  method="post" >
@@ -567,7 +605,7 @@
 
                 <button class="fas fa-thumbs-up myBtn_multi" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"></button>
 
-<!--                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"  class="fas fa-thumbs-up myBtn_multi"></a>-->
+                <!--                <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getLikes(), currentuser)}"  class="fas fa-thumbs-up myBtn_multi"></a>-->
                 <!-- The Modal -->
                 <div id="myModal" class="modal modal_multi">
 
@@ -698,13 +736,13 @@
 
             <div th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}">
 
-<!--                <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >-->
+                <!--                <form action="/dislikefood" method="post" th:id="'dislikefood' + ${food.id} " th:if="${!#lists.contains(food.getDislikes(), currentuser)} and ${!#lists.contains(food.getLikes(), currentuser)}" >-->
 
-<!--                    <input type="hidden" name="id" th:value="${food.id}">-->
+                <!--                    <input type="hidden" name="id" th:value="${food.id}">-->
 
-<!--                    <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down"></a>-->
+                <!--                    <a href="#" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}" onclick="this.parentNode.submit()" class="fas fa-thumbs-down"></a>-->
 
-<!--                </form>-->
+                <!--                </form>-->
 
                 <button class="fas fa-thumbs-down myBtn_multi" th:if="'t' == ${user} and ${!#lists.contains(food.getDislikes(), currentuser)}"></button>
 
@@ -880,101 +918,101 @@
                 <span class="price" th:text="'$' + ${food.price}"></span>
             </div>
         </div>
-<!--        <div class="box">-->
-<!--            <div class="image">-->
-<!--                <a href="#" class="fas fa-heart"></a>-->
-<!--                <img src="image/menu-2.jpg" alt="">-->
-<!--            </div>-->
-<!--            <div class="content">-->
-<!--                <div class="stars">-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star-half-alt"></i>-->
-<!--                </div>-->
-<!--                <h3>delicious food</h3>-->
-<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
-<!--                <a href="#" class="btn">add to cart</a>-->
-<!--                <span class="price">$15.99</span>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="box">-->
-<!--            <div class="image">-->
-<!--                <a href="#" class="fas fa-heart"></a>-->
-<!--                <img src="image/menu-3.jpg" alt="">-->
-<!--            </div>-->
-<!--            <div class="content">-->
-<!--                <div class="stars">-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star-half-alt"></i>-->
-<!--                </div>-->
-<!--                <h3>delicious food</h3>-->
-<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
-<!--                <a href="#" class="btn">add to cart</a>-->
-<!--                <span class="price">$15.99</span>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="box">-->
-<!--            <div class="image">-->
-<!--                <a href="#" class="fas fa-heart"></a>-->
-<!--                <img src="image/menu-4.jpg" alt="">-->
-<!--            </div>-->
-<!--            <div class="content">-->
-<!--                <div class="stars">-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star-half-alt"></i>-->
-<!--                </div>-->
-<!--                <h3>delicious food</h3>-->
-<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
-<!--                <a href="#" class="btn">add to cart</a>-->
-<!--                <span class="price">$15.99</span>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="box">-->
-<!--            <div class="image">-->
-<!--                <a href="#" class="fas fa-heart"></a>-->
-<!--                <img src="image/menu-5.jpg" alt="">-->
-<!--            </div>-->
-<!--            <div class="content">-->
-<!--                <div class="stars">-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star-half-alt"></i>-->
-<!--                </div>-->
-<!--                <h3>delicious food</h3>-->
-<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
-<!--                <a href="#" class="btn">add to cart</a>-->
-<!--                <span class="price">$15.99</span>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="box">-->
-<!--            <div class="image">-->
-<!--                <a href="#" class="fas fa-heart"></a>-->
-<!--                <img src="image/menu-6.jpg" alt="">-->
-<!--            </div>-->
-<!--            <div class="content">-->
-<!--                <div class="stars">-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star"></i>-->
-<!--                    <i class="fas fa-star-half-alt"></i>-->
-<!--                </div>-->
-<!--                <h3>delicious food</h3>-->
-<!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
-<!--                <a href="#" class="btn">add to cart</a>-->
-<!--                <span class="price">$15.99</span>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="box">-->
+        <!--            <div class="image">-->
+        <!--                <a href="#" class="fas fa-heart"></a>-->
+        <!--                <img src="image/menu-2.jpg" alt="">-->
+        <!--            </div>-->
+        <!--            <div class="content">-->
+        <!--                <div class="stars">-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star-half-alt"></i>-->
+        <!--                </div>-->
+        <!--                <h3>delicious food</h3>-->
+        <!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+        <!--                <a href="#" class="btn">add to cart</a>-->
+        <!--                <span class="price">$15.99</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="box">-->
+        <!--            <div class="image">-->
+        <!--                <a href="#" class="fas fa-heart"></a>-->
+        <!--                <img src="image/menu-3.jpg" alt="">-->
+        <!--            </div>-->
+        <!--            <div class="content">-->
+        <!--                <div class="stars">-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star-half-alt"></i>-->
+        <!--                </div>-->
+        <!--                <h3>delicious food</h3>-->
+        <!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+        <!--                <a href="#" class="btn">add to cart</a>-->
+        <!--                <span class="price">$15.99</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="box">-->
+        <!--            <div class="image">-->
+        <!--                <a href="#" class="fas fa-heart"></a>-->
+        <!--                <img src="image/menu-4.jpg" alt="">-->
+        <!--            </div>-->
+        <!--            <div class="content">-->
+        <!--                <div class="stars">-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star-half-alt"></i>-->
+        <!--                </div>-->
+        <!--                <h3>delicious food</h3>-->
+        <!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+        <!--                <a href="#" class="btn">add to cart</a>-->
+        <!--                <span class="price">$15.99</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="box">-->
+        <!--            <div class="image">-->
+        <!--                <a href="#" class="fas fa-heart"></a>-->
+        <!--                <img src="image/menu-5.jpg" alt="">-->
+        <!--            </div>-->
+        <!--            <div class="content">-->
+        <!--                <div class="stars">-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star-half-alt"></i>-->
+        <!--                </div>-->
+        <!--                <h3>delicious food</h3>-->
+        <!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+        <!--                <a href="#" class="btn">add to cart</a>-->
+        <!--                <span class="price">$15.99</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="box">-->
+        <!--            <div class="image">-->
+        <!--                <a href="#" class="fas fa-heart"></a>-->
+        <!--                <img src="image/menu-6.jpg" alt="">-->
+        <!--            </div>-->
+        <!--            <div class="content">-->
+        <!--                <div class="stars">-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star"></i>-->
+        <!--                    <i class="fas fa-star-half-alt"></i>-->
+        <!--                </div>-->
+        <!--                <h3>delicious food</h3>-->
+        <!--                <p>Lorem ipsum dolor sit amet. In magni laudantium est assumenda nesciunt sit obcaecati quos qui tempora quaerat aut corporis obcaecati.</p>-->
+        <!--                <a href="#" class="btn">add to cart</a>-->
+        <!--                <span class="price">$15.99</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
 
     </div>
