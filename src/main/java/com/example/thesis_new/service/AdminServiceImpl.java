@@ -1,12 +1,18 @@
 package com.example.thesis_new.service;
 
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.example.thesis_new.dto.NewDeliveryPerson;
 import com.example.thesis_new.entity.*;
 import com.example.thesis_new.repository.*;
 import com.example.thesis_new.util.FileUploadUtil;
+import com.fasterxml.jackson.databind.ext.SqlBlobSerializer;
+import jakarta.annotation.PostConstruct;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -19,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -42,6 +49,23 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Value("${spring.cloud.azure.storage.blob.container-name}")
+    private String containerName;
+
+    @Value("${azure.blob-storage.connection-string}")
+    private String connectionString;
+
+    private BlobServiceClient blobServiceClient;
+
+    @PostConstruct
+    public void init(){
+        System.out.println(connectionString);
+        blobServiceClient = new BlobServiceClientBuilder()
+                .connectionString(connectionString)
+                .buildClient();
+
+    }
 
 
 
@@ -97,15 +121,27 @@ public class AdminServiceImpl implements AdminService {
 
         food.setAvgRating(5);
 
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        food.setPhotos(fileName);
+//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//        food.setPhotos(fileName);
+//
+//        Food savedFood = foodRespository.save(food);
+//
+//
+//        String uploadDir = "src/main/resources/static/food-photos/" + savedFood.getId();
+//
+//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+        String blobFilename = multipartFile.getOriginalFilename();
+        BlobClient blobClient = blobServiceClient.getBlobContainerClient(containerName).getBlobClient(blobFilename);
+
+        blobClient.upload(multipartFile.getInputStream(), multipartFile.getSize(), true );
+
+        String imgUrl = blobClient.getBlobUrl();
+
+        food.setImageUrl(imgUrl);
 
         Food savedFood = foodRespository.save(food);
 
-
-        String uploadDir = "food-photos/" + savedFood.getId();
-
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         return true;
 

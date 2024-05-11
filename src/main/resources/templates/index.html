@@ -396,7 +396,7 @@ liquor
 
             </form>
 
-            <img th:src="@{${food.photosImagePath}}" alt="">
+            <img th:src="${food.imageUrl}" alt="">
             <h3 th:text="${food.name}"></h3>
             <div class="stars">
                 <th:block th:each="i: ${#numbers.sequence(1, 5)}">
@@ -877,7 +877,7 @@ liquor
             </form>
 
             <div class="image">
-                <img th:src="@{${food.photosImagePath}}" alt="">
+                <img th:src="${food.imageUrl}" alt="">
             </div>
             <div class="content">
                 <div class="stars">

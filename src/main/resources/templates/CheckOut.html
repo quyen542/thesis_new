@@ -43,7 +43,7 @@
 
         <div class="row border-top border-bottom" th:each="cartItem: ${Cart.cartItems}">
           <div class="row main align-items-center">
-            <div class="col-2"><img class="img-fluid" th:src="@{${cartItem.food.photosImagePath}}"></div>
+            <div class="col-2"><img class="img-fluid" th:src="@{${cartItem.food.imageUrl}}"></div>
             <div class="col">
               <div class="row text-muted" th:text="${cartItem.food.category}"></div>
               <div class="row" th:text="${cartItem.food.name}"></div>

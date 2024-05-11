@@ -127,7 +127,7 @@
       <div class="container grid grid--3-cols margin-right-md">
         <div class="meal" th:each="food: ${listFoods}">
           <img
-                  th:src="@{${food.photosImagePath}}"
+                  th:src="@{${food.imageUrl}}"
                   class="meal-img"
                   th:alt="${food.name}"
           />
