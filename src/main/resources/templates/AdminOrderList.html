@@ -74,7 +74,7 @@
       </li>
 
       <li class="sidebar-list-item">
-        <a href="/login" >
+        <a href="/logout" >
           <span class="material-icons-outlined">logout</span> Log Out
         </a>
       </li>
@@ -126,7 +126,7 @@
           <hr>
 
           <div class="row" >
-            <form action="/updatestatus" method="post" th:if="${order.status == order.status.Placed}">
+            <form action="/admin/updatestatus" method="post" th:if="${order.status == order.status.Placed}">
               <input type="hidden" th:value="${order.id}"
                      name="order_id" />
               <input type="hidden" th:value="Confirmed"
@@ -134,7 +134,7 @@
               <input type="submit" value="Confirm Order"  class="btn btn-warning" />
             </form>
 
-            <form action="/updatestatus" method="post" th:if="${order.status ==  order.status.Confirmed}">
+            <form action="/admin/updatestatus" method="post" th:if="${order.status ==  order.status.Confirmed}">
               <input type="hidden" th:value="${order.id}"
                      name="order_id" />
               <input type="hidden" th:value="Prepared"
@@ -142,7 +142,7 @@
               <input type="submit" value="Prepared"  class="btn btn-warning" />
             </form>
 
-            <form action="/updatedeliveryperson" method="post" th:if="${order.status == order.status.Prepared}">
+            <form action="/admin/updatedeliveryperson" method="post" th:if="${order.status == order.status.Prepared}">
               <input type="hidden" th:value="${order.id}"
                      name="order_id" />
               <select name="DeliveryId" id="lang" required>
@@ -155,7 +155,7 @@
               <input type="submit" class="btn btn-warning"  value="Shipped" />
             </form>
 
-            <form action="/updatestatus" method="post" th:if="${order.status == order.status.Shipped}">
+            <form action="/admin/updatestatus" method="post" th:if="${order.status == order.status.Shipped}">
               <input type="hidden" th:value="${order.id}"
                      name="order_id" />
               <input type="hidden" th:value="Delivered"

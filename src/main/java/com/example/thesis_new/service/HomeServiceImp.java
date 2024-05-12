@@ -40,20 +40,6 @@ public class HomeServiceImp implements HomeService{
     @Autowired
     private  FoodRatingRepository foodRatingRepository;
 
-    @Override
-    public boolean checkUser(User Currentuser){
-        boolean check = true;
-        if(Currentuser!= null){
-            System.out.println(Currentuser.getRole().getName());
-            if(!Currentuser.getRole().getName().equals("customer")) {
-                check = false;
-            }
-        }
-        else {
-            check = false;
-        }
-        return check;
-    }
 
     @Override
     public void ratingFood(String time){
@@ -148,8 +134,8 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void likeFood(Model model, Long id, User currentuser, Double quality, Double price, Double packaged){
-        Optional<User> user = userRepository.findById(currentuser.getId());
+    public void likeFood(Model model, Long id, String username, Double quality, Double price, Double packaged){
+        Optional<User> user = userRepository.findByUsername(username);
         Food food = foodRespository.findfoodById(id);
         FoodRating foodRating = new FoodRating();
 
@@ -172,8 +158,8 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void unlikeFood(Model model, Long id, User currentuser){
-        Optional<User> user = userRepository.findById(currentuser.getId());
+    public void unlikeFood(Model model, Long id, String username){
+        Optional<User> user = userRepository.findByUsername(username);
         Food food = foodRespository.findfoodById(id);
         FoodRating foodRating = foodRatingRepository.findByCustomerIdAndFoodId(user.get().getId(), food.getId());
 
@@ -190,8 +176,8 @@ public class HomeServiceImp implements HomeService{
         foodRespository.save(food);
     }
 
-    public void dislikeFood(Model model, Long id, User currentuser, Double quality, Double price, Double packaged){
-        Optional<User> user = userRepository.findById(currentuser.getId());
+    public void dislikeFood(Model model, Long id, String username, Double quality, Double price, Double packaged){
+        Optional<User> user = userRepository.findByUsername(username);
         Food food = foodRespository.findfoodById(id);
         FoodRating foodRating = new FoodRating();
 
@@ -216,8 +202,8 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void undislikeFood(Model model, Long id, User currentuser){
-        Optional<User> user = userRepository.findById(currentuser.getId());
+    public void undislikeFood(Model model, Long id, String username){
+        Optional<User> user = userRepository.findByUsername(username);
         Food food = foodRespository.findfoodById(id);
         FoodRating foodRating = foodRatingRepository.findByCustomerIdAndFoodId(user.get().getId(), food.getId());
 
@@ -256,13 +242,13 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void homeSetup(Model model, User Currentuser, String currentCategory, String currentKeyword){
-        if(Currentuser != null){
-            Optional<User> newuser = userRepository.findById(Currentuser.getId());
+    public void homeSetup(Model model, String username, String currentCategory, String currentKeyword){
+        if(username != null){
+            Optional<User> newuser = userRepository.findByUsername(username);
             model.addAttribute("currentuser", newuser.get());
 
-            if(Currentuser.getRole().getName().equals("customer")) {
-                Cart check = cartrepo.findByUserID(Currentuser.getId());
+            if(newuser.get().getRole().getName().equals("customer")) {
+                Cart check = cartrepo.findByUserID(newuser.get().getId());
                 if (check == null) {
                     model.addAttribute("Cart", new Cart());
                 } else {
@@ -308,8 +294,10 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void profileView(Model model, User Currentuser ){
-        Cart check = cartrepo.findByUserID(Currentuser.getId());
+    public void profileView(Model model, String username ){
+        Optional<User> Currentuser = userRepository.findByUsername(username);
+
+        Cart check = cartrepo.findByUserID(Currentuser.get().getId());
         if(check == null){
             model.addAttribute("Cart", new Cart() );
         }
@@ -318,20 +306,20 @@ public class HomeServiceImp implements HomeService{
         }
 
         User user = new User();
-        user.setName(Currentuser.getName());
-        user.setEmail(Currentuser.getEmail());
-        user.setPassword(Currentuser.getPassword());
-        user.setRepassword(Currentuser.getRepassword());
-        user.setPhonenumber(Currentuser.getPhonenumber());
-        user.setAddress(Currentuser.getAddress());
+        user.setName(Currentuser.get().getName());
+        user.setEmail(Currentuser.get().getEmail());
+        user.setPassword(Currentuser.get().getPassword());
+        user.setRepassword(Currentuser.get().getRepassword());
+        user.setPhonenumber(Currentuser.get().getPhonenumber());
+        user.setAddress(Currentuser.get().getAddress());
         model.addAttribute("user", user);
 
     }
 
     @Override
-    public User updateProfile( User Currentuser, User update, BindingResult bindingResult ){
+    public void updateProfile( String username, User update, BindingResult bindingResult ){
         System.out.println(update.getLat());
-        Optional<User> u = userRepository.findByUsername(Currentuser.getUsername());
+        Optional<User> u = userRepository.findByUsername(username);
 
         u.get().setName(update.getName());
         u.get().setEmail(update.getEmail());
@@ -346,13 +334,12 @@ public class HomeServiceImp implements HomeService{
 
 
         userRepository.save(u.get());
-
-        return  u.get();
     }
 
     @Override
-    public void cartBarStatus(User Currentuser, Model model){
-        Cart check = cartrepo.findByUserID(Currentuser.getId());
+    public void cartBarStatus(String username, Model model){
+        Optional<User> Currentuser = userRepository.findByUsername(username);
+        Cart check = cartrepo.findByUserID(Currentuser.get().getId());
         if(check == null){
             model.addAttribute("Cart", new Cart() );
         }
@@ -362,8 +349,8 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public Boolean updatePass(User Currentuser, PassChange passChange, BindingResult bindingResult){
-        Optional<User> u = userRepository.findByUsername(Currentuser.getUsername());
+    public Boolean updatePass(String username, PassChange passChange, BindingResult bindingResult){
+        Optional<User> u = userRepository.findByUsername(username);
 
         if(!BCrypt.checkpw(passChange.getCurrentPass(), u.get().getPassword())) {
             bindingResult.addError(new FieldError("pass", "currentPass", "Password is not correct"));
@@ -391,8 +378,9 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void checkOutView(Model model, User Currentuser ){
-        Cart check = cartrepo.findByUserID(Currentuser.getId());
+    public void checkOutView(Model model, String username ){
+        Optional<User> Currentuser = userRepository.findByUsername(username);
+        Cart check = cartrepo.findByUserID(Currentuser.get().getId());
         if(check == null){
             model.addAttribute("Cart", new Cart() );
         }
@@ -402,9 +390,10 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void addToCart(Model model, User Currentuser, Long id, int quantity ){
-        Cart check = cartrepo.findByUserID(Currentuser.getId());
-        Optional<User> user = userRepository.findByUsername(Currentuser.getUsername());
+    public void addToCart(Model model, String username, Long id, int quantity ){
+
+        Optional<User> user = userRepository.findByUsername(username);
+        Cart check = cartrepo.findByUserID(user.get().getId());
         if (check == null) {
             Cart cart = new Cart();
 
@@ -445,14 +434,16 @@ public class HomeServiceImp implements HomeService{
 
     @Override
     public void updateCart(Long id, int quantity){
+
         CartItem item =  cartItemRespository.findById(id).get();
         item.setQuantity(quantity);
         cartItemRespository.saveAndFlush(item);
     }
 
     @Override
-    public void removeItem(Long id, User CurrentUser){
-        Cart cart = cartrepo.findByUserID(CurrentUser.getId());
+    public void removeItem(Long id, String username){
+        Optional<User> user = userRepository.findByUsername(username);
+        Cart cart = cartrepo.findByUserID(user.get().getId());
         Collection<CartItem> items = cart.getCartItems();
         CartItem cartItem = null;
         for(CartItem item: items){
@@ -467,9 +458,10 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public boolean checkOutInforView(Model model, User Currentuser){
-        model.addAttribute("user", Currentuser);
-        Cart check = cartrepo.findByUserID(Currentuser.getId());
+    public boolean checkOutInforView(Model model, String username){
+        Optional<User> user = userRepository.findByUsername(username);
+        model.addAttribute("user", user.get());
+        Cart check = cartrepo.findByUserID(user.get().getId());
         if(check == null){
             model.addAttribute("Cart", new Cart() );
             return false;
@@ -485,11 +477,11 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void placeOrder(Long id, CheckOutInfor checkOutInfor,String phonenumber, User Currentuser, boolean is_payment){
+    public void placeOrder(Long id, CheckOutInfor checkOutInfor,String phonenumber, String username, boolean is_payment){
 
 
         Cart cart = cartrepo.findcartById(id);
-        Optional<User> user = userRepository.findByUsername(Currentuser.getUsername());
+        Optional<User> user = userRepository.findByUsername(username);
         Collection<CartItem> items = cart.getCartItems();
         Order order = new Order();
         order.setUser(user.get());
@@ -522,8 +514,8 @@ public class HomeServiceImp implements HomeService{
     }
 
     @Override
-    public void orderListView(Model model, User Currentuser){
-        Optional<User> user = userRepository.findByUsername(Currentuser.getUsername());
+    public void orderListView(Model model, String username){
+        Optional<User> user = userRepository.findByUsername(username);
         System.out.println(user.get().toString());
         model.addAttribute("user", user.get());
     }
@@ -566,8 +558,6 @@ public class HomeServiceImp implements HomeService{
         }
         return foodRespository.findAll();
     }
-
-
 
 
 }

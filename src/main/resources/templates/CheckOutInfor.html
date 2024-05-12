@@ -13,13 +13,13 @@
 <body>
 
 <header>
-  <a href="/home" class="logo"> <img src="image/logo-2.png" alt="" width="100%" > </a>
+  <a href="/customer/home" class="logo"> <img src="/image/logo-2.png" alt="" width="100%" > </a>
 
   <div class="icons">
     <i class="fa fa-bars" id="menu-bars"></i>
-    <a href="/home" class="fa fa-home" id="home-icon"></a>
-    <a href="/profile" class="fa-solid fa-user"></a>
-    <a href="/login" class="fa fa-sign-out"></a>
+    <a href="/customer/home" class="fa fa-home" id="home-icon"></a>
+    <a href="/customer/profile" class="fa-solid fa-user"></a>
+    <a href="/logout" class="fa fa-sign-out"></a>
     <a href="#" class="fas fa-shopping-cart"></a>
     <span class='badge badge-warning' id='lblCartCount' th:text="${Cart.getCartItems().size()}"> </span>
   </div>
@@ -32,7 +32,7 @@
     <div class="row">
       <div class="col-50">
         <div class="container">
-          <form action="/place-order" th:object="${user}" method="post" >
+          <form action="/customer/place-order" th:object="${user}" method="post" >
 
             <div class="row">
               <div class="col-50">
@@ -50,7 +50,7 @@
                        name="cart_id" />
                 <label class="main-label" ><i class="fa fa-envelope"></i> Payment Method</label>
                 <div class="payment-method">
-                  <input type="radio" id="cod" name="payment_method" value="COD">
+                  <input type="radio" id="cod" name="payment_method" value="COD" required>
                    <label class="payment-method-label" for="cod">COD</label>
                    <input type="radio" id="online" name="payment_method" value="Online" style="margin-left: 10px">
                    <label class="payment-method-label" for="online">Online</label>

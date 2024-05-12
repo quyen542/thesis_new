@@ -14,13 +14,13 @@
 <body>
 
 <header>
-  <a href="/home" class="logo"> <img src="image/logo-2.png" alt="" width="100%" > </a>
+  <a href="/customer/home" class="logo"> <img src="image/logo-2.png" alt="" width="100%" > </a>
 
   <div class="icons">
     <i class="fa fa-bars" id="menu-bars"></i>
-    <a href="/home" class="fa fa-home" id="home-icon"></a>
-    <a href="/profile" class="fa-solid fa-user"></a>
-    <a href="/login" class="fa fa-sign-out"></a>
+    <a href="/customer/home" class="fa fa-home" id="home-icon"></a>
+    <a href="/customer/profile" class="fa-solid fa-user"></a>
+    <a href="/logout" class="fa fa-sign-out"></a>
     <a href="#" class="fas fa-shopping-cart"></a>
     <span class='badge badge-warning' id='lblCartCount'>0</span>
 
@@ -85,7 +85,7 @@
             <div class="d-flex justify-content-between">
               <div th:if="${order.status == order.status.Delivered}">
                 <h3>Are you satisfied with the delivery quality of this order?</h3>
-                <form action="/delivery-rating" method="post">
+                <form action="/customer/delivery-rating" method="post">
                   <input type="hidden" name="id" th:value="${order.id}">
                   <div class="rate">
                     <input type="radio" th:id="star5order + ${order.id}" name="rate" value="5" th:checked="${order.deliveryRating == 5}" />

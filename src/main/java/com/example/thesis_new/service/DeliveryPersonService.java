@@ -6,15 +6,13 @@ import org.springframework.ui.Model;
 
 public interface DeliveryPersonService {
 
-    void deliveryDashboardSetup(Model model );
+    void deliveryDashboardSetup(Model model, String username );
 
-    void setCurrentuser(User currentuser);
 
-    void deliveryOrderListSetup(Model model);
+    void deliveryOrderListSetup(Model model, String username );
 
-    void updateDeliveryStatus(Long id, String status);
+    void updateDeliveryStatus(Long id, String status, String username );
 
-    boolean checkDelivery();
 
 
 }

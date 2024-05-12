@@ -18,7 +18,7 @@
 <body>
 
 <header>
-    <a href="/home" class="logo"> <img src="image/logo-2.png" alt="" width="100%" > </a>
+    <a href="/customer/home" class="logo"> <img src="/image/logo-2.png" alt="" width="100%" > </a>
 
     <nav class="navbar">
         <a class="home active" href="#home" >home</a>
@@ -36,10 +36,10 @@
         </form>
         <i class="fa fa-bars" id="menu-bars"></i>
         <a href="/login" th:if="'f' == ${user}" class="fa-solid fa-user"></a>
-        <a href="/profile" th:if="'t' == ${user}" class="fa-solid fa-user"></a>
-        <a href="/login" th:if="'t' == ${user}"  class="fa fa-sign-out"></a>
+        <a href="/customer/profile" th:if="'t' == ${user}" class="fa-solid fa-user"></a>
+        <a href="/logout" th:if="'t' == ${user}"  class="fa fa-sign-out"></a>
         <a href="#" th:if="'f' == ${user}" onclick="alert('please log in!');" class="fas fa-shopping-cart"></a>
-        <a href="/check-out" th:if="'t' == ${user}" class="fas fa-shopping-cart"></a>
+        <a href="/customer/check-out" th:if="'t' == ${user}" class="fas fa-shopping-cart"></a>
         <span class='badge badge-warning' th:if="'t' == ${user}" id='lblCartCount' th:text="${Cart.getCartItems().size()}"> </span>
 
     </div>
@@ -47,31 +47,31 @@
 </header>
 <section class="category" id="home">
     <div class="box-container-category">
-        <form action="/update-category" class="box-category"  method="post" >
+        <form action="/customer/update-category" class="box-category"  method="post" >
             <input type="text"  name="category" value="appetizer" style="display:none;"  >
             <button type="submit" class="btn" ><span class="material-symbols-outlined">
 egg_alt
 </span><br>Appetizer</button>
         </form>
-        <form action="/update-category" class="box-category"  method="post" >
+        <form action="/customer/update-category" class="box-category"  method="post" >
             <input type="text"  name="category" value="pizza" style="display:none;"  >
             <button type="submit" class="btn" ><span class="material-symbols-outlined">
 local_pizza
 </span><br> Pizza</button>
         </form>
-        <form action="/update-category" class="box-category"  method="post" >
+        <form action="/customer/update-category" class="box-category"  method="post" >
             <input type="text"  name="category" value="pasta" style="display:none;"  >
             <button type="submit" class="btn" ><span class="material-symbols-outlined">
 ramen_dining
 </span><br> Pasta</button>
         </form>
-        <form action="/update-category" class="box-category"  method="post" >
+        <form action="/customer/update-category" class="box-category"  method="post" >
             <input type="text"  name="category" value="salad" style="display:none;"  >
             <button type="submit" class="btn" ><span class="material-symbols-outlined">
 psychiatry
 </span><br>Salad</button>
         </form>
-        <form action="/update-category" class="box-category"  method="post" >
+        <form action="/customer/update-category" class="box-category"  method="post" >
             <input type="text"  name="category" value="drink" style="display:none;"  >
             <button type="submit" class="btn" ><span class="material-symbols-outlined">
 liquor
@@ -91,7 +91,7 @@ liquor
                     <a href="#" class="btn">order now</a>
                 </div>
                 <div class="image">
-                    <img src="image/home-img-1-1.png" alt="">
+                    <img src="/image/home-img-1-1.png" alt="">
                 </div>
             </div>
 
@@ -138,7 +138,7 @@ liquor
 
                                 <div class="form">
 
-                                    <form action="/likefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
+                                    <form action="/customer/likefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
 
                                         <h2>We are happy to see your satisfaction with the dish.</h2>
 
@@ -247,7 +247,7 @@ liquor
             </div>
 
 
-            <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}" >
+            <form action="/customer/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}" >
 
                 <input type="hidden" name="id" th:value="${food.id}">
 
@@ -279,7 +279,7 @@ liquor
 
                                 <div class="form">
 
-                                    <form action="/dislikefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
+                                    <form action="/customer/dislikefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
 
                                         <h2>We are so sorry for your negative experience with our food</h2>
 
@@ -389,7 +389,7 @@ liquor
 
 
 
-            <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)} and 't' == ${user}" >
+            <form action="/customer/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)} and 't' == ${user}" >
 
                 <input type="hidden" name="id" th:value="${food.id}">
 
@@ -418,10 +418,10 @@ liquor
                 <div class="modal-content">
                     <span class="close close_multi">&times;</span>
                     <div class="card">
-                        <img th:src="@{${food.photosImagePath}}" alt="" style="width:100%; height: auto">
+                        <img th:src="${food.imageUrl}" alt="" style="width:100%; height: auto">
                         <div class="card-container">
 
-                            <form action="/addtocart" method="post">
+                            <form action="/customer/addtocart" method="post">
                                 <input type="hidden" name="id" th:value="${food.id}">
                                 <input type="number" min="1" value="1" name="quantity" placeholder="quantity">
                                 <button type="button"  th:if="'f' == ${user}" onclick="alert('please log in!');" class="btn" >Submit</button>
@@ -530,7 +530,7 @@ liquor
     <h1 class="heading">why chose us</h1>
     <div class="row">
         <div class="image">
-            <img src="image/about-1.jpg" alt="">
+            <img src="/image/about-1.jpg" alt="">
         </div>
         <div class="content">
             <h3>best food in the country</h3>
@@ -560,17 +560,17 @@ liquor
     <div class="siema-container">
         <div class="siemaOne">
 
-            <form action="/update-rating" class="box-category"  method="post" >
+            <form action="/customer/update-rating" class="box-category"  method="post" >
                 <input type="text"  name="time" value="day" style="display:none;"  >
                 <button type="submit" class="rating-option">TODAY'S SPECIAL</button>
             </form>
 
-            <form action="/update-rating" class="box-category"  method="post" >
+            <form action="/customer/update-rating" class="box-category"  method="post" >
                 <input type="text"  name="time" value="week" style="display:none;"  >
                 <button type="submit" class="rating-option">WEEK'S SPECIAL</button>
             </form>
 
-            <form action="/update-rating" class="box-category"  method="post" >
+            <form action="/customer/update-rating" class="box-category"  method="post" >
                 <input type="text"  name="time" value="month" style="display:none;"  >
                 <button type="submit" class="rating-option">MONTH'S SPECIAL</button>
             </form>
@@ -585,11 +585,11 @@ liquor
     <!--    <h1 class="heading">today's special</h1>-->
 
     <div class="box-container-category">
-        <form action="/update-category" class="box-category"  method="post" >
+        <form action="/customer/update-category" class="box-category"  method="post" >
             <input type="text"  name="category" value="null" style="display:none;"  >
             <button type="submit" class="btn" >All Food</button>
         </form>
-        <form action="/update-category" class="box-category" th:each="foodcategory: ${listCategories}" method="post" >
+        <form action="/customer/update-category" class="box-category" th:each="foodcategory: ${listCategories}" method="post" >
             <input type="text"  name="category" th:value="${foodcategory}" style="display:none;"  >
             <button type="submit" class="btn" th:text="${foodcategory}"></button>
         </form>
@@ -618,7 +618,7 @@ liquor
 
                                 <div class="form">
 
-                                    <form action="/likefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
+                                    <form action="/customer/likefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
 
                                         <h2>We are happy to see your satisfaction with the dish.</h2>
 
@@ -727,7 +727,7 @@ liquor
             </div>
 
 
-            <form action="/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}" >
+            <form action="/customer/unlikefood" method="post" th:id="'unlikefood' + ${food.id} " th:if="${#lists.contains(food.getLikes(), currentuser)} and 't' == ${user}" >
 
                 <input type="hidden" name="id" th:value="${food.id}">
 
@@ -759,7 +759,7 @@ liquor
 
                                 <div class="form">
 
-                                    <form action="/dislikefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
+                                    <form action="/customer/dislikefood" method="post" th:id="'likefood' + ${food.id} " class="rating-form">
 
                                         <h2>We are so sorry for your negative experience with our food</h2>
 
@@ -869,7 +869,7 @@ liquor
 
 
 
-            <form action="/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)} and 't' == ${user}" >
+            <form action="/customer/undislikefood" method="post" th:id="'undislikefood' + ${food.id} " th:if="${#lists.contains(food.getDislikes(), currentuser)} and 't' == ${user}" >
 
                 <input type="hidden" name="id" th:value="${food.id}">
 
@@ -900,10 +900,10 @@ liquor
                     <div class="modal-content">
                         <span class="close close_multi">&times;</span>
                         <div class="card">
-                            <img th:src="@{${food.photosImagePath}}" alt="" style="width:100%">
+                            <img th:src="${food.imageUrl}" alt="" style="width:100%">
                             <div class="card-container">
 
-                                <form action="/addtocart" method="post">
+                                <form action="/customer/addtocart" method="post">
                                     <input type="hidden" name="id" th:value="${food.id}">
                                     <input type="number" min="1" value="1" name="quantity" placeholder="quantity">
                                     <button type="button"  th:if="'f' == ${user}" onclick="alert('please log in!');" class="btn" >Submit</button>
@@ -1028,7 +1028,7 @@ liquor
             <div class="swiper-slide slide">
                 <i class="fas fa-quote-right"></i>
                 <div class="user">
-                    <img src="image/review-1.jpg" alt="">
+                    <img src="/image/review-1.jpg" alt="">
                     <div class="user-info">
                         <h3>john deo</h3>
                         <div class="stars">
@@ -1045,7 +1045,7 @@ liquor
             <div class="swiper-slide slide">
                 <i class="fas fa-quote-right"></i>
                 <div class="user">
-                    <img src="image/review-2.jpg" alt="">
+                    <img src="/image/review-2.jpg" alt="">
                     <div class="user-info">
                         <h3>Jenifer</h3>
                         <div class="stars">
@@ -1062,7 +1062,7 @@ liquor
             <div class="swiper-slide slide">
                 <i class="fas fa-quote-right"></i>
                 <div class="user">
-                    <img src="image/review-3.jpg" alt="">
+                    <img src="/image/review-3.jpg" alt="">
                     <div class="user-info">
                         <h3>Rose</h3>
                         <div class="stars">
@@ -1080,7 +1080,7 @@ liquor
             <div class="swiper-slide slide">
                 <i class="fas fa-quote-right"></i>
                 <div class="user">
-                    <img src="image/review-4.jpg" alt="">
+                    <img src="/image/review-4.jpg" alt="">
                     <div class="user-info">
                         <h3>Leo</h3>
                         <div class="stars">

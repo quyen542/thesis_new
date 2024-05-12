@@ -44,34 +44,34 @@
 
     <ul class="sidebar-list">
       <li class="sidebar-list-item">
-        <a href="/admin-dashboard" >
+        <a href="/admin/admin-dashboard" >
           <span class="material-icons-outlined">dashboard</span> Dashboard
         </a>
       </li>
       <li class="sidebar-list-item">
-        <a href="/admin-dashboard-create-food">
+        <a href="/admin/admin-dashboard-create-food">
           <span class="material-icons-outlined">restaurant_menu</span> Foods
         </a>
       </li>
       <li class="sidebar-list-item">
-        <a href="/admin-dashboard-customer" >
+        <a href="/admin/admin-dashboard-customer" >
           <span class="material-icons-outlined">people</span> Customer
         </a>
       </li>
       <li class="sidebar-list-item">
-        <a href="admin-order-list" >
+        <a href="/admin/admin-order-list" >
           <span class="material-icons-outlined">shopping_cart</span> Orders
         </a>
       </li>
 
       <li class="sidebar-list-item">
-        <a href="/admin-dashboard-delivery_person" >
+        <a href="/admin/admin-dashboard-delivery_person" >
           <span class="material-icons-outlined">takeout_dining</span>Delivery Person
         </a>
       </li>
 
       <li class="sidebar-list-item">
-        <a href="/login" >
+        <a href="/logout" >
           <span class="material-icons-outlined">logout</span> Log Out
         </a>
       </li>
@@ -83,7 +83,7 @@
   <main class="main-container">
     <div class="admin-product-form-container">
 
-      <form  th:action="@{/create-food}" th:object="${food}" method="post"  enctype="multipart/form-data">
+      <form  th:action="@{/admin/create-food}" th:object="${food}" method="post"  enctype="multipart/form-data">
         <h3>add a new food</h3>
         <input type="text" placeholder="enter food name" name="product_name" class="box" th:field="*{name}" th:errorClass="is-invalid">
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"> </div>
@@ -146,8 +146,8 @@
               </li>
             </ul>
             <div class="meals-button" style="display: flex">
-              <a th:href="@{'/edit-food/' + ${food.id}}" class="btn"> <i class="fas fa-edit"></i> Edit </a>
-              <a th:href="@{'/delete/' + ${food.id}}" class="btn meals-button-delete"> <i class="fas fa-trash"></i> Delete </a>
+              <a th:href="@{'/admin/edit-food/' + ${food.id}}" class="btn"> <i class="fas fa-edit"></i> Edit </a>
+              <a th:href="@{'/admin/delete/' + ${food.id}}" class="btn meals-button-delete"> <i class="fas fa-trash"></i> Delete </a>
             </div>
           </div>
         </div>

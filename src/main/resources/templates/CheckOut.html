@@ -14,13 +14,13 @@
 <body>
 
 <header>
-  <a href="/home" class="logo"> <img src="image/logo-2.png" alt="" width="100%" > </a>
+  <a href="/customer/home" class="logo"> <img src="/image/logo-2.png" alt="" width="100%" > </a>
 
   <div class="icons">
     <i class="fa fa-bars" id="menu-bars"></i>
-    <a href="/home" class="fa fa-home" id="home-icon"></a>
-    <a href="/profile" class="fa-solid fa-user"></a>
-    <a href="/login" class="fa fa-sign-out"></a>
+    <a href="/customer/home" class="fa fa-home" id="home-icon"></a>
+    <a href="/customer/profile" class="fa-solid fa-user"></a>
+    <a href="/logout" class="fa fa-sign-out"></a>
     <a href="#" class="fas fa-shopping-cart"></a>
     <span class='badge badge-warning' id='lblCartCount' th:text="${Cart.getCartItems().size()}"> </span>
 
@@ -50,7 +50,7 @@
               <div class="row" th:text="${cartItem.food.name}"></div>
             </div>
             <div class="col">
-              <form action="/updateShoppingCart" method="post">
+              <form action="/customer/updateShoppingCart" method="post">
                 <input type="hidden" th:value="${cartItem.id}"
                        name="item_id" />
                 <div class="input-group">
@@ -66,7 +66,7 @@
               </form>
             </div>
             <div class="col" th:text="'$' + ${cartItem.totalPrice}"> <span class="close">x</span></div>
-            <a th:href="@{/removeItem/{id}(id = ${cartItem.id})}" class="col close">&#10005;</a>
+            <a th:href="@{/customer/removeItem/{id}(id = ${cartItem.id})}" class="col close">&#10005;</a>
           </div>
         </div>
 
@@ -98,7 +98,7 @@
 <!--          </div>-->
 <!--        </div>-->
 
-        <div class="back-to-shop"><a href="/home">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+        <div class="back-to-shop"><a href="/customer/home">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
       </div>
       <div class="col-md-4 summary">
         <div><h4><b>Summary</b></h4></div>
@@ -117,7 +117,7 @@
           <div class="col">TOTAL PRICE</div>
           <div class="col text-right" th:with="variable = 2, controllerVar = ${Cart.getTotalPrice()}, var = ${variable + controllerVar}" th:text="'$' + ${var}" ></div>
         </div>
-        <a href="/check-out-infor" class="btn">CHECKOUT</a>
+        <a href="/customer/check-out-infor" class="btn">CHECKOUT</a>
       </div>
     </div>
 

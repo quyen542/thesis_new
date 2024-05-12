@@ -15,42 +15,40 @@ public interface HomeService {
 
     User loginAccount(User user, BindingResult bindingResult);
 
-    void homeSetup(Model model, User Currentuser, String currentCategory, String currentKeyword);
+    void homeSetup(Model model, String username, String currentCategory, String currentKeyword);
 
-    void profileView(Model model, User Currentuser );
+    void profileView(Model model, String username );
 
-    User updateProfile( User Currentuser, User update, BindingResult bindingResult );
+    void updateProfile( String username, User update, BindingResult bindingResult );
 
-    void cartBarStatus(User Currentuser, Model model);
+    void cartBarStatus(String username, Model model);
 
-    Boolean updatePass(User Currentuser, PassChange passChange, BindingResult bindingResult);
+    Boolean updatePass(String username, PassChange passChange, BindingResult bindingResult);
 
-    void checkOutView(Model model, User Currentuser);
+    void checkOutView(Model model, String username);
 
-    void addToCart(Model model, User CurrentUser, Long id, int quantity);
-
-    boolean checkUser(User Currentuser);
+    void addToCart(Model model, String username, Long id, int quantity);
 
     void updateCart(Long id, int quantity);
 
-    void removeItem(Long id, User CurrentUser);
+    void removeItem(Long id, String username);
 
-    boolean checkOutInforView(Model model, User Currentuser);
+    boolean checkOutInforView(Model model, String username);
 
-    public void placeOrder(Long id, CheckOutInfor checkOutInfor,String phonenumber, User Currentuser,  boolean is_payment);
-    void orderListView(Model model, User Currentuser);
+    public void placeOrder(Long id, CheckOutInfor checkOutInfor,String phonenumber, String username,  boolean is_payment);
+    void orderListView(Model model, String username);
 
     void trackOrder(Long id);
 
     void ratingFood(String time);
 
-    void likeFood(Model model, Long id, User currentuser, Double quality, Double price, Double packaged);
+    void likeFood(Model model, Long id, String username, Double quality, Double price, Double packaged);
 
-    void unlikeFood(Model model, Long id, User currentuser);
+    void unlikeFood(Model model, Long id, String username);
 
-    void dislikeFood(Model model, Long id, User currentuser, Double quality, Double price, Double packaged);
+    void dislikeFood(Model model, Long id, String username, Double quality, Double price, Double packaged);
 
-    void undislikeFood(Model model, Long id, User currentuser);
+    void undislikeFood(Model model, Long id, String username);
 
     void deliveryRating(Double rate, Long orderID);
 

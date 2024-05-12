@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DeliveryPersonServiceImp implements DeliveryPersonService {
@@ -18,46 +19,30 @@ public class DeliveryPersonServiceImp implements DeliveryPersonService {
     @Autowired
     private UserRepository userRepository;
 
-    private User currentuser;
 
     @Override
-    public boolean checkDelivery(){
-        if(currentuser!= null){
-            if(!currentuser.getRole().getName().equals("delivery")) {
-                return false;
-            }
-        }
-        else{
-            return false;
-        }
+    public void deliveryDashboardSetup(Model model, String username){
+        Optional<User> currentuser = userRepository.findByUsername(username);
 
-        return true;
-    }
-
-    @Override
-    public void deliveryDashboardSetup(Model model){
-
-        model.addAttribute("scount", currentuser.getDeliveryInfo().getSalary());
-        model.addAttribute("ocount", orderRespository.numberOfOrderOfDeliver(currentuser.getId()));
-        model.addAttribute("rcount", currentuser.getDeliveryInfo().getRating());
+        model.addAttribute("scount", currentuser.get().getDeliveryInfo().getSalary());
+        model.addAttribute("ocount", orderRespository.numberOfOrderOfDeliver(currentuser.get().getId()));
+        model.addAttribute("rcount", currentuser.get().getDeliveryInfo().getRating());
 
 
     }
 
     @Override
-    public void deliveryOrderListSetup(Model model){
-        List<Order> orderList = orderRespository.getOrderByDeliveryPersonID(currentuser.getId());
+    public void deliveryOrderListSetup(Model model, String username ){
+        Optional<User> currentuser = userRepository.findByUsername(username);
+
+        List<Order> orderList = orderRespository.getOrderByDeliveryPersonID(currentuser.get().getId());
         model.addAttribute("listOrder", orderList);
     }
 
     @Override
-    public void setCurrentuser(User currentuser) {
-        this.currentuser = currentuser;
-    }
+    public void updateDeliveryStatus(Long id, String status, String username ){
+        Optional<User> currentuser = userRepository.findByUsername(username);
 
-    @Override
-    public void updateDeliveryStatus(Long id, String status){
-        User user = userRepository.findById(currentuser.getId()).get();
         Order order = orderRespository.findById(id).get();
 
         if(status.equals("Cooked")){
@@ -68,12 +53,11 @@ public class DeliveryPersonServiceImp implements DeliveryPersonService {
             order.setStatus(Order.Status.Delivered);
         }
 
-        user.getDeliveryInfo().setAvailable(true);
-        user.getDeliveryInfo().setSalary(user.getDeliveryInfo().getSalary() + 2.0);
+        currentuser.get().getDeliveryInfo().setAvailable(true);
+        currentuser.get().getDeliveryInfo().setSalary(currentuser.get().getDeliveryInfo().getSalary() + 2.0);
 
-        currentuser = user;
 
-        userRepository.save(user);
+        userRepository.save(currentuser.get());
         orderRespository.saveAndFlush(order);
     }
 }

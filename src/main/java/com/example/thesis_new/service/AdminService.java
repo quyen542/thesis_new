@@ -24,11 +24,6 @@ public interface AdminService {
 
     boolean editFood(Food food, BindingResult bindingResult);
 
-    void setCurrentuser(User currentuser);
-
-    User getCurrentuser();
-
-    boolean checkAdmin();
 
     void adminOrderListView(Model model);
 

@@ -10,13 +10,13 @@
 <body>
 
 <header>
-  <a href="/home" class="logo"> <img src="image/logo-2.png" alt="" width="100%" > </a>
+  <a href="/customer/home" class="logo"> <img src="image/logo-2.png" alt="" width="100%" > </a>
 
   <div class="icons">
     <i class="fa fa-bars" id="menu-bars"></i>
-    <a href="/home" class="fa fa-home" id="home-icon"></a>
-    <a href="/profile" class="fa-solid fa-user"></a>
-    <a href="/login" class="fa fa-sign-out"></a>
+    <a href="/customer/home" class="fa fa-home" id="home-icon"></a>
+    <a href="/customer/profile" class="fa-solid fa-user"></a>
+    <a href="/logout" class="fa fa-sign-out"></a>
     <a href="#" class="fas fa-shopping-cart"></a>
     <span class='badge badge-warning' id='lblCartCount' th:text="${Cart.getCartItems().size()}"> </span>
 
@@ -25,7 +25,7 @@
 </header>
 <section class="order" id="order">
   <h1 class="heading">User Profile</h1>
-  <form action="#" th:action="@{/updateprofile}" th:object="${user}" method="post">
+  <form action="#" th:action="@{/customer/updateprofile}" th:object="${user}" method="post">
 
     <div class="inputBox">
       <div class="input">
@@ -58,9 +58,9 @@
 
     <input type="submit" value="Update Profile" class="btn">
 
-    <a href="/changepass" class="btn" >Change Password</a>
+    <a href="/customer/changepass" class="btn" >Change Password</a>
 
-    <a href="/order-list" class="btn" >View Order</a>
+    <a href="/customer/order-list" class="btn" >View Order</a>
   </form>
 
 </section>

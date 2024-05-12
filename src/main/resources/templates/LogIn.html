@@ -11,6 +11,7 @@
   <div class="wrapper">
     <h1>Login</h1>
     <form action="#" th:action="@{/login}" th:object="${user}" method="post">
+      <p style="font-size: 16px; text-align: center; color: red" th:text="${ERROR}"></p>
       <input type="text" placeholder="Username" th:field="*{username}" required >
       <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"> </div>
       <input type="password" placeholder="Password" th:field="*{password}"  required >

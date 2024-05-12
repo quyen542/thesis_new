@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +43,8 @@ public class HomeController {
     @Autowired
     private VNPayService vnPayService;
 
-
-    private String userExsiit = "f";
+    @Autowired
+    UserDetailsService userDetailsService;
 
     private User Currentuser = null;
 
@@ -59,8 +62,6 @@ public class HomeController {
 
 
 
-
-
     @InitBinder
     public void initBinder(WebDataBinder dataBinder){
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
@@ -72,109 +73,103 @@ public class HomeController {
     public String home(Model model){
 
 
+        homeService.ratingFood(CurrentRatingTime);
+
+
+        homeService.homeSetup(model, null, CurrentCategory, Currentkeyword);
+
+        model.addAttribute("user", "f");
+
+        return "demo";
+    }
+
+    @GetMapping("/customer/home")
+    public String homeCustomer(Model model, Principal principal){
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
+        }
+
 
         homeService.ratingFood(CurrentRatingTime);
 
 
+        homeService.homeSetup(model, userDetails.getUsername(), CurrentCategory, Currentkeyword);
 
-        homeService.homeSetup(model, Currentuser, CurrentCategory, Currentkeyword);
-
-        model.addAttribute("user", userExsiit);
+        model.addAttribute("user", "t");
 
         return "index";
     }
 
-    @PostMapping("/likefood")
-    public String likeFood(Model model, @RequestParam("id") Long id, @RequestParam("q1") Double quality, @RequestParam("q2") Double price, @RequestParam("q3") Double packaged ){
+    @PostMapping("/customer/likefood")
+    public String likeFood(Model model, @RequestParam("id") Long id, @RequestParam("q1") Double quality, @RequestParam("q2") Double price, @RequestParam("q3") Double packaged, Principal principal ){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
 
-        homeService.likeFood(model, id, Currentuser, quality, price, packaged);
+        homeService.likeFood(model, id, userDetails.getUsername(), quality, price, packaged);
 
 
-        return "redirect:/home";
+        return "redirect:/customer/home";
     }
 
-    @PostMapping("/unlikefood")
-    public String unlikeFood(Model model, @RequestParam("id") Long id){
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+    @PostMapping("/customer/unlikefood")
+    public String unlikeFood(Model model, @RequestParam("id") Long id, Principal principal){
+
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
 
-        homeService.unlikeFood(model, id, Currentuser);
+        homeService.unlikeFood(model, id, userDetails.getUsername());
 
 
-        return "redirect:/home";
+        return "redirect:/customer/home";
     }
 
-    @PostMapping("/dislikefood")
-    public String dislikeFood(Model model, @RequestParam("id") Long id, @RequestParam("q1") Double quality, @RequestParam("q2") Double price, @RequestParam("q3") Double packaged ){
+    @PostMapping("/customer/dislikefood")
+    public String dislikeFood(Principal principal, Model model, @RequestParam("id") Long id, @RequestParam("q1") Double quality, @RequestParam("q2") Double price, @RequestParam("q3") Double packaged ){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
-        homeService.dislikeFood(model, id, Currentuser, quality, price, packaged);
+
+        homeService.dislikeFood(model, id, userDetails.getUsername(), quality, price, packaged);
 
 
-        return "redirect:/home";
+        return "redirect:/customer/home";
     }
 
-    @PostMapping("/undislikefood")
-    public String undislikeFood(Model model, @RequestParam("id") Long id){
+    @PostMapping("/customer/undislikefood")
+    public String undislikeFood(Principal principal, Model model, @RequestParam("id") Long id){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
-        homeService.undislikeFood(model, id, Currentuser);
+        homeService.undislikeFood(model, id, userDetails.getUsername());
 
 
-        return "redirect:/home";
+        return "redirect:/customer/home";
     }
 
     @GetMapping("/login")
-    public String login_View(Model model){
+    public String login_View(Model model, @RequestParam(name = "error", required = false) String error){
 
-
-        userExsiit = "f";
-        Currentuser = null;
-        adminService.setCurrentuser(null);
-        deliveryPersonService.setCurrentuser(null);
         User user = new User();
         model.addAttribute("user", user);
-        return "LogIn";
-    }
-
-    @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model){
-
-//        User outhUser = userService.user(user.getEmail(), user.getPassword());
-//        System.out.println(outhUser);
-        User result = homeService.loginAccount(user, bindingResult);
-
-
-        if(result != null) {
-            adminService.setCurrentuser(result);
-            deliveryPersonService.setCurrentuser(result);
-
-            if (result.getRole().getName().equals("admin")) {
-
-                return "redirect:/admin-dashboard";
-            } else if (result.getRole().getName().equals("customer")) {
-                userExsiit = "t";
-
-                model.addAttribute("user", userExsiit);
-
-                Currentuser = result;
-                return "redirect:/home";
-            } else if (result.getRole().getName().equals("delivery")){
-
-                return "redirect:/delivery-dashboard";
-            }
+        if (error != null) {
+            model.addAttribute("ERROR", "Invalid username or password");
         }
         return "LogIn";
-
     }
 
     @GetMapping("/signup")
@@ -200,48 +195,45 @@ public class HomeController {
     }
 
 
-    @GetMapping("/profile")
-    public String profile_view(Model model){
+    @GetMapping("/customer/profile")
+    public String profile_view(Model model, Principal principal){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
 
-        if(Currentuser!= null){
-            System.out.println(Currentuser.getRole().getName());
-            if(!Currentuser.getRole().getName().equals("customer")) {
-            }
-
-        }
-
-        homeService.profileView(model, Currentuser);
+        homeService.profileView(model, userDetails.getUsername());
 
 
         return "Profile";
     }
 
-    @PostMapping("/updateprofile")
-    public String updateprofile(@Valid @ModelAttribute("user") User customer, BindingResult bindingResult,  RedirectAttributes redirectAttributes){
+    @PostMapping("/customer/updateprofile")
+    public String updateprofile(@Valid @ModelAttribute("user") User customer, BindingResult bindingResult,  RedirectAttributes redirectAttributes, Principal principal){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
         }
 
-        Currentuser =  homeService.updateProfile(Currentuser, customer, bindingResult);
+        homeService.updateProfile(userDetails.getUsername(), customer, bindingResult);
 
 
-        System.out.println(Currentuser.toString());
-        return "redirect:/profile";
+        return "redirect:/customer/profile";
     }
 
-    @GetMapping("/changepass")
-    public String changepass_view(Model model){
+    @GetMapping("/customer/changepass")
+    public String changepass_view(Model model, Principal principal){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
 
-        homeService.cartBarStatus(Currentuser, model);
+        homeService.cartBarStatus(userDetails.getUsername(), model);
 
         model.addAttribute("pass", new PassChange());
 
@@ -252,76 +244,85 @@ public class HomeController {
         return "ChangePassword";
     }
 
-    @PostMapping("/changepassimpl")
-    public String updatepass(@Valid @ModelAttribute("pass") PassChange passChange, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model){
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+    @PostMapping("/customer/changepassimpl")
+    public String updatepass(@Valid @ModelAttribute("pass") PassChange passChange, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, Principal principal){
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
-
-        Boolean check = homeService.updatePass(Currentuser, passChange, bindingResult);
+        Boolean check = homeService.updatePass(userDetails.getUsername(), passChange, bindingResult);
 
         if(!check){
-            homeService.cartBarStatus(Currentuser, model);
+            homeService.cartBarStatus(userDetails.getUsername(), model);
             return "ChangePassword";
         }
 
 
-        return "redirect:/profile";
+        return "redirect:/customer/profile";
     }
 
 
-    @GetMapping("/check-out")
-    public String checkout_view(Model model){
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+    @GetMapping("/customer/check-out")
+    public String checkout_view(Model model, Principal principal){
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
 
 
-        homeService.checkOutView(model, Currentuser);
+        homeService.checkOutView(model, userDetails.getUsername());
 
 
         return "CheckOut";
     }
 
-    @PostMapping("/addtocart")
-    public String addtocart(Model model, @RequestParam("id") Long id, @RequestParam("quantity") int quantity){
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+    @PostMapping("/customer/addtocart")
+    public String addtocart(Model model, @RequestParam("id") Long id, @RequestParam("quantity") int quantity, Principal principal){
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
-        homeService.addToCart(model, Currentuser, id, quantity);
-        return "redirect:/home";
+        homeService.addToCart(model, userDetails.getUsername(), id, quantity);
+        return "redirect:/customer/home";
     }
 
-    @PostMapping("/updateShoppingCart")
-    public String updateCartItem(@RequestParam("item_id") Long id, @RequestParam("quantity") int quantity){
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+    @PostMapping("/customer/updateShoppingCart")
+    public String updateCartItem(@RequestParam("item_id") Long id, @RequestParam("quantity") int quantity, Principal principal){
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
         }
 
         homeService.updateCart(id, quantity);
 
-        return "redirect:/check-out";
+        return "redirect:/customer/check-out";
     }
 
-    @GetMapping("/removeItem/{id}")
-    public String removeItem(@PathVariable("id") Long id){
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+    @GetMapping("/customer/removeItem/{id}")
+    public String removeItem(@PathVariable("id") Long id, Principal principal){
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
         }
 
-        homeService.removeItem(id, Currentuser);
+        homeService.removeItem(id, userDetails.getUsername());
 
-        return "redirect:/check-out";
+        return "redirect:/customer/check-out";
     }
 
-    @GetMapping("/check-out-infor")
-    public String checkoutinfor_view(Model model){
+    @GetMapping("/customer/check-out-infor")
+    public String checkoutinfor_view(Model model, Principal principal){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
 
-        boolean check = homeService.checkOutInforView(model, Currentuser);
+        boolean check = homeService.checkOutInforView(model, userDetails.getUsername());
 
         if(!check){
             return "CartEmpty";
@@ -331,16 +332,17 @@ public class HomeController {
         return "CheckOutInfor";
     }
 
-    @PostMapping("/place-order")
+    @PostMapping("/customer/place-order")
     public String placeOrder(@RequestParam("cart_id") Long id, @ModelAttribute("user") CheckOutInfor checkOutInfor, @RequestParam("phonenumber") String phonenumber, @RequestParam("payment_method") String pMethod, @RequestParam("amount") Double orderTotal,
-                             @RequestParam("orderInfo") String orderInfo,  HttpServletRequest request ){
+                             @RequestParam("orderInfo") String orderInfo,  HttpServletRequest request , Principal principal){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
         }
 
         if(pMethod.equals("COD")){
-            homeService.placeOrder(id, checkOutInfor, phonenumber, Currentuser, false);
+            homeService.placeOrder(id, checkOutInfor, phonenumber, userDetails.getUsername(), false);
         }else if (pMethod.equals("Online")){
             cartIdTemp = id;
             checkOutInforTemp = checkOutInfor;
@@ -351,24 +353,27 @@ public class HomeController {
             return "redirect:" + vnpayUrl;
         }
 
-        return "redirect:/order-list";
+        return "redirect:/customer/order-list";
     }
 
-    @GetMapping("/order-list")
-    public String orderlist_view(Model model){
+    @GetMapping("/customer/order-list")
+    public String orderlist_view(Model model, Principal principal){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("user", userDetails);
         }
-        homeService.orderListView(model, Currentuser);
+        homeService.orderListView(model, userDetails.getUsername());
         return "OrderList";
     }
 
-    @GetMapping("/trackOrder/{id}")
-    public String trackOrder(@PathVariable("id") Long id){
+    @GetMapping("/customer/trackOrder/{id}")
+    public String trackOrder(@PathVariable("id") Long id,  Principal principal){
 
-        if(!homeService.checkUser(Currentuser)){
-            return "NoPermissionUser";
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
         }
 
         return "redirect:/order-list";
@@ -401,7 +406,7 @@ public class HomeController {
         return "redirect:/home#menu";
     }
 
-    @PostMapping("/delivery-rating")
+    @PostMapping("/customer/delivery-rating")
     public String updateDeliveryRating(@RequestParam("rate") Double rate, @RequestParam("id") Long orderId, Model model){
 
         homeService.deliveryRating(rate, orderId);
@@ -410,7 +415,7 @@ public class HomeController {
 
 
 
-        return "redirect:/order-list";
+        return "redirect:/customer/order-list";
     }
 
     @PostMapping("/submitOrder")
@@ -423,7 +428,11 @@ public class HomeController {
     }
 
     @GetMapping("/vnpay-payment")
-    public String GetMapping(HttpServletRequest request, Model model){
+    public String GetMapping(HttpServletRequest request, Model model, Principal principal){
+        UserDetails userDetails = null;
+        if(principal != null) {
+            userDetails = userDetailsService.loadUserByUsername(principal.getName());
+        }
         int paymentStatus =vnPayService.orderReturn(request);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
@@ -437,7 +446,7 @@ public class HomeController {
         model.addAttribute("transactionId", transactionId);
 
         if(paymentStatus == 1){
-            homeService.placeOrder(cartIdTemp, checkOutInforTemp, phonenumberTemp, Currentuser, true);
+            homeService.placeOrder(cartIdTemp, checkOutInforTemp, phonenumberTemp, userDetails.getUsername(), true);
             cartIdTemp = null;
             checkOutInforTemp = null;
             phonenumberTemp = null;
@@ -453,6 +462,50 @@ public class HomeController {
         CurrentCategory = null;
 
         return "redirect:/home#menu";
+    }
+
+    @PostMapping("/customer/search")
+    public String searchProductCustomer(@RequestParam("keyword") String keyword){
+
+        Currentkeyword = keyword;
+        CurrentCategory = null;
+
+        return "redirect:/customer/home#menu";
+    }
+
+
+    @PostMapping("/customer/update-category")
+    public String updateCategoryCustomer(@RequestParam("category") String category, Model model){
+
+
+        if(category.equals("null")){
+            CurrentCategory = null;
+            Currentkeyword = null;
+        }else{
+            CurrentCategory = category;
+            Currentkeyword = null;
+        }
+
+        return "redirect:/customer/home#menu";
+    }
+
+    @PostMapping("/customer/update-rating")
+    public String updateRatingTimeCustomer(@RequestParam("time") String time, Model model){
+
+
+
+        CurrentRatingTime = time;
+
+
+
+        return "redirect:/customer/home#menu";
+    }
+
+    @GetMapping("/error")
+    public String error(){
+
+
+        return "NoPermissionAdmin";
     }
 
 

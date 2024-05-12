@@ -42,8 +42,6 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private DeliveryInfoRepository deliveryInfoRepository;
 
-    private User currentuser;
-
     @Autowired
     private RoleRepository roleRepository;
 
@@ -66,7 +64,6 @@ public class AdminServiceImpl implements AdminService {
                 .buildClient();
 
     }
-
 
 
     @Override
@@ -138,6 +135,8 @@ public class AdminServiceImpl implements AdminService {
 
         String imgUrl = blobClient.getBlobUrl();
 
+        food.setPhotos(blobFilename);
+
         food.setImageUrl(imgUrl);
 
         Food savedFood = foodRespository.save(food);
@@ -152,14 +151,11 @@ public class AdminServiceImpl implements AdminService {
 
         Food deletefood = foodRespository.findfoodById(id);
 
-        File f = new File("food-photos/" + deletefood.getId());
-
         List<OrderItem> orderItemList = orderItemRepository.getOrderItemByFoodId(id);
 
         if(orderItemList.isEmpty()){
-            if (f.exists() && f.isDirectory()) {
-                FileUtils.deleteDirectory(new File("food-photos/" + deletefood.getId()));
-            }
+            BlobClient blobClient = blobServiceClient.getBlobContainerClient(containerName).getBlobClient(deletefood.getPhotos());
+            blobClient.delete();
             foodRespository.delete(deletefood);
         }else{
             deletefood.setIs_delete(true);
@@ -202,30 +198,6 @@ public class AdminServiceImpl implements AdminService {
         return true;
     }
 
-    @Override
-    public void setCurrentuser(User currentuser) {
-        this.currentuser = currentuser;
-    }
-
-    @Override
-    public User getCurrentuser() {
-        return currentuser;
-    }
-
-    @Override
-    public boolean checkAdmin(){
-        if(currentuser!= null){
-            System.out.println(currentuser.getRole().getName());
-            if(!currentuser.getRole().getName().equals("admin")) {
-                return false;
-            }
-        }
-        else{
-            return false;
-        }
-
-        return true;
-    }
 
     @Override
     public void adminOrderListView(Model model){
@@ -240,7 +212,7 @@ public class AdminServiceImpl implements AdminService {
         Order order = orderRespository.findById(id).get();
         if(status.equals("Confirmed")){
             order.setStatus(Order.Status.Confirmed);
-        }else if(status.equals("Cooked")){
+        }else if(status.equals("Prepared")){
             order.setStatus(Order.Status.Prepared);
         } else if (status.equals("Shipped")) {
             order.setStatus(Order.Status.Shipped);
