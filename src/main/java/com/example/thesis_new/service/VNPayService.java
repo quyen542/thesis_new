@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -41,15 +42,21 @@ public class VNPayService {
         vnp_Params.put("vnp_ReturnUrl", urlReturn);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        ZoneId z = ZoneId.of( "Asia/Tomsk" ) ;
+        ZonedDateTime zdt = ZonedDateTime.now( z ) ;
+        String vnp_CreateDate = zdt.format(formatter2);
 
-        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tomsk"));
-        System.out.println(cld.getTime());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String vnp_CreateDate = formatter.format(cld.getTime());
+//        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tomsk"));
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//        String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
 
-        cld.add(Calendar.MINUTE, 15);
-        String vnp_ExpireDate = formatter.format(cld.getTime());
+        ZonedDateTime later = zdt.plusMinutes( 15 ) ;
+        String vnp_ExpireDate = later.format(formatter2);
+
+//        cld.add(Calendar.MINUTE, 15);
+//        String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
         List fieldNames = new ArrayList(vnp_Params.keySet());
