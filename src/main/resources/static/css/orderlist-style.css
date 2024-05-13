@@ -56,7 +56,7 @@ header .logo{
     color: var(--black);
     font-size: 2.5rem;
     font-weight: bolder;
-    width: 25%;
+    width: 15%;
 }
 
 header .logo i{
@@ -264,4 +264,11 @@ header .icons #menu-bars{
 .rate > input:checked ~ label:hover ~ label,
 .rate > label:hover ~ input:checked ~ label {
     color: var(--green);
+}
+
+@media(max-width:767px){
+
+    header .logo{
+        width: 25%;
+    }
 }
