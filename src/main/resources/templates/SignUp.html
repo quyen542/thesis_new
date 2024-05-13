@@ -10,19 +10,22 @@
 <body>
 <div class="wrapper">
   <h1>Sign Up</h1>
-  <form action="#" th:action="@{/signup}" th:object="${user}" method="post">
+  <form action="#" th:action="@{/signup}" th:object="${USER}" method="post">
 
-    <input type="text" placeholder="Username" th:field="*{username}" th:errorClass="is-invalid">
-    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"> </div>
+    <input type="text" placeholder="Username" name="username"  required>
 
-    <input type="text" placeholder="Name" th:field="*{name}" th:errorClass="is-invalid">
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"> </div>
+    <input type="text" placeholder="Name" name="name"  required>
 
-    <input type="password" placeholder="Password" th:field="*{password}" th:errorClass="is-invalid" >
-    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"> </div>
+    <input type="email" placeholder="email" name="email"  required>
 
-    <input type="password" placeholder="Re-enter Password" th:field="*{Repassword}" th:errorClass="is-invalid">
-    <div th:if="${#fields.hasErrors('Repassword')}" th:errors="*{Repassword}" class="invalid-feedback"> </div>
+    <input type="password" placeholder="Password" name="password" required>
+
+    <input type="password" placeholder="Re-enter Password" name="repassword"  required>
+    <input type="hidden" name="role" value="customer">
+    <input type="hidden" name="isConfirm" value="false">
+    <input type="hidden" name="verificationCode" value=" ">
+    <p style="color: red" th:text="${ERROR}"></p>
+
     <button class="btn" type="submit">Sign Up</button>
   </form>
   <div class="member">

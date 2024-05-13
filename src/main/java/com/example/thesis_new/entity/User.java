@@ -36,10 +36,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @NotBlank(message = "Re-enter your password")
-    @Column(nullable = false)
-    private String Repassword;
-
     @Column(length = 20)
     private String Phonenumber = "";
 
@@ -85,6 +81,28 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "food_id"))
     private Collection<Food> dislikedFood;
 
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "is_confirm")
+    private boolean isConfirm = false;
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isConfirm() {
+        return isConfirm;
+    }
+
+    public void setConfirm(boolean confirm) {
+        isConfirm = confirm;
+    }
+
     public Long getId() {
         return id;
     }
@@ -115,14 +133,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRepassword() {
-        return Repassword;
-    }
-
-    public void setRepassword(String repassword) {
-        Repassword = repassword;
     }
 
     public Role getRole() {
@@ -221,7 +231,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", Repassword='" + Repassword + '\'' +
                 ", Phonenumber='" + Phonenumber + '\'' +
                 ", address='" + address + '\'' +
                 ", role=" + role +

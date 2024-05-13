@@ -309,7 +309,6 @@ public class HomeServiceImp implements HomeService{
         user.setName(Currentuser.get().getName());
         user.setEmail(Currentuser.get().getEmail());
         user.setPassword(Currentuser.get().getPassword());
-        user.setRepassword(Currentuser.get().getRepassword());
         user.setPhonenumber(Currentuser.get().getPhonenumber());
         user.setAddress(Currentuser.get().getAddress());
         model.addAttribute("user", user);
@@ -366,10 +365,8 @@ public class HomeServiceImp implements HomeService{
 
 
         User user =  u.get();
-        user.setRepassword(passChange.getNewPass());
         user.setPassword(BCrypt.hashpw(passChange.getNewPass(), BCrypt.gensalt()));
 
-        System.out.println(user.getRepassword());
 
         userRepository.save(user);
 

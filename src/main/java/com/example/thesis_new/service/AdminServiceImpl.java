@@ -275,7 +275,6 @@ public class AdminServiceImpl implements AdminService {
         newuser.setName(user.getName());
         newuser.setPhonenumber(user.getPhonenumber());
         newuser.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-        newuser.setRepassword(user.getRepassword());
         Optional<Role> role = roleRepository.findByName("delivery");
         newuser.setRole(role.get());
 

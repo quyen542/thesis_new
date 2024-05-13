@@ -3,12 +3,14 @@ package com.example.thesis_new.controller;
 
 import com.example.thesis_new.dto.CheckOutInfor;
 import com.example.thesis_new.dto.PassChange;
+import com.example.thesis_new.dto.registerDTO;
 import com.example.thesis_new.entity.User;
 import com.example.thesis_new.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class HomeController {
@@ -162,36 +165,72 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login_View(Model model, @RequestParam(name = "error", required = false) String error){
+    public String login_View( @RequestParam(name = "error", required = false) String error, Model model){
 
-        User user = new User();
-        model.addAttribute("user", user);
         if (error != null) {
-            model.addAttribute("ERROR", "Invalid username or password");
+            model.addAttribute("ERROR", "Invalid username or password or account is not verified");
         }
         return "LogIn";
     }
 
     @GetMapping("/signup")
     public String signup_View(Model model){
-        User user = new User();
-        model.addAttribute("user", user);
+
         return "SignUp";
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String signup(@ModelAttribute("USER") registerDTO userDTO, Model model, HttpServletRequest request){
 
-        Boolean result = registrationService.registAccount(user, bindingResult);
+        System.out.println(userDTO.toString());
+        userDTO.setVerificationCode(UUID.randomUUID().toString());
+
+        Boolean result = registrationService.registAccount(userDTO, request, model);
 
         if (result){
-            bindingResult.addError(new FieldError("user", "Repassword", "Signup successful"));
+            model.addAttribute("ERROR", "Sign up successfully, check email to verify ");
             return "SignUp";
         }
         else{
             return "SignUp";
         }
 
+    }
+
+    @GetMapping("/verify")
+    public String verifyAccount(@Param("code") String code) {
+        registrationService.verifyAccount(code);
+        return "Verification";
+    }
+
+    @GetMapping("/forgotPassword")
+    public String ForgotPasswordView() {
+        return "ResetPasswordEmail";
+    }
+
+    @PostMapping("/forgotPassword")
+    public String processForgotPassword(@RequestParam("email") String email, HttpServletRequest request, Model model) {
+        String path = request.getRequestURL().toString();
+        path = path.replace(request.getServletPath(), "");
+        Boolean result = registrationService.sendEmailGetPassword(email, path);
+        if(!result){
+            model.addAttribute("ERROR", "Email not exist");
+            return "ResetPasswordEmail";
+        }
+        model.addAttribute("ERROR", "Check your email to access");
+        return "ResetPasswordEmail";
+    }
+
+    @GetMapping("/resetPassword")
+    public String resetPassword(@Param("username") String username, Model model) {
+        model.addAttribute("username", username);
+        return "ResetPassword";
+    }
+
+    @PostMapping("/resetPassword")
+    public String processResetPassword(@RequestParam("username") String username, @RequestParam("confirmPassword") String confirmPassword) {
+        registrationService.updatePassword(username, confirmPassword);
+        return "redirect:/login";
     }
 
 

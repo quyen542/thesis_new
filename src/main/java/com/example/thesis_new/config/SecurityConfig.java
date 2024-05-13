@@ -40,11 +40,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers("/admin/**").hasAuthority("admin")
                         .requestMatchers("/delivery/**").hasAuthority("delivery")
                         .requestMatchers("/customer/**").hasAuthority("customer")
-                        .requestMatchers("/home", "/signup", "/update-category", "/update-rating", "/search", "/css/**", "/js/**" , "/image/**").permitAll()
+                        .requestMatchers("/home", "/signup", "/update-category", "/update-rating", "/search", "/css/**", "/js/**" , "/image/**", "/verify", "/forgotPassword", "/resetPassword").permitAll()
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login")
-                        .successHandler(customSuccessHandler) .failureUrl("/login?error").permitAll())
+                        .successHandler(customSuccessHandler) .failureUrl("/login?error=false").permitAll())
 
                 .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
