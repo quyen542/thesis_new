@@ -144,7 +144,7 @@ public class RegistrationServiceImp implements RegistrationService{
             String to = email;
             String subject = "Reset Password";
             String content = "Dear [[name]],<br>" + "Please click the link below to reset your password:<br>"
-                    + "<h3><a href=\"[[URL]]\" target=\"_self\">REST PASSWORD</a></h3>" + "Thank you,<br>" + "Bistro Restaurant";
+                    + "<h3><a href=\"[[URL]]\" target=\"_self\">RESET PASSWORD</a></h3>" + "Thank you,<br>" + "Bistro Restaurant";
 
             try {
 

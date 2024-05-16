@@ -8,6 +8,9 @@
 
     <link rel="stylesheet" th:href="@{/css/home-style.css}">
 
+    <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
+
+
     <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
@@ -30,7 +33,7 @@
     </nav>
 
     <div class="icons">
-        <form action="/search" method="post" class="search" style="border: 1px solid;">
+        <form action="/customer/search" method="post" class="search" style="border: 1px solid;">
             <input type="text" name="keyword" id="keyword" th:value="${keyword}" size="15" style="; height: 4.2rem;" required>
             <a class="fa fa-search" style="" id="search-icon" onclick="this.parentNode.submit()"></a>
         </form>

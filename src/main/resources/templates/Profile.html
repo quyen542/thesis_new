@@ -6,6 +6,8 @@
   <title>Profile</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/profile-style.css}">
+  <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
+
 </head>
 <body>
 
@@ -42,7 +44,7 @@
     <div class="inputBox">
       <div class="input">
         <span>email</span>
-        <input type="text"  th:value="${user.email}" th:field="*{email}">
+        <input type="text"  th:value="${user.email}" th:field="*{email}" readonly>
       </div>
 
       <div class="input">
