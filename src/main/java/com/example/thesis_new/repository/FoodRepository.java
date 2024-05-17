@@ -40,7 +40,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     List<String> getFoodCategory();
     @Query("SELECT count(f) from Food f where f.is_delete = false  ")
     Long countByNotDelete();
-    @Query("SELECT f FROM Food f WHERE CONCAT(f.name, ' ', f.category, ' ', f.price) LIKE %?1%")
+    @Query("SELECT f FROM Food f WHERE CONCAT(f.name, ' ', f.category, ' ', f.price) LIKE %?1% and  f.is_delete = false order by f.avgRating desc")
     List<Food> search(String keyword);
 
 }
