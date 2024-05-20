@@ -14,7 +14,7 @@ public interface AdminService {
 
     void getCustomerList(Model model);
 
-    void getFoodList(Model model);
+    void getFoodList(Model model, String keyword);
 
     boolean addNewFood(Food food, BindingResult bindingResult, MultipartFile multipartFile ) throws IOException;
 

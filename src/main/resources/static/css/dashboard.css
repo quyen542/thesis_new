@@ -284,6 +284,10 @@ body {
     html{
         font-size: 55%;
     }
+
+    .search-btn{
+        padding: 0.5rem 1.5rem !important;
+    }
 }
 
 /* Small <= 768px */
@@ -674,4 +678,15 @@ select {
 
 .meals-button-delete{
     background: red;
+}
+
+.search-btn{
+    cursor: pointer;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    padding: 0.2rem 1.5rem;
+    background: var(--green);
+    color: var(--white);
+    text-align: center;
 }

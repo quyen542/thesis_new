@@ -33,7 +33,7 @@
   </nav>
 
   <div class="icons">
-    <form action="/search" method="post" class="search" style="border: 1px solid;">
+    <form action="/home#menu" method="get" class="search" style="border: 1px solid;">
       <input type="text" name="keyword" id="keyword" th:value="${keyword}" size="15" style="; height: 4.2rem;" required>
       <a class="fa fa-search" style="" id="search-icon" onclick="this.parentNode.submit()"></a>
     </form>
@@ -46,31 +46,31 @@
 </header>
 <section class="category" id="home">
   <div class="box-container-category">
-    <form action="/update-category" class="box-category"  method="post" >
+    <form action="/home#menu" class="box-category"  method="get" >
       <input type="text"  name="category" value="appetizer" style="display:none;"  >
       <button type="submit" class="btn" ><span class="material-symbols-outlined">
 egg_alt
 </span><br>Appetizer</button>
     </form>
-    <form action="/update-category" class="box-category"  method="post" >
+    <form action="/home#menu" class="box-category"  method="get" >
       <input type="text"  name="category" value="pizza" style="display:none;"  >
       <button type="submit" class="btn" ><span class="material-symbols-outlined">
 local_pizza
 </span><br> Pizza</button>
     </form>
-    <form action="/update-category" class="box-category"  method="post" >
+    <form action="/home#menu" class="box-category"  method="get" >
       <input type="text"  name="category" value="pasta" style="display:none;"  >
       <button type="submit" class="btn" ><span class="material-symbols-outlined">
 ramen_dining
 </span><br> Pasta</button>
     </form>
-    <form action="/update-category" class="box-category"  method="post" >
+    <form action="/home#menu" class="box-category"  method="get" >
       <input type="text"  name="category" value="salad" style="display:none;"  >
       <button type="submit" class="btn" ><span class="material-symbols-outlined">
 psychiatry
 </span><br>Salad</button>
     </form>
-    <form action="/update-category" class="box-category"  method="post" >
+    <form action="/home#menu" class="box-category"  method="get" >
       <input type="text"  name="category" value="drink" style="display:none;"  >
       <button type="submit" class="btn" ><span class="material-symbols-outlined">
 liquor
@@ -284,17 +284,17 @@ liquor
   <div class="siema-container">
     <div class="siemaOne">
 
-      <form action="/update-rating" class="box-category"  method="post" >
+      <form action="/home#menu" class="box-category"  method="get" >
         <input type="text"  name="time" value="day" style="display:none;"  >
         <button type="submit" class="rating-option">TODAY'S SPECIAL</button>
       </form>
 
-      <form action="/update-rating" class="box-category"  method="post" >
+      <form action="/home#menu" class="box-category"  method="get" >
         <input type="text"  name="time" value="week" style="display:none;"  >
         <button type="submit" class="rating-option">WEEK'S SPECIAL</button>
       </form>
 
-      <form action="/update-rating" class="box-category"  method="post" >
+      <form action="/home#menu" class="box-category"  method="get" >
         <input type="text"  name="time" value="month" style="display:none;"  >
         <button type="submit" class="rating-option">MONTH'S SPECIAL</button>
       </form>
@@ -309,11 +309,11 @@ liquor
   <!--    <h1 class="heading">today's special</h1>-->
 
   <div class="box-container-category">
-    <form action="/update-category" class="box-category"  method="post" >
+    <form action="/home#menu" class="box-category"  method="get" >
       <input type="text"  name="category" value="null" style="display:none;"  >
       <button type="submit" class="btn" >All Food</button>
     </form>
-    <form action="/update-category" class="box-category" th:each="foodcategory: ${listCategories}" method="post" >
+    <form action="/home#menu" class="box-category" th:each="foodcategory: ${listCategories}" method="get" >
       <input type="text"  name="category" th:value="${foodcategory}" style="display:none;"  >
       <button type="submit" class="btn" th:text="${foodcategory}"></button>
     </form>

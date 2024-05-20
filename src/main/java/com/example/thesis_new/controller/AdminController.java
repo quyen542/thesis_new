@@ -48,9 +48,12 @@ public class AdminController {
     }
 
     @GetMapping("/admin/admin-dashboard-create-food")
-    public String dashboard_create_food_view(Model model){
-
-        adminService.getFoodList(model);
+    public String dashboard_create_food_view(Model model, String keyword){
+        if(keyword != null){
+            adminService.getFoodList(model, keyword);
+        }else{
+            adminService.getFoodList(model, null);
+        }
         return "CreateFoodAndList";
     }
 

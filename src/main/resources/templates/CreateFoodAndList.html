@@ -127,7 +127,11 @@
 <!--    </div>-->
 
     <section class="section-meals" style="">
-      <div class="container grid grid--3-cols margin-right-md">
+      <form action="/admin/admin-dashboard-create-food" method="get" class="search" style="padding: 15px">
+        <input type="text" name="keyword" id="keyword" th:value="${keyword}" size="15" style="" required>
+        <a class="fa fa-search search-btn" style="" id="search-icon" onclick="this.parentNode.submit()">Search</a>
+      </form>
+        <div class="container grid grid--3-cols margin-right-md">
         <div class="meal" th:each="food: ${listFoods}">
           <img
                   th:src="@{${food.imageUrl}}"

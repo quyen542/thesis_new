@@ -63,13 +63,32 @@ public class HomeController {
 
 
     @GetMapping("/home")
-    public String home(Model model){
+    public String home(Model model,  String category,  String time,  String keyword){
+
+        if(time != null){
+            homeService.ratingFood(time);
+        }else if(time == null){
+            homeService.ratingFood("day");
+        }
 
 
-        homeService.ratingFood(GlobalData.CurrentRatingTime);
+        if(keyword != null && category==null ){
+            homeService.homeSetup(model, null,null, keyword);
+        }else if(keyword == null && category!=null){
+            if(category.equals("null")){
+                homeService.homeSetup(model, null, null, null);
+            }else {
+                homeService.homeSetup(model, null, category, null);
+            }
+        }else if(keyword == null && category ==null){
+            homeService.homeSetup(model, null, null, null);
+        }
 
 
-        homeService.homeSetup(model, null, GlobalData.CurrentCategory, GlobalData.Currentkeyword);
+//        homeService.ratingFood(GlobalData.CurrentRatingTime);
+//
+//
+//        homeService.homeSetup(model, null, GlobalData.CurrentCategory, GlobalData.Currentkeyword);
 
         model.addAttribute("user", "f");
 
@@ -77,18 +96,37 @@ public class HomeController {
     }
 
     @GetMapping("/customer/home")
-    public String homeCustomer(Model model, Principal principal){
+    public String homeCustomer(Model model, Principal principal, String category,  String time,  String keyword){
         UserDetails userDetails = null;
         if(principal != null) {
             userDetails = userDetailsService.loadUserByUsername(principal.getName());
             model.addAttribute("user", userDetails);
         }
 
+        if(time != null){
+            homeService.ratingFood(time);
+        }else if(time == null){
+            homeService.ratingFood("day");
+        }
 
-        homeService.ratingFood(GlobalData.CurrentRatingTime);
 
+        if(keyword != null && category==null ){
+            homeService.homeSetup(model, userDetails.getUsername(),null, keyword);
+        }else if(keyword == null && category!=null){
+            if(category.equals("null")){
+                homeService.homeSetup(model, userDetails.getUsername(), null, null);
+            }else {
+                homeService.homeSetup(model, userDetails.getUsername(), category, null);
+            }
+        }else if(keyword == null && category == null){
+            homeService.homeSetup(model, userDetails.getUsername(), null, null);
+        }
 
-        homeService.homeSetup(model, userDetails.getUsername(), GlobalData.CurrentCategory, GlobalData.Currentkeyword);
+//
+//        homeService.ratingFood(GlobalData.CurrentRatingTime);
+//
+//
+//        homeService.homeSetup(model, userDetails.getUsername(), GlobalData.CurrentCategory, GlobalData.Currentkeyword);
 
         model.addAttribute("user", "t");
 

@@ -94,8 +94,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void getFoodList(Model model){
-        List<Food> listFoods = foodRespository.findAllDesc();
+    public void getFoodList(Model model, String keyword){
+        List<Food> listFoods = null;
+        if(keyword == null){
+             listFoods = foodRespository.findAllDesc();
+        }else{
+            listFoods = foodRespository.search(keyword);
+        }
         Food food = new Food();
         model.addAttribute("food", food);
         model.addAttribute("listFoods", listFoods);
