@@ -5,6 +5,7 @@ import com.example.thesis_new.dto.CheckOutInfor;
 import com.example.thesis_new.dto.PassChange;
 import com.example.thesis_new.dto.registerDTO;
 import com.example.thesis_new.entity.User;
+import com.example.thesis_new.global.GlobalData;
 import com.example.thesis_new.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -51,17 +52,6 @@ public class HomeController {
 
     private User Currentuser = null;
 
-    private String CurrentCategory = null;
-
-    private String Currentkeyword = null;
-
-    private String CurrentRatingTime = "day";
-
-    private CheckOutInfor checkOutInforTemp = null;
-
-    private Long cartIdTemp = null;
-
-    private String phonenumberTemp = null;
 
 
 
@@ -76,10 +66,10 @@ public class HomeController {
     public String home(Model model){
 
 
-        homeService.ratingFood(CurrentRatingTime);
+        homeService.ratingFood(GlobalData.CurrentRatingTime);
 
 
-        homeService.homeSetup(model, null, CurrentCategory, Currentkeyword);
+        homeService.homeSetup(model, null, GlobalData.CurrentCategory, GlobalData.Currentkeyword);
 
         model.addAttribute("user", "f");
 
@@ -95,10 +85,10 @@ public class HomeController {
         }
 
 
-        homeService.ratingFood(CurrentRatingTime);
+        homeService.ratingFood(GlobalData.CurrentRatingTime);
 
 
-        homeService.homeSetup(model, userDetails.getUsername(), CurrentCategory, Currentkeyword);
+        homeService.homeSetup(model, userDetails.getUsername(), GlobalData.CurrentCategory, GlobalData.Currentkeyword);
 
         model.addAttribute("user", "t");
 
@@ -383,9 +373,9 @@ public class HomeController {
         if(pMethod.equals("COD")){
             homeService.placeOrder(id, checkOutInfor, phonenumber, userDetails.getUsername(), false);
         }else if (pMethod.equals("Online")){
-            cartIdTemp = id;
-            checkOutInforTemp = checkOutInfor;
-            phonenumberTemp = phonenumber;
+            GlobalData.cartIdTemp = id;
+            GlobalData.checkOutInforTemp = checkOutInfor;
+            GlobalData.phonenumberTemp = phonenumber;
             Double total = orderTotal * 24000;
             String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
             String vnpayUrl = vnPayService.createOrder(total.intValue(), orderInfo, baseUrl);
@@ -423,11 +413,11 @@ public class HomeController {
 
 
         if(category.equals("null")){
-            CurrentCategory = null;
-            Currentkeyword = null;
+            GlobalData.CurrentCategory = null;
+            GlobalData.Currentkeyword = null;
         }else{
-            CurrentCategory = category;
-            Currentkeyword = null;
+            GlobalData.CurrentCategory = category;
+            GlobalData.Currentkeyword = null;
         }
 
         return "redirect:/home#menu";
@@ -438,7 +428,7 @@ public class HomeController {
 
 
 
-        CurrentRatingTime = time;
+        GlobalData.CurrentRatingTime = time;
 
 
 
@@ -485,10 +475,10 @@ public class HomeController {
         model.addAttribute("transactionId", transactionId);
 
         if(paymentStatus == 1){
-            homeService.placeOrder(cartIdTemp, checkOutInforTemp, phonenumberTemp, userDetails.getUsername(), true);
-            cartIdTemp = null;
-            checkOutInforTemp = null;
-            phonenumberTemp = null;
+            homeService.placeOrder(GlobalData.cartIdTemp, GlobalData.checkOutInforTemp, GlobalData.phonenumberTemp, userDetails.getUsername(), true);
+            GlobalData.cartIdTemp = null;
+            GlobalData.checkOutInforTemp = null;
+            GlobalData.phonenumberTemp = null;
             return "ordersuccess";
         }
 
@@ -497,8 +487,8 @@ public class HomeController {
     @PostMapping("/search")
     public String searchProduct(@RequestParam("keyword") String keyword){
 
-        Currentkeyword = keyword;
-        CurrentCategory = null;
+        GlobalData.Currentkeyword = keyword;
+        GlobalData.CurrentCategory = null;
 
         return "redirect:/home#menu";
     }
@@ -506,8 +496,8 @@ public class HomeController {
     @PostMapping("/customer/search")
     public String searchProductCustomer(@RequestParam("keyword") String keyword){
 
-        Currentkeyword = keyword;
-        CurrentCategory = null;
+        GlobalData.Currentkeyword = keyword;
+        GlobalData.CurrentCategory = null;
 
         return "redirect:/customer/home#menu";
     }
@@ -518,11 +508,11 @@ public class HomeController {
 
 
         if(category.equals("null")){
-            CurrentCategory = null;
-            Currentkeyword = null;
+            GlobalData.CurrentCategory = null;
+            GlobalData.Currentkeyword = null;
         }else{
-            CurrentCategory = category;
-            Currentkeyword = null;
+            GlobalData.CurrentCategory = category;
+            GlobalData.Currentkeyword = null;
         }
 
         return "redirect:/customer/home#menu";
@@ -533,7 +523,7 @@ public class HomeController {
 
 
 
-        CurrentRatingTime = time;
+        GlobalData.CurrentRatingTime = time;
 
 
 
@@ -546,6 +536,8 @@ public class HomeController {
 
         return "NoPermissionAdmin";
     }
+
+
 
 
 
