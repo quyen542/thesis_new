@@ -51,6 +51,16 @@ public class Food {
 
     private String imageUrl;
 
+    private boolean available = true;
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }

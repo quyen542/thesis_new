@@ -446,33 +446,6 @@ public class HomeController {
         return "redirect:/order-list";
     }
 
-    @PostMapping("/update-category")
-    public String updateCategory(@RequestParam("category") String category, Model model){
-
-
-        if(category.equals("null")){
-            GlobalData.CurrentCategory = null;
-            GlobalData.Currentkeyword = null;
-        }else{
-            GlobalData.CurrentCategory = category;
-            GlobalData.Currentkeyword = null;
-        }
-
-        return "redirect:/home#menu";
-    }
-
-    @PostMapping("/update-rating")
-    public String updateRatingTime(@RequestParam("time") String time, Model model){
-
-
-
-        GlobalData.CurrentRatingTime = time;
-
-
-
-        return "redirect:/home#menu";
-    }
-
     @PostMapping("/customer/delivery-rating")
     public String updateDeliveryRating(@RequestParam("rate") Double rate, @RequestParam("id") Long orderId, Model model){
 
@@ -522,51 +495,7 @@ public class HomeController {
 
         return "orderfail";
     }
-    @PostMapping("/search")
-    public String searchProduct(@RequestParam("keyword") String keyword){
 
-        GlobalData.Currentkeyword = keyword;
-        GlobalData.CurrentCategory = null;
-
-        return "redirect:/home#menu";
-    }
-
-    @PostMapping("/customer/search")
-    public String searchProductCustomer(@RequestParam("keyword") String keyword){
-
-        GlobalData.Currentkeyword = keyword;
-        GlobalData.CurrentCategory = null;
-
-        return "redirect:/customer/home#menu";
-    }
-
-
-    @PostMapping("/customer/update-category")
-    public String updateCategoryCustomer(@RequestParam("category") String category, Model model){
-
-
-        if(category.equals("null")){
-            GlobalData.CurrentCategory = null;
-            GlobalData.Currentkeyword = null;
-        }else{
-            GlobalData.CurrentCategory = category;
-            GlobalData.Currentkeyword = null;
-        }
-
-        return "redirect:/customer/home#menu";
-    }
-
-    @PostMapping("/customer/update-rating")
-    public String updateRatingTimeCustomer(@RequestParam("time") String time, Model model){
-
-
-
-        GlobalData.CurrentRatingTime = time;
-
-
-
-        return "redirect:/customer/home#menu";
-    }
 
     @GetMapping("/error")
     public String error(){

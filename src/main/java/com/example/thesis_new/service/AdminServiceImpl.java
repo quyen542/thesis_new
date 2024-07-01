@@ -164,6 +164,7 @@ public class AdminServiceImpl implements AdminService {
             foodRespository.delete(deletefood);
         }else{
             deletefood.setIs_delete(true);
+            deletefood.setAvailable(false);
             foodRespository.save(deletefood);
         }
 
@@ -197,6 +198,7 @@ public class AdminServiceImpl implements AdminService {
         editFood.setCategory(food.getCategory());
         editFood.setPrice(food.getPrice());
         editFood.setDescription(food.getDescription());
+        editFood.setAvailable(food.isAvailable());
 
         foodRespository.save(editFood);
 

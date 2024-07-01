@@ -412,7 +412,9 @@ liquor
 
             </div>
             <span class="price" th:text="'$' + ${food.price}"></span>
-            <a href="#" class="btn myBtn_multi">add to cart</a>
+
+            <a href="#" class="btn myBtn_multi" th:if="${food.available == true}">add to cart</a>
+            <a href="#" class="btn" th:if="${food.available == false}" onclick="alert('This food is not available now! Please choose another food');">add to cart</a>
 
             <!-- The Modal -->
             <div id="myModal" class="modal modal_multi">
@@ -895,7 +897,8 @@ liquor
                 </div>
                 <h3 th:text="${food.name}"></h3>
                 <p th:text="${food.description}"></p>
-                <button href="#" class="btn myBtn_multi">add to cart</button>
+                <button href="#" class="btn myBtn_multi" th:if="${food.available == true}">add to cart</button>
+                <button href="#" class="btn" th:if="${food.available == false}" onclick="alert('This food is not available now! Please choose another food');">add to cart</button>
                 <!-- The Modal -->
                 <div id="myModal" class="modal modal_multi">
 

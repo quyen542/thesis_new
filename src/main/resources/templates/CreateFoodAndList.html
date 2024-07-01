@@ -156,6 +156,10 @@
               <a th:href="@{'/admin/edit-food/' + ${food.id}}" class="btn"> <i class="fas fa-edit"></i> Edit </a>
               <a th:href="@{'/admin/delete/' + ${food.id}}" class="btn meals-button-delete"> <i class="fas fa-trash"></i> Delete </a>
             </div>
+            <div class="meals-button" style="display: flex">
+              <button  th:if="${food.available == true}" class="btn meals-button-available">  Available </button>
+              <button  th:if="${food.available == false}" class="btn meals-button-not-available">  Not Available </button>
+            </div>
           </div>
         </div>
 

@@ -359,6 +359,8 @@ td, th {
     text-align: center;
 }
 
+
+
 .btn:hover{
     background: var(--black);
 }
@@ -680,6 +682,17 @@ select {
     background: red;
 }
 
+.meals-button-available{
+    width: 100%;
+    background: blue;
+}
+
+.meals-button-not-available{
+    width: 100%;
+    background: grey;
+    color: black;
+}
+
 .search-btn{
     cursor: pointer;
     border-radius: .5rem;
@@ -690,3 +703,4 @@ select {
     color: var(--white);
     text-align: center;
 }
+

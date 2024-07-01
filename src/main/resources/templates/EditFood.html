@@ -89,7 +89,16 @@
         <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="invalid-feedback"> </div>
         <input type="text" placeholder="enter food category" name="product_category" class="box" th:field="*{category}" th:value="${food.category}" th:errorClass="is-invalid">
         <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="invalid-feedback"> </div>
-        <input type="text" placeholder="enter food description" name="product_category" class="box" th:field="*{description}" th:value="${food.description}" th:errorClass="is-invalid">
+        <input type="text" placeholder="enter food description" name="product_description" class="box" th:field="*{description}" th:value="${food.description}" th:errorClass="is-invalid">
+        <div class="box" style="border-style: solid; border-width: 2.3px;">
+          <label style="font-weight: bold; color: #07001f;" for="available">Available:</label>
+          <select name="available" id="available" th:field="*{available}" required>
+            <option th:value="0" th:selected="${food.available == false}">Not Available</option>
+            <option th:value="1" th:selected="${food.available == true}" >Available</option>
+          </select>
+        </div>
+
+
         <input type="submit" class="btn"  value="edit product">
       </form>
 
