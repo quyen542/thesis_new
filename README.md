@@ -26,18 +26,27 @@ Tools: InteliJ
 ## 3.1. System Requirement Specification
 ### 3.1.1. Functional Requirements
 •	Responsive design: The website should be optimized for use on all devices, including desktops, laptops, tablets, and smartphones, ensuring that customers can access the site from anywhere.
+
 •	User-friendly interface: The website should have a clean, intuitive, and user-friendly interface that is easy to navigate and understand, making it simple for customers to place orders.
+
 •	Online payment system: Customers should be able to make secure online payments through a reliable payment gateway, ensuring that transactions are fast, safe, and secure.
+
 •	Customizable menu: The website should allow restaurants to customize their menu items and update them in real time, ensuring that customers always have access to the latest offerings.
+
 •	Order tracking: The website should provide customers with real-time updates on their order status, including estimated delivery time and tracking information.
+
 •	Integration with third-party services: The website should be able to integrate with third-party services, such as Google Maps by using Geolocation API, to provide accurate location information and directions to customers.
+
 •	Data security: The website should provide robust security measures to ensure that customer data is protected from unauthorized access, data breaches, and other cyber threats.
 
 
 ### 3.1.2 Requirement Analysis
 As a web application catering to the food industry, my platform serves three distinct user groups: customers, managers, and delivery persons. Each group has unique needs and requirements that my platform aims to fulfill.
+
 For customers, the website provides a streamlined and convenient way to order food online. Customers can sign up, sign in, and browse the restaurant's menu, complete with prices, descriptions, and images. Once they've selected their desired items, customers can customize them as per their preferences and add them to their cart. When they're ready to pay, the web application accepts various payment methods. Throughout the process, customers can track their order status and receive notifications for updates. After receiving their order, customers can rate and review the restaurant and the food.
+
 For Admin, our platform offers an efficient way to manage their restaurant's online presence. Admin can create an account, sign in, and add and edit menu items, prices, and descriptions. They can view the orders received and their status, allowing them to plan and coordinate their operations effectively. They can also update the order status and notify the customer of any changes, improving communication and customer satisfaction. Finally, managers can view customer ratings and reviews and respond to them, demonstrating their commitment to customer service and feedback.
+
 For delivery persons, our platform facilitates smooth and timely deliveries. Delivery persons can create an account, sign in, and view the orders assigned to them and their details. They can update the order status "delivered," keeping the customer and the manager informed of their progress. By using our platform, delivery persons can optimize their routes, reduce delivery times, and improve their efficiency.
 
 ### 3.1.3 Non-functional Requirements
@@ -121,17 +130,29 @@ When we click "Menu" button, it will go to "Food" section
 ## 5.1 Strength and Weakness
 
 	User interface:
+
 •	Pros: Friendly interface with all elements clearly laid out so that users can easily identify, manage and manage application content and data.
+
 •	Cons: Plain color background can be a bit boring for user experience who like something colorful.
+
 	Strength
+
 •	Multiple platforms:
+
 •	Get customer's location: 
+
 •	Food and Shipper Ratings: 
+
 •	Food Management: 
-•	Order Tracking: T
+
+•	Order Tracking: 
+
 	Limitation
+
 •	Limited payment methods: 
+
 •	Delivery times are not estimated: 
+
 •	No notifications about new orders: 
 
 ## 5.3 Future Work
