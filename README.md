@@ -82,10 +82,10 @@ For delivery persons, our platform facilitates smooth and timely deliveries. Del
 
 
 # 4. SYSTEM IMPLEMENTATION
-![image](https://user-images.githubusercontent.com/69331657/172921782-2876db78-7fdf-4b6b-a1d4-134e2b2c4395.png)
+![image](https://github.com/user-attachments/assets/3a85b360-2640-4296-8972-8056dc153a7b)
 <p align="center"><b>Figure 4.1: Login</b></p><br><br>
 
-![image](https://user-images.githubusercontent.com/69331657/172921626-0be1b7bd-f3c9-4603-9520-e4ecd36090bd.png)
+![image](https://github.com/user-attachments/assets/3a85b360-2640-4296-8972-8056dc153a7b)
 <p align="center"><b>Figure 4.2: Register</b></p><br><br>
 
 ![image](https://github.com/user-attachments/assets/b121f1e7-718f-4d45-a96d-f73915e40fe1)
